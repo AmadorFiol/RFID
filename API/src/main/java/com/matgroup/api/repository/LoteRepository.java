@@ -1,7 +1,9 @@
 package com.matgroup.api.repository;
 
-import com.matgroup.api.models.Lote;
+import com.matgroup.api.model.Lote;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface LoteRepository extends JpaRepository<Lote, Integer> {
+@Repository
+public interface LoteRepository extends JpaRepository<Lote, Long> {
 }
