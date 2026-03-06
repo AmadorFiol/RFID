@@ -23,7 +23,7 @@ public class ClienteController {
     }
 
     @GetMapping("/{cif}")
-    public ResponseEntity<Cliente> getById(@PathVariable String cif) {
+    public ResponseEntity<Cliente> getById(@PathVariable("cif") String cif) {
         return clienteService.findById(cif)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -35,7 +35,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{cif}")
-    public ResponseEntity<Cliente> update(@PathVariable String cif, @RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> update(@PathVariable("cif") String cif, @RequestBody Cliente cliente) {
         if (!clienteService.findById(cif).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -44,7 +44,7 @@ public class ClienteController {
     }
 
     @DeleteMapping("/{cif}")
-    public ResponseEntity<Void> delete(@PathVariable String cif) {
+    public ResponseEntity<Void> delete(@PathVariable("cif") String cif) {
         if (!clienteService.findById(cif).isPresent()) {
             return ResponseEntity.notFound().build();
         }

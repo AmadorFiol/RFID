@@ -23,7 +23,7 @@ public class LoteController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Lote> getById(@PathVariable Long id) {
+    public ResponseEntity<Lote> getById(@PathVariable("id") Long id) {
         return loteService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -35,7 +35,7 @@ public class LoteController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Lote> update(@PathVariable Long id, @RequestBody Lote lote) {
+    public ResponseEntity<Lote> update(@PathVariable("id") Long id, @RequestBody Lote lote) {
         if (!loteService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
@@ -44,7 +44,7 @@ public class LoteController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         if (!loteService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
