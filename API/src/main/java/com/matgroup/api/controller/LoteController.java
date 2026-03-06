@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/lotes")
 @RequiredArgsConstructor
+@CrossOrigin
 public class LoteController {
 
     private final LoteService loteService;

@@ -13,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/etiquetas")
 @RequiredArgsConstructor
+@CrossOrigin
 public class EtiquetaController {
 
     private final EtiquetaService etiquetaService;
