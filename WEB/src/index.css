@@ -1,3 +1,46 @@
+*{
+  margin:0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+body{
+  background-color: #242424;
+  color: white;
+}
+
+header{
+  height: 80px;
+  padding: 30px 25px;
+  background-color: darkslategrey;
+}
+
+nav{
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+}
+
+ul{
+  display: flex;
+  align-items: center;
+  list-style-type: none;
+
+}
+
+ul>li{
+  margin-right: 170px;
+  font-size: 1.5rem;
+}
+
+nav>img{
+  margin-left: 40px;
+}
+
+/*
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -66,3 +109,5 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+*/
+

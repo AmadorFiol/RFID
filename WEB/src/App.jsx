@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useState } from "react";
+import Navbar from "./components/layout/Navbar.jsx"
 import axios from 'axios'
 
 export default function App() {
@@ -7,7 +8,7 @@ export default function App() {
     const [data, setData] = useState({info:"Default"});
 
     // Ejemplo GET
-/*    useEffect(() => {
+    useEffect(() => {
         const url="http://127.0.0.1:8080/api/clientes"
         const cif = "/TestWeb2"
         axios.get(url+cif)
@@ -22,6 +23,7 @@ export default function App() {
 
     return(
         <>
+            <Navbar/>
             <p>{data.length}</p>
             {data.length>1 ?
                 <ol>
@@ -31,7 +33,7 @@ export default function App() {
                 </ol> :
                 <pre>{JSON.stringify(data, null, 2)}</pre>}
         </>
-    );*/
+    );
 
     //Ejemplo POST
 /*    useEffect(() => {
