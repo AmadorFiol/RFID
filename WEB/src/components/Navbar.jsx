@@ -1,15 +1,13 @@
 import logo from '../assets/logo.png'
-export default function Navbar() {
+
+export default function Navbar(props) {
     return(
         <header>
             <nav>
                 <img src={logo} alt="Logo"/>
-                  <ul>
-                    <li>Inicio</li>
-                    <li>Lotes</li>
-                    <li>Clientes</li>
-                    <li>Etiquetas</li>
-                  </ul>
+                <button onClick={()=>props.pageChanger("clientes")}>Clientes</button>
+                <button onClick={()=>props.pageChanger("etiquetas")}>Etiquetas</button>
+                <button onClick={()=>props.pageChanger("lotes")}>Lotes</button>
             </nav>
         </header>
     )
