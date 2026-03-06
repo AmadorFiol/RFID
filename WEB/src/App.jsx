@@ -1,4 +1,4 @@
-import Navbar from "./components/layout/Navbar.jsx";
+import Navbar from "./components/Navbar.jsx";
 import Get from "./services/Get.jsx";
 import Post from "./services/Post.jsx";
 import Put from "./services/Put.jsx";
