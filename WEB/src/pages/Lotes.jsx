@@ -1,7 +1,7 @@
 import Get from "../services/Get.jsx";
 
 export default function Lotes() {
-    console.log("Estas en lotes")
+    console.log("CRUD Lotes")
     let data
     data = Get({
         url:"http://127.0.0.1:8080/api/clientes",
@@ -16,7 +16,8 @@ export default function Lotes() {
                         <li key={line.cif}>{line.nombre}</li>
                     ))}
                 </ol> :
-                <pre>{JSON.stringify(data, null, 2)}</pre>}
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+            }
         </>
     );
 }

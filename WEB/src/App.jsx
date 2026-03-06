@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar.jsx";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Clientes from "./pages/Clientes.jsx";
 import Lotes from "./pages/Lotes.jsx";
 import Etiquetas from "./pages/Etiquetas.jsx";

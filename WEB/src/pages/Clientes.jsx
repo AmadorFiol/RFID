@@ -1,7 +1,8 @@
 import Get from "../services/Get.jsx";
+import Table from "../components/Table.jsx";
 
 export default function Clientes() {
-    console.log("Estas en clientes")
+    console.log("CRUD Clientes")
     let data
     data = Get({
         url:"http://127.0.0.1:8080/api/clientes",
@@ -10,13 +11,16 @@ export default function Clientes() {
 
     return(
         <>
-            {data.length>1 ?
-                <ol>
-                    {data.map(line => (
-                        <li key={line.cif}>{line.nombre}</li>
-                    ))}
-                </ol> :
-                <pre>{JSON.stringify(data, null, 2)}</pre>}
+            {data.length > 1 ?
+                <Table
+                    data={data}
+                    headers={["CIF","Nombre"]}
+                /> :
+                <Table
+                    data={[data]}
+                    headers={["CIF","Nombre"]}
+                />
+            }
         </>
     );
 }

@@ -1,7 +1,7 @@
 import Get from "../services/Get.jsx";
 
 export default function Etiquetas() {
-    console.log("Estas en etiquetas")
+    console.log("CRUD Etiquetas")
     let data
     data = Get({
         url:"http://127.0.0.1:8080/api/clientes",
@@ -16,7 +16,8 @@ export default function Etiquetas() {
                         <li key={line.cif}>{line.nombre}</li>
                     ))}
                 </ol> :
-                <pre>{JSON.stringify(data, null, 2)}</pre>}
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+            }
         </>
     );
 }
