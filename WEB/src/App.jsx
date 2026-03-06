@@ -1,30 +1,22 @@
-import { useEffect } from 'react';
-import { useState } from "react";
-import Navbar from "./components/layout/Navbar.jsx"
-import axios from 'axios'
+import Navbar from "./components/layout/Navbar.jsx";
+import Get from "./services/Get.jsx";
+import Post from "./services/Post.jsx";
+import Put from "./services/Put.jsx";
+import Delete from "./services/Delete.jsx";
 
 export default function App() {
+    let data
+/*    // Ejemplo GET
 
-    const [data, setData] = useState({info:"Default"});
-
-    // Ejemplo GET
-    useEffect(() => {
-        const url="http://127.0.0.1:8080/api/clientes"
-        const cif = "/TestWeb2"
-        axios.get(url+cif)
-            .then(res => {
-                console.log("ResData:",res.data)
-                setData(res.data)
-            })
-            .catch(error => {
-                console.error(error.toJSON());
-            });
-    }, []);
+    data = Get({
+        url:"http://127.0.0.1:8080/api/clientes",
+        id:"/TestWeb2"
+    })
 
     return(
         <>
             <Navbar/>
-            <p>{data.length}</p>
+
             {data.length>1 ?
                 <ol>
                     {data.map(line => (
@@ -33,64 +25,47 @@ export default function App() {
                 </ol> :
                 <pre>{JSON.stringify(data, null, 2)}</pre>}
         </>
-    );
+    );*/
 
-    //Ejemplo POST
-/*    useEffect(() => {
-        const url="http://127.0.0.1:8080/api/clientes"
-        axios.post(url,{"cif":"TestWeb2","nombre":"TestPortalWebPost"})
-            .then(res => {
-                console.log("ResData:",res.data)
-                setData(res.data)
-            })
-            .catch(error => {
-                console.error(error.toJSON());
-            });
-    }, []);
+/*    //Ejemplo POST
+
+    data = Post({
+        url:"http://127.0.0.1:8080/api/clientes",
+        body:{"cif":"TestWeb2","nombre":"TestPortalWebPost"}
+    })
 
     return (
         <>
-        {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
+            <Navbar />
+            {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
         </>
     );*/
 
-    //Ejemplo PUT
-/*    useEffect(() => {
-        const url="http://127.0.0.1:8080/api/clientes"
-        const cif = "/TestWeb2"
-        axios.put(url+cif,{"nombre":"CambioConPut"})
-            .then(res => {
-                console.log("ResData:",res.data)
-                setData(res.data)
-            })
-            .catch(error => {
-                console.error(error.toJSON());
-            });
-    }, []);
+/*    //Ejemplo PUT
+
+    data = Put({
+        url:"http://127.0.0.1:8080/api/clientes",
+        id:"/TestWeb2",
+        body:{"nombre":"CambioConPut"}
+    })
 
     return (
         <>
-        {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
+            <Navbar />
+            {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
         </>
     );*/
 
     //Ejemplo Delete
-/*    useEffect(() => {
-        const url="http://127.0.0.1:8080/api/clientes"
-        const cif = "/TestWeb1"
-        axios.delete(url+cif)
-            .then(res => {
-                console.log("ResData:",res.status)
-                setData(res.status)
-            })
-            .catch(error => {
-                console.error(error.toJSON());
-            });
-    }, []);
 
+    data = Delete({
+        url:"http://127.0.0.1:8080/api/clientes",
+        id:"/TestWeb2"
+    })
     return (
         <>
-        {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
+            <Navbar />
+            {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
         </>
-    );*/
+    );
 }
