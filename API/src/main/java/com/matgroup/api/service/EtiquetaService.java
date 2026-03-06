@@ -3,7 +3,6 @@ package com.matgroup.api.service;
 import com.matgroup.api.model.Etiqueta;
 import com.matgroup.api.repository.EtiquetaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

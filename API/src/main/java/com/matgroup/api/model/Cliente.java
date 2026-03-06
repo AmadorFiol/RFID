@@ -1,15 +1,9 @@
 package com.matgroup.api.model;
 
-import com.matgroup.api.service.ClienteService;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.List;
-import java.util.Optional;
 
 @Entity
 @Table(name = "cliente",schema = "public")

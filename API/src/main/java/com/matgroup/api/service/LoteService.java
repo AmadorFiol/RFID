@@ -3,7 +3,6 @@ package com.matgroup.api.service;
 import com.matgroup.api.model.Lote;
 import com.matgroup.api.repository.LoteRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

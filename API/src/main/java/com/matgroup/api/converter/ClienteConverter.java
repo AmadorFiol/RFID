@@ -1,9 +1,7 @@
 package com.matgroup.api.converter;
 
 import com.matgroup.api.model.Cliente;
-import com.matgroup.api.model.Lote;
 import com.matgroup.api.service.ClienteService;
-import com.matgroup.api.service.LoteService;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
