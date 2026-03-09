@@ -2,8 +2,10 @@
 
 ## Dependencies
 Axios (npm install axios)
+
 Cors (npm install cors)
 
+React-Popup (npm install react-popup)
 ## 📁 Folder structure
 ```
 web

@@ -12,7 +12,7 @@ export default function App() {
             <Navbar
                 pageChanger={setPage}
             />
-            {
+            {//Funcion implicita con dependencia a page
                 {
                     "clientes":<Clientes />,
                     "etiquetas":<Etiquetas />,

@@ -1,4 +1,4 @@
-import logo from '../assets/logo.png'
+import logo from '../assets/react.svg'
 
 export default function Navbar(props) {
     return(

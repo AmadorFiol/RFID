@@ -1,23 +1,22 @@
 import Get from "../services/Get.jsx";
+import Table from "../components/Table.jsx";
 
 export default function Etiquetas() {
     console.log("CRUD Etiquetas")
-    let data
-    data = Get({
-        url:"http://127.0.0.1:8080/api/clientes",
+    let data = Get({
+        url:"http://127.0.0.1:8080/api/etiquetas",
         id:""
     })
 
+    if (!(data instanceof Array)) {data=[data]}
+
     return(
         <>
-            {data.length>1 ?
-                <ol>
-                    {data.map(line => (
-                        <li key={line.cif}>{line.nombre}</li>
-                    ))}
-                </ol> :
-                <pre>{JSON.stringify(data, null, 2)}</pre>
-            }
+            <Table
+                data={data}
+                atribs={Object.keys(data[0])}
+                class="etiqueta"
+            />
         </>
     );
 }

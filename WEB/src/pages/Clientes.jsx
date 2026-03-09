@@ -3,24 +3,20 @@ import Table from "../components/Table.jsx";
 
 export default function Clientes() {
     console.log("CRUD Clientes")
-    let data
-    data = Get({
+    let data = Get({
         url:"http://127.0.0.1:8080/api/clientes",
         id:""
     })
 
+    if (!(data instanceof Array)) {data=[data]}
+
     return(
         <>
-            {data.length > 1 ?
-                <Table
-                    data={data}
-                    headers={["CIF","Nombre"]}
-                /> :
-                <Table
-                    data={[data]}
-                    headers={["CIF","Nombre"]}
-                />
-            }
+            <Table
+                data={data}
+                atribs={Object.keys(data[0])}
+                class="cliente"
+            />
         </>
     );
 }
