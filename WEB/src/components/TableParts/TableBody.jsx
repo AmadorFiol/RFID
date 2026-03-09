@@ -4,14 +4,16 @@ import Trash from "../../assets/trash.svg"
 import Popup from "reactjs-popup";
 
 export default function TableBody(props){
-    function parseObject(obj){
+
+    function parseObject(line,atrib){
+        let obj=line[atrib]
+
         if(typeof obj == "object" && !(obj instanceof Array)) {
-            Object.keys(obj).map(atrib=>{
+            console.log(atrib)
 
-                const res= atribMatcher(atrib)
+            const res= atribMatcher(atrib)
+            res? obj=obj[res]:null
 
-                res? obj=obj[res]:null
-            })
         }
 
         return <td>{obj}</td>
@@ -20,10 +22,10 @@ export default function TableBody(props){
     function atribMatcher(atrib){
 
         switch (atrib){
-            case "cif": //Cliente
+            case "cliente":
                 return "nombre"
 
-            case "fechaImpresion": //Lote
+            case "lote":
                 return "id"
 
             default:
@@ -36,10 +38,9 @@ export default function TableBody(props){
         <tbody>
         {props.data.map(line => (
             <tr>
-                {props.atribs.map(atrib =>
-                    parseObject(line[atrib])
-                )}
-                <td>
+                {props.atribs.map(atrib =>parseObject(line,atrib))}
+
+                <td> {/*Botones de accion*/null}
                     <Popup trigger={<button><img src={Edit} alt="edit" /></button>} modal>
                         <Form
                             action="edit"

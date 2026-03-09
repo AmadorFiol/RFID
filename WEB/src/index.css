@@ -10,6 +10,7 @@ body{
   color: white;
 }
 
+/*NavBar*/
 header{
   height: 80px;
   padding: 30px 25px;
@@ -24,7 +25,7 @@ nav{
 
 }
 
-button{
+nav>button{
   margin-right: 170px;
   font-size: 1.5rem;
 }
@@ -32,6 +33,7 @@ button{
 nav>img{
   margin-left: 40px;
 }
+
 /*PopUp*/
 .popup-content {
   border-radius: 5px;

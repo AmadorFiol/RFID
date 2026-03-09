@@ -3,8 +3,9 @@ import axios from "axios";
 
 export default function Get(props) {
     const [data, setData] = useState({info:"Default"});
+    const urlBase = "http://127.0.0.1:8080/api"
     useEffect(() => {
-        axios.get(props.url+(props.id? "/"+props.id:""))
+        axios.get(urlBase+"/"+props.url+(props.id? "/"+props.id:""))
             .then(res => {
                 console.log("ResDataGet:",res.data)
                 setData(res.data)

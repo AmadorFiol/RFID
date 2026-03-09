@@ -4,7 +4,7 @@ import Table from "../components/Table.jsx";
 export default function Etiquetas() {
     console.log("CRUD Etiquetas")
     let data = Get({
-        url:"http://127.0.0.1:8080/api/etiquetas",
+        url:"etiquetas",
         id:""
     })
 

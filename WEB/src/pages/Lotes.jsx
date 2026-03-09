@@ -4,7 +4,7 @@ import Table from "../components/Table.jsx";
 export default function Lotes() {
     console.log("CRUD Lotes")
     let data = Get({
-        url:"http://127.0.0.1:8080/api/lotes",
+        url:"lotes",
         id:""
     })
 
