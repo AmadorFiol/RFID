@@ -1,4 +1,4 @@
-import Form from "../Form.jsx";
+import {BaseForm} from "../BaseForm.jsx";
 import Popup from "reactjs-popup";
 import Add from "../../assets/add.svg"
 
@@ -11,9 +11,7 @@ export default function TableHead(props) {
             )}
             <th>
                 <Popup trigger={<button><img src={Add} alt="add" /></button>} modal>
-                    <Form
-                        action="add"
-                        atribs={props.headers}
+                    <BaseForm
                         class={props.class}
                     />
                 </Popup>

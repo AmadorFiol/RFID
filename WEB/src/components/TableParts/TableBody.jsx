@@ -1,15 +1,15 @@
-import Form from "../Form.jsx";
+import {BaseForm} from "../BaseForm.jsx";
 import Edit from "../../assets/edit.svg"
 import Trash from "../../assets/trash.svg"
 import Popup from "reactjs-popup";
 
 export default function TableBody(props){
 
-    function parseObject(line,atrib){
-        let obj=line[atrib]
+    function parseObject(row,atrib){
+        let obj=row[atrib]
 
         if(typeof obj == "object" && !(obj instanceof Array)) {
-            console.log(atrib)
+            //console.log(atrib)
 
             const res= atribMatcher(atrib)
             res? obj=obj[res]:null
@@ -33,18 +33,15 @@ export default function TableBody(props){
                 break
         }
     }
-
     return (
         <tbody>
-        {props.data.map(line => (
+        {props.data.map(row => (
             <tr>
-                {props.atribs.map(atrib =>parseObject(line,atrib))}
-
+                {props.atribs.map(atrib =>parseObject(row,atrib))}
                 <td> {/*Botones de accion*/null}
                     <Popup trigger={<button><img src={Edit} alt="edit" /></button>} modal>
-                        <Form
-                            action="edit"
-                            atribs={props.atribs}
+                        <BaseForm
+                            data={row}
                             class={props.class}
                         />
                     </Popup>
