@@ -7,29 +7,30 @@ Cors (npm install cors)
 
 ReactJS-Popup (npm install reactjs-popup)
 
+React-Toastify (npm install react-toastify)
+
 ## 📁 Folder structure
 ```
 web
 ├── src
-│   ├── assets      # Static IMG's, Fonts, etc
+│   ├── assets      # Static files/IMG's
 │   │   ├── add.svg
 │   │   ├── edit.svg
 │   │   ├── logo.png
 │   │   ├── react.svg
 │   │   ├── trash.svg
 │   │   └── vite.svg
-│   ├── components  # React Components
-│   │   ├── Forms
-│   │   │   ├── FormClientes.jsx
-│   │   │   ├── FormEtiquetas.jsx
-│   │   │   └── FormLotes.jsx
-│   │   ├── TableParts
-│   │   │   ├── TableBody.jsx
-│   │   │   └── TableHeader.jsx
-│   │   ├── BaseForm.jsx
+│   ├── components  # General React Components
+│   │   ├── FormFields
+│   │   │   ├── FieldsClientes.jsx
+│   │   │   ├── FieldsEtiquetas.jsx
+│   │   │   └── FieldsLotes.jsx
 │   │   ├── Body.jsx
+│   │   ├── Form.jsx
 │   │   ├── Navbar.jsx
-│   │   └── Table.jsx
+│   │   ├── Table.jsx
+│   │   ├── TableBody.jsx
+│   │   └── TableHeader.jsx
 │   ├── services    # API Calls
 │   │   ├── Get.jsx
 │   │   ├── Post.jsx

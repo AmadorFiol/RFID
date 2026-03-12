@@ -1,13 +1,13 @@
 import Table from "./Table.jsx";
 import Get from "../services/Get.jsx";
+import {useContext} from "react";
+import {PageContext} from "../App.jsx";
 
-export default function Body(props) {
+export default function Body() {
 
-    //Refactored
-    console.log("Page",props.page)
-    let data = Get({url: props.page})
+    let data = Get({url: useContext(PageContext)})
 
-    data instanceof Array? data:[data]
+    if(!(data instanceof Array) && data instanceof Object) {data=[data]}
 
     return (
         <>
@@ -15,7 +15,6 @@ export default function Body(props) {
                 data && <Table
                     data={data}
                     atribs={Object.keys(data[0])}
-                    class={props.page}
                 />
             }
         </>

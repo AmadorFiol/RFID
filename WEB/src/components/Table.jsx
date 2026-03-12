@@ -1,17 +1,15 @@
-import TableHead from "./TableParts/TableHead.jsx";
-import TableBody from "./TableParts/TableBody.jsx";
+import TableHead from "./TableHead.jsx";
+import TableBody from "./TableBody.jsx";
 
-export default function Table(props){
+export default function Table({data,atribs}){
     return(
         <table border={1}>
             <TableHead
-                headers={props.atribs}
-                class={props.class}
+                headers={atribs}
             />
             <TableBody
-                data={props.data}
-                atribs={props.atribs}
-                class={props.class}
+                data={data}
+                atribs={atribs}
             />
         </table>
     )

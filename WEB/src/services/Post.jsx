@@ -1,11 +1,12 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function Post(props) {
+export default function Post({url,body}) {
     const [data, setData] = useState();
-    const urlBase = "http://127.0.0.1:8080/api"
+    const fullUrl = "http://127.0.0.1:8080/api/"+url
+
     useEffect(() => {
-        axios.post(urlBase+"/"+props.url,props.body)
+        axios.post(fullUrl,body)
             .then(res => {
                 console.log("AxiosPost:",res.status)    //201
                 setData({"status": res.status})

@@ -1,17 +1,27 @@
 import Navbar from "./components/Navbar.jsx";
-import {useState} from "react";
+import {createContext, useState} from "react";
 import Body from "./components/Body.jsx";
+import {ToastContainer} from "react-toastify";
+
+const PageContext = createContext(null)
 
 export default function App() {
     const [page,setPage] = useState()
 
     return(
         <>
-            <Navbar pageChanger={setPage} />
-            {page && <Body/>}
+            <Navbar setPage={setPage} />
+            {page &&
+                <PageContext value={page}>
+                    <Body />
+                </PageContext>
+            }
+            <ToastContainer theme="dark"/>
         </>
     )
 }
+
+export {PageContext}
 
 /* Llamadas Ejemplo
 let data
@@ -19,11 +29,11 @@ let data
 
     data = Get({
         url:"clientes",
-        id:"TestWeb2"
+        id:"TestWeb"
     })
 
     return(
-        <>
+        <PageContext value={""}>
             {data.length>1 ?
                 <ol>
                     {data.map(line => (
@@ -32,20 +42,20 @@ let data
                 </ol> :
                 <pre>{JSON.stringify(data, null, 2)}</pre>
             }
-        </>
+        </PageContext>
     );
 
     //Ejemplo POST
 
     data = Post({
         url:"clientes",
-        body:{"cif":"TestWeb2","nombre":"TestPortalWebPost"}
+        body:{"cif":"TestWeb","nombre":"WebPost"}
     })
 
     return (
-        <>
+        <PageContext value={""}>
             {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
-        </>
+        </PageContext>
     );
 
     //Ejemplo PUT
@@ -53,23 +63,25 @@ let data
     data = Put({
         url:"clientes",
         id:"TestWeb2",
-        body:{"nombre":"CambioConPut"}
+        body:{"nombre":"WebPut"}
     })
 
     return (
-        <>
+        <PageContext value={""}>
             {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
-        </>
+        </PageContext>
     );
 
     //Ejemplo Delete
 
     data = Delete({
         url:"clientes",
-        id:"TestWeb2"
+        id:"TestWeb"
     })
     return (
-        <>
+        <PageContext value={""}>
             {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : 'Loading...'}
-        </>
-    );*/
+        </PageContext>
+    );
+
+*/
