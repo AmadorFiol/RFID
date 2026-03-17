@@ -56,6 +56,19 @@ public class EtiquetaController {
         }
     }
 
+    @GetMapping("/inventario/{idInventario}")
+    public ResponseEntity<List<Etiqueta>> getByInvetario(@PathVariable("idInventario") Long idInventario) {
+        List<Etiqueta> etiquetaList = etiquetaService.findByInventario(idInventario);
+
+        if(etiquetaList.size()<1){
+            return ResponseEntity.notFound().build();
+        }else{
+            return Optional.of(etiquetaList)
+                    .map(ResponseEntity::ok)
+                    .orElse(null);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Etiqueta> create(@RequestBody Etiqueta etiqueta) {
         return ResponseEntity.status(HttpStatus.CREATED).body(etiquetaService.save(etiqueta));

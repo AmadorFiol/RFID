@@ -12,4 +12,6 @@ public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
     List<Etiqueta> findByClienteCif(String cif);
 
     List<Etiqueta> findByLoteId(Long idLote);
+
+    List<Etiqueta> findByInventarioId(Long idInventario);
 }

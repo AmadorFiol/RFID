@@ -23,4 +23,14 @@ public class Etiqueta {
     @ManyToOne
     @JoinColumn(name = "id_lote")
     private Lote lote;
+
+    @ManyToOne
+    @JoinColumn(name = "id_inventario")
+    private Inventario inventario;
+
+    @Column(length = 32)
+    private String codigo;
+
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 }
