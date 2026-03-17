@@ -30,7 +30,7 @@ public class EtiquetaService {
         return etiquetaRepository.findByLoteId(idLote);
     }
 
-    public List<Etiqueta> findByInventario(Long idInventario) {return  etiquetaRepository.findByInventarioId(idInventario)}
+    public List<Etiqueta> findByInventario(Long idInventario) {return  etiquetaRepository.findByInventarioId(idInventario);}
 
     public Etiqueta save(Etiqueta etiqueta) {
         return etiquetaRepository.save(etiqueta);
