@@ -70,6 +70,8 @@ export default function TableBody({data,atribs}){
                         *   Averiguar como pasarle el $row a la funcion sin llamarla al renderizar  ✔
                         *   .
                         *   Al llamar al <Delete/>|<Get/> error break Rules of Hook, mrd
+                        *   -
+                        *   Pq da error de Rules of Hook si no lo llamo desde un condicional??
                         * */
                     }
                     <button onClick={()=>deleteRow(IdGetter(row,page))}><img src={Trash} alt="trash" /></button>

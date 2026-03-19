@@ -17,7 +17,7 @@ public class ClienteConverter implements Converter<String, Cliente> {
     @Override
     public Cliente convert(String id) {
         try {
-            return clienteService.findById(id).orElse(null);
+            return clienteService.findById(Long.parseLong(id)).orElse(null);
         } catch (NumberFormatException e) {
             return null;
         }

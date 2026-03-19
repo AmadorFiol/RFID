@@ -15,20 +15,18 @@ export function Form({data}) {
 
     const page = useContext(PageContext)
 
-    function submitForm(formData){
-        const func = ()=>{
-            const hookCall = data? Put : Post
-            const body = BodyConstructor(formData, page)
-            const props = data? {url:page,id:IdGetter(data,page),body:body}:{url:page,body:body}
-            return <p>{hookCall(props)}</p>
-        }
-        const status = func()
+    function SubmitForm(formData){
+        const hookCall = data? Put : Post
+        const body = BodyConstructor(formData, page)
+        const props = data? {url:page,id:IdGetter(data,page),body:body}:{url:page,body:body}
+
+        const status = hookCall(props)
         console.log("Status",status) //200 Put, 201 Post
         return status
     }
 
     return (
-        <form action={submitForm}>
+        <form action={SubmitForm}>
             {
                 {
                     "clientes": <FieldsClientes data={data}/>,

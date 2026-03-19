@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
 
-    List<Etiqueta> findByClienteCif(String cif);
+    List<Etiqueta> findByClienteId(Long idCliente);
 
     List<Etiqueta> findByLoteId(Long idLote);
 

@@ -22,8 +22,8 @@ public class EtiquetaService {
         return etiquetaRepository.findById(id);
     }
 
-    public List<Etiqueta> findByCliente(String cif) {
-        return etiquetaRepository.findByClienteCif(cif);
+    public List<Etiqueta> findByCliente(Long id) {
+        return etiquetaRepository.findByClienteId(id);
     }
 
     public List<Etiqueta> findByLote(Long idLote) {

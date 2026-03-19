@@ -22,9 +22,9 @@ public class ClienteController {
         return clienteService.findAll();
     }
 
-    @GetMapping("/{cif}")
-    public ResponseEntity<Cliente> getById(@PathVariable("cif") String cif) {
-        return clienteService.findById(cif)
+    @GetMapping("/{id}")
+    public ResponseEntity<Cliente> getById(@PathVariable("id") Long id) {
+        return clienteService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -34,21 +34,21 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(cliente));
     }
 
-    @PutMapping("/{cif}")
-    public ResponseEntity<Cliente> update(@PathVariable("cif") String cif, @RequestBody Cliente cliente) {
-        if (!clienteService.findById(cif).isPresent()) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Cliente> update(@PathVariable("id") Long id, @RequestBody Cliente cliente) {
+        if (!clienteService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        cliente.setCif(cif);
+        cliente.setId(id);
         return ResponseEntity.ok(clienteService.save(cliente));
     }
 
-    @DeleteMapping("/{cif}")
-    public ResponseEntity<Void> delete(@PathVariable("cif") String cif) {
-        if (!clienteService.findById(cif).isPresent()) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
+        if (!clienteService.findById(id).isPresent()) {
             return ResponseEntity.notFound().build();
         }
-        clienteService.deleteById(cif);
+        clienteService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

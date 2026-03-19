@@ -1,13 +1,15 @@
 # React + Vite
 
 ## Dependencies
-Axios (npm install axios)
+Axios (npm i axios)
 
-Cors (npm install cors)
+Cors (npm i cors)
 
-ReactJS-Popup (npm install reactjs-popup)
+JSZPL (npm i jszpl)
 
-React-Toastify (npm install react-toastify)
+React-Toastify (npm i react-toastify)
+
+ReactJS-Popup (npm i reactjs-popup)
 
 ## 📁 Folder structure
 ```

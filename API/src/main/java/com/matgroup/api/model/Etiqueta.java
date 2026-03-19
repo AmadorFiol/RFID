@@ -17,8 +17,8 @@ public class Etiqueta {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "cif")
-    private Cliente cliente;
+    @JoinColumn(name = "id_usuario", referencedColumnName = "cif")
+    private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "id_lote")
@@ -28,9 +28,14 @@ public class Etiqueta {
     @JoinColumn(name = "id_inventario")
     private Inventario inventario;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cliente")
+    private Cliente cliente;
+
     @Column(length = 32)
     private String codigo;
 
     @Enumerated(EnumType.STRING)
+    @Column(length = 16)
     private Estado estado;
 }

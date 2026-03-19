@@ -13,8 +13,12 @@ import lombok.AllArgsConstructor;
 public class Cliente {
 
     @Id
-    @Column(name = "cif", length = 8, nullable = false)
-    private String cif;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", referencedColumnName = "cif")
+    private Usuario usuario;
 
     @Column(name = "nombre", length = 64)
     private String nombre;

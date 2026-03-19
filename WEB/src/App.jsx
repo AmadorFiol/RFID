@@ -16,7 +16,10 @@ export default function App() {
                     <Body />
                 </PageContext>
             }
-            <ToastContainer theme="dark"/>
+            <ToastContainer
+                pauseOnHover={false}
+                theme="dark"
+            />
         </>
     )
 }
