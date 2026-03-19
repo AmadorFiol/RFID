@@ -157,7 +157,7 @@ export default function Usuarios() {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Nombre</label>
+                    <label>Email</label>
                     <input
                         type="email"
                         maxLength={64}
@@ -168,7 +168,7 @@ export default function Usuarios() {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Nombre</label>
+                    <label>Contraseña</label>
                     <input
                         type="password"
                         maxLength={64}

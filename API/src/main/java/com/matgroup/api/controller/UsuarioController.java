@@ -1,6 +1,8 @@
 package com.matgroup.api.controller;
 
+import com.matgroup.api.model.Cliente;
 import com.matgroup.api.model.Usuario;
+import com.matgroup.api.service.ClienteService;
 import com.matgroup.api.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,7 @@ import java.util.List;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final ClienteService clienteService;
 
     @GetMapping
     public List<Usuario> getAll() {
@@ -31,7 +34,12 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<Usuario> create(@RequestBody Usuario usuario) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioService.save(usuario));
+        Cliente cliente = new Cliente();
+        cliente.setNombre("[Sin Asignar]");
+        Usuario savedUser = usuarioService.save(usuario);
+        cliente.setUsuario(savedUser);
+        clienteService.save(cliente);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @PutMapping("/{cif}")
