@@ -27,11 +27,12 @@ export const lotesApi = {
 
 // --- Etiquetas ---
 export const etiquetasApi = {
-    getAll:     ()          => api.get('/etiquetas'),
-    getById:    (id)        => api.get(`/etiquetas/${id}`),
-    create:     (body)      => api.post('/etiquetas', body),
-    update:     (id, body)  => api.put(`/etiquetas/${id}`, body),
-    delete:     (id)        => api.delete(`/etiquetas/${id}`),
+    getAll:         ()          => api.get('/etiquetas'),
+    getById:        (id)        => api.get(`/etiquetas/${id}`),
+    getByUsuario:   (cif)       =>api.get(`/etiquetas/usuario/${cif}`),
+    create:         (body)      => api.post('/etiquetas', body),
+    update:         (id, body)  => api.put(`/etiquetas/${id}`, body),
+    delete:         (id)        => api.delete(`/etiquetas/${id}`),
 }
 
 // --- Inventarios ---
