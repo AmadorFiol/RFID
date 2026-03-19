@@ -9,13 +9,18 @@ import Inventarios from "./pages/Inventarios.jsx";
 import Usuarios from "./pages/Usuarios.jsx";
 
 /* TODO: ✖ ✔
+*   API:
+*       Crear endpoint Etiquetas getByUsuario (JOIN con clientes)
+*       Crear tablas, entidades, etc de Plantilla y Pedido -- Baja prioridad --
+*       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario) -- Baja prioridad --
 *   .
 *   Pantallas:
 *       Generales:
 *           Login Usuario
 *       ..
 *       Pantallas Usuario-Admin:
-*           El CRUD General  ✔
+*           En el CRUD
+*               Pages de Plantilla y Pedido
 *           Pantalla comenzar impresión
 *               Como agregar varios archivos?
 *           Pantalla pedidos impresión

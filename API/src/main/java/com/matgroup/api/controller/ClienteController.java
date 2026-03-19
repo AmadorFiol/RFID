@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/clientes")
@@ -27,6 +28,32 @@ public class ClienteController {
         return clienteService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/usuario/{idUser}")
+    public ResponseEntity<List<Cliente>> getByUsuario(@PathVariable("idUser") String idUser) {
+        List<Cliente> clienteList = clienteService.findByUsuario(idUser);
+
+        if(clienteList.size()<1){
+            return ResponseEntity.notFound().build();
+        }else{
+            return Optional.of(clienteList)
+                    .map(ResponseEntity::ok)
+                    .orElse(null);
+        }
+    }
+
+    @GetMapping("/usuario/{idUser}/default")
+    public ResponseEntity<List<Cliente>> getDefault(@PathVariable("idUser") String idUser) {
+        List<Cliente> clienteList = clienteService.findDefault(idUser);
+
+        if(clienteList.size()<1){
+            return ResponseEntity.notFound().build();
+        }else{
+            return Optional.of(clienteList)
+                    .map(ResponseEntity::ok)
+                    .orElse(null);
+        }
     }
 
     @PostMapping

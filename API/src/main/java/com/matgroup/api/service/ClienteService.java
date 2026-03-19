@@ -22,6 +22,14 @@ public class ClienteService {
         return clienteRepository.findById(id);
     }
 
+    public List<Cliente> findByUsuario(String usuarioCif) {
+        return clienteRepository.findByUsuarioCif(usuarioCif);
+    }
+
+    public List<Cliente> findDefault(String usuarioCif){
+        return clienteRepository.findByUsuarioCifAndNombre(usuarioCif,"[Sin Asignar]");
+    }
+
     public Cliente save(Cliente cliente) {
         return clienteRepository.save(cliente);
     }

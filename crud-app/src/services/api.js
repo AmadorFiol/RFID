@@ -8,11 +8,13 @@ const api = axios.create({
 
 // --- Clientes ---
 export const clientesApi = {
-    getAll:     ()          => api.get('/clientes'),
-    getById:    (id)       => api.get(`/clientes/${id}`),
-    create:     (body)      => api.post('/clientes', body),
-    update:     (id, body) => api.put(`/clientes/${id}`, body),
-    delete:     (id)       => api.delete(`/clientes/${id}`),
+    getAll:         ()          => api.get('/clientes'),
+    getById:        (id)        => api.get(`/clientes/${id}`),
+    getByUsuario:   (cif)       => api.get(`clientes/usuario/${cif}`),
+    getDefault:     (cif)       => api.get(`clientes/usuario/${cif}/default`),
+    create:         (body)      => api.post('/clientes', body),
+    update:         (id, body)  => api.put(`/clientes/${id}`, body),
+    delete:         (id)        => api.delete(`/clientes/${id}`),
 }
 // --- Lotes ---
 export const lotesApi = {
