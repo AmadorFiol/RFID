@@ -1,18 +1,20 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function Get(props) {
-    const [data, setData] = useState({info:"Default"});
+export default function Get({url,id}) {
+    const [data, setData] = useState();
+    const fullUrl = "http://127.0.0.1:8080/api/"+url+(id? "/"+id:"")
+
     useEffect(() => {
-        axios.get(props.url+(props.id? props.id:""))
+        axios.get(fullUrl)
             .then(res => {
-                console.log("ResDataGet:",res.data)
+                console.log("AxiosGet:",res.data)
                 setData(res.data)
             })
             .catch(error => {
                 console.error(error.toJSON());
             });
-    }, []);
+    }, [fullUrl]);
 
     return data
 }

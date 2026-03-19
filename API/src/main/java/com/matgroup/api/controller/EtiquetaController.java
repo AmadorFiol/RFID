@@ -30,9 +30,9 @@ public class EtiquetaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/cliente/{cif}")
-    public ResponseEntity<List<Etiqueta>> getByCliente(@PathVariable("cif") String cif) {
-        List<Etiqueta> etiquetaList = etiquetaService.findByCliente(cif);
+    @GetMapping("/cliente/{idCliente}")
+    public ResponseEntity<List<Etiqueta>> getByCliente(@PathVariable("idCliente") Long idCliente) {
+        List<Etiqueta> etiquetaList = etiquetaService.findByCliente(idCliente);
 
         if(etiquetaList.size()<1){
             return ResponseEntity.notFound().build();
@@ -53,6 +53,19 @@ public class EtiquetaController {
         return Optional.of(etiquetaList)
                 .map(ResponseEntity::ok)
                 .orElse(null);
+        }
+    }
+
+    @GetMapping("/inventario/{idInventario}")
+    public ResponseEntity<List<Etiqueta>> getByInvetario(@PathVariable("idInventario") Long idInventario) {
+        List<Etiqueta> etiquetaList = etiquetaService.findByInventario(idInventario);
+
+        if(etiquetaList.size()<1){
+            return ResponseEntity.notFound().build();
+        }else{
+            return Optional.of(etiquetaList)
+                    .map(ResponseEntity::ok)
+                    .orElse(null);
         }
     }
 

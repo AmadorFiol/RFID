@@ -1,29 +1,43 @@
 # React + Vite
 
 ## Dependencies
-Axios (npm install axios)
-Cors (npm install cors)
+Axios (npm i axios)
+
+Cors (npm i cors)
+
+JSZPL (npm i jszpl)
+
+React-Toastify (npm i react-toastify)
+
+ReactJS-Popup (npm i reactjs-popup)
 
 ## 📁 Folder structure
 ```
 web
 ├── src
-│   ├── assets      # Static IMG's, Fonts, etc
+│   ├── assets      # Static files/IMG's
+│   │   ├── add.svg
+│   │   ├── edit.svg
+│   │   ├── logo.png
 │   │   ├── react.svg
-│   ├── components
+│   │   ├── trash.svg
+│   │   └── vite.svg
+│   ├── components  # General React Components
+│   │   ├── FormFields
+│   │   │   ├── FieldsClientes.jsx
+│   │   │   ├── FieldsEtiquetas.jsx
+│   │   │   └── FieldsLotes.jsx
+│   │   ├── Body.jsx
+│   │   ├── Form.jsx
 │   │   ├── Navbar.jsx
-│   │   └── AunNoSe.jsx
-│   ├── pages       # MainPages
-│   │   ├── Clientes.jsx
-│   │   ├── Etiquetas.jsx
-│   │   └── Lotes.jsx
-│   ├── services    # API Calls & Others
+│   │   ├── Table.jsx
+│   │   ├── TableBody.jsx
+│   │   └── TableHeader.jsx
+│   ├── services    # API Calls
 │   │   ├── Get.jsx
 │   │   ├── Post.jsx
 │   │   ├── Put.jsx
 │   │   └── Delete.jsx
-│   ├── styles      # CSS Files
-│   │   ├── navbar.css
 │   ├── App.jsx
 │   ├── index.css
 │   └── main.jsx

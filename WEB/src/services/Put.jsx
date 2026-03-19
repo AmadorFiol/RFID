@@ -1,14 +1,15 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function Put(props) {
-    const [data, setData] = useState({info:"Default"});
+export default function Put({url,id,body}) {
+    const [data, setData] = useState();
+    const fullUrl = "http://127.0.0.1:8080/api/"+url+(id? "/"+id:"")
 
     useEffect(() => {
-        axios.put(props.url+(props.id? props.id:""),props.body)
+        axios.put(fullUrl,body)
             .then(res => {
-                console.log("ResDataPut:",res.data)
-                setData(res.data)
+                console.log("AxiosPost:",res.status)    //200
+                setData({"status": res.status})
             })
             .catch(error => {
                 console.error(error.toJSON());

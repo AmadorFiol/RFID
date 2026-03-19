@@ -1,14 +1,15 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
 
-export default function Delete(props) {
-    const [data, setData] = useState({info:"Default"});
+export default function Delete({url,id}) {
+    const [data, setData] = useState();
+    const fullUrl = "http://127.0.0.1:8080/api/"+url+(id? "/"+id:"")
 
     useEffect(() => {
-        axios.delete(props.url+(props.id? props.id:""))
+        axios.delete(fullUrl)
             .then(res => {
-                console.log("ResDataDel:",res.status)
-                setData({ "status" : res.status})
+                console.log("AxiosDel:",res.status)     //204
+                setData({"status" : res.status})
             })
             .catch(error => {
                 console.error(error.toJSON());

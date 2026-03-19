@@ -1,13 +1,18 @@
-import logo from '../assets/logo.png'
+import logo from '../assets/react.svg'
 
-export default function Navbar(props) {
+/**
+ * @param setPage
+ * @returns {React.JSX.Element}
+ * @constructor
+ */
+export default function Navbar({setPage}) {
     return(
         <header>
             <nav>
                 <img src={logo} alt="Logo"/>
-                <button onClick={()=>props.pageChanger("clientes")}>Clientes</button>
-                <button onClick={()=>props.pageChanger("etiquetas")}>Etiquetas</button>
-                <button onClick={()=>props.pageChanger("lotes")}>Lotes</button>
+                <button onClick={()=>setPage("clientes")}>Clientes</button>
+                <button onClick={()=>setPage("etiquetas")}>Etiquetas</button>
+                <button onClick={()=>setPage("lotes")}>Lotes</button>
             </nav>
         </header>
     )

@@ -18,15 +18,15 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
-    public Optional<Cliente> findById(String cif) {
-        return clienteRepository.findById(cif);
+    public Optional<Cliente> findById(Long id) {
+        return clienteRepository.findById(id);
     }
 
     public Cliente save(Cliente cliente) {
         return clienteRepository.save(cliente);
     }
 
-    public void deleteById(String cif) {
-        clienteRepository.deleteById(cif);
+    public void deleteById(Long id) {
+        clienteRepository.deleteById(id);
     }
 }
