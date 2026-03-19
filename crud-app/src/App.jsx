@@ -10,7 +10,6 @@ import Usuarios from "./pages/Usuarios.jsx";
 
 /* TODO: ✖ ✔
 *   API:
-*       Crear endpoint Etiquetas getByUsuario (JOIN con clientes)
 *       Crear endpoint Usuario getByEmailAndPassword
 *       Crear tablas, entidades, etc de Plantilla y Pedido -- Baja prioridad --
 *       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario) -- Baja prioridad --
