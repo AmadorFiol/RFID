@@ -4,7 +4,6 @@ import {etiquetasApi, clientesApi, lotesApi, inventariosApi, usuariosApi} from '
 import FormModal from '../components/FormModal'
 
 const EMPTY = {
-    usuarioCif: '',
     loteId: '',
     clienteId: '',
     inventarioId: '',
@@ -14,7 +13,6 @@ const EMPTY = {
 
 export default function Etiquetas() {
     const [etiquetas, setEtiquetas] = useState([])
-    const [usuarios, setUsuarios] = useState([])
     const [lotes, setLotes] = useState([])
     const [clientes, setClientes] = useState([])
     const [inventarios, setInventarios] = useState([])
@@ -26,15 +24,13 @@ export default function Etiquetas() {
     const load = async () => {
         setLoading(true)
         try {
-            const [et, us, lo,cl,iv] = await Promise.all([
+            const [et, lo,cl,iv] = await Promise.all([
                 etiquetasApi.getAll(),
-                usuariosApi.getAll(),
                 lotesApi.getAll(),
                 clientesApi.getAll(),
                 inventariosApi.getAll(),
             ])
             setEtiquetas(et.data??null)
-            setUsuarios(us.data??null)
             setLotes(lo.data??null)
             setClientes(cl.data??null)
             setInventarios(iv.data??null)
@@ -56,7 +52,6 @@ export default function Etiquetas() {
     const openEdit = (etiqueta) => {
         setEditing(etiqueta)
         setForm({
-            usuarioCif: etiqueta.usuario.cif,
             loteId: etiqueta.lote.id,
             clienteId: etiqueta.cliente.id,
             inventarioId: etiqueta.inventario.id,
@@ -73,7 +68,6 @@ export default function Etiquetas() {
     }
 
     const buildBody = () => ({
-        usuario: { cif: form.usuarioCif },
         lote: { id: form.loteId },
         cliente: { id: form.clienteId },
         inventario: { id: form.inventarioId },
@@ -182,19 +176,6 @@ export default function Etiquetas() {
                 title={editing ? `Editar etiqueta #${editing.id}` : 'Nueva <Etiqueta>'}
                 onSubmit={handleSubmit}
             >
-                <div className="form-group">
-                    <label>Usuario</label>
-                    <select
-                        value={form.usuarioCif}
-                        onChange={(e) => setForm({ ...form, usuarioCif: e.target.value })}
-                        required
-                    >
-                        <option value="" disabled={true}>-- Selecciona usuario --</option>
-                        {usuarios.map((u) => (
-                            <option key={u.cif} value={u.cif}>{u.nombre} ({u.cif})</option>
-                        ))}
-                    </select>
-                </div>
                 <div className="form-group">
                     <label>Lote</label>
                     <select

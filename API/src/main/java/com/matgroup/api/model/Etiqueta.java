@@ -17,10 +17,6 @@ public class Etiqueta {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", referencedColumnName = "cif")
-    private Usuario usuario;
-
-    @ManyToOne
     @JoinColumn(name = "id_lote")
     private Lote lote;
 

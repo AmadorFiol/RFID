@@ -9,7 +9,6 @@ import Inventarios from "./pages/Inventarios.jsx";
 import Usuarios from "./pages/Usuarios.jsx";
 
 /* TODO: ✖ ✔
-*   Eliminar campo usuarioCif de Etiquetas
 *   .
 *   Pantallas:
 *       Generales:
