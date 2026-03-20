@@ -7,10 +7,10 @@ import Etiquetas from './pages/Etiquetas'
 import getZpl from "./services/zpl.js";
 import Inventarios from "./pages/Inventarios.jsx";
 import Usuarios from "./pages/Usuarios.jsx";
+import Login from "./pages/Login.jsx"
 
 /* TODO: ✖ ✔
 *   API:
-*       Crear endpoint Usuario getByEmailAndPassword
 *       Crear tablas, entidades, etc de Plantilla y Pedido -- Baja prioridad --
 *       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario) -- Baja prioridad --
 *   .
@@ -44,6 +44,7 @@ const PAGES = [
     { key: 'etiquetas', label: 'Etiquetas', component: Etiquetas },
     { key: 'inventarios', label: 'Inventarios', component: Inventarios},
     { key: 'usuarios',label: 'Usuarios', component: Usuarios},
+    { key: 'login', label: 'Login', component: Login}
 ]
 
 export default function App() {

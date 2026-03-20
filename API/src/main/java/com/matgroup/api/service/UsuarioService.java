@@ -29,4 +29,8 @@ public class UsuarioService {
     public void deleteById(String cif) {
         usuarioRepository.deleteById(cif);
     }
+
+    public Optional<Usuario> login(String email, String password) {return Optional.ofNullable(usuarioRepository.findByEmailAndPassword(email, password));}
 }
+
+
