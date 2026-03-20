@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://192.168.1.177:8080/api',
+    baseURL: 'http://192.168.1.99:8080/api',
     headers: { 'Content-Type': 'application/json' },
 })
 
@@ -47,10 +47,11 @@ export const inventariosApi = {
 // --- Usuarios ---
 export const usuariosApi = {
     getAll:     ()          => api.get('/usuarios'),
-    getById:    (cif)        => api.get(`/usuarios/${cif}`),
+    getById:    (cif)       => api.get(`/usuarios/${cif}`),
+    getLogin:   (body)      => api.post(`/usuarios/login`, body),
     create:     (body)      => api.post('/usuarios', body),
-    update:     (cif, body)  => api.put(`/usuarios/${cif}`, body),
-    delete:     (cif)        => api.delete(`/usuarios/${cif}`),
+    update:     (cif, body) => api.put(`/usuarios/${cif}`, body),
+    delete:     (cif)       => api.delete(`/usuarios/${cif}`),
 }
 
 
