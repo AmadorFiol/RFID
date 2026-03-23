@@ -8,6 +8,7 @@ import getZpl from "./services/zpl.js";
 import Inventarios from "./pages/Inventarios.jsx";
 import Usuarios from "./pages/Usuarios.jsx";
 import Login from "./pages/Login.jsx"
+import MainPage from "./pages/MainPage.jsx";
 
 /* TODO: ✖ ✔
 *   API:
@@ -15,9 +16,6 @@ import Login from "./pages/Login.jsx"
 *       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario) -- Baja prioridad --
 *   .
 *   Pantallas:
-*       Generales:
-*           Login Usuario
-*       ..
 *       Pantallas Usuario-Admin:
 *           En el CRUD
 *               Pages de Plantilla y Pedido
@@ -38,18 +36,8 @@ import Login from "./pages/Login.jsx"
 *       Creamos una tabla pedidos?
 * */
 
-const PAGES = [
-    { key: 'clientes', label: 'Clientes', component: Clientes },
-    { key: 'lotes', label: 'Lotes', component: Lotes },
-    { key: 'etiquetas', label: 'Etiquetas', component: Etiquetas },
-    { key: 'inventarios', label: 'Inventarios', component: Inventarios},
-    { key: 'usuarios',label: 'Usuarios', component: Usuarios},
-    { key: 'login', label: 'Login', component: Login}
-]
-
 export default function App() {
-    const [activePage, setActivePage] = useState('')
-    const ActiveComponent = PAGES.find((p) => p.key === activePage)?.component
+    const [loggedUser,setLoggedUser]= useState(null)
 
 /*    //Test ZPL
     console.log(getZpl({
@@ -60,20 +48,7 @@ export default function App() {
 
     return (
         <>
-            <nav className="navbar">
-                <span className="navbar-brand">CRUD-App</span>
-                {PAGES.map((p) => (
-                    <button
-                        key={p.key}
-                        className={`nav-btn${activePage === p.key ? ' active' : ''}`}
-                        onClick={() => setActivePage(p.key)}
-                    >
-                        {p.label}
-                    </button>
-                ))}
-            </nav>
-
-            {ActiveComponent && <ActiveComponent />}
+            {!loggedUser? <Login setLoggedUser={setLoggedUser}/>:<MainPage/>}
 
             <ToastContainer
                 pauseOnHover={false}

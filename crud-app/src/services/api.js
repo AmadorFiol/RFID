@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-    baseURL: 'http://192.168.1.99:8080/api',
+    baseURL: 'http://192.168.1.177:8080/api',
     headers: { 'Content-Type': 'application/json' },
 })
 
@@ -48,7 +48,7 @@ export const inventariosApi = {
 export const usuariosApi = {
     getAll:     ()          => api.get('/usuarios'),
     getById:    (cif)       => api.get(`/usuarios/${cif}`),
-    getLogin:   (body)      => api.post(`/usuarios/login`, body),
+    login:      (body)      => api.post(`/usuarios/login`, body),
     create:     (body)      => api.post('/usuarios', body),
     update:     (cif, body) => api.put(`/usuarios/${cif}`, body),
     delete:     (cif)       => api.delete(`/usuarios/${cif}`),
@@ -66,6 +66,6 @@ const apiZPL = axios.create({
 })
 const bodyZPL={sn:"99J195100056",zpl_file:"label.zpl"}
 
-export const sendZPL={
-    send:   (apikey,tenant,body)    =>apiZPL.post(`/send/${apikey}/${tenant}`,body)
-}
+export const sendZPL= (body) => apiZPL.post(`/send`,body)
+
+// console.log(sendZPL(bodyZPL))
