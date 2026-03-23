@@ -54,6 +54,24 @@ export const usuariosApi = {
     delete:     (cif)       => api.delete(`/usuarios/${cif}`),
 }
 
+// --- Paginas ---
+export const paginasApi = {
+    getAll:      ()          => api.get('/paginas'),
+    getById:     (id)       => api.get(`/paginas/${id}`),
+    getByUsuario:(cif)       =>api.get(`/paginas/usuario/${cif}`),
+    create:      (body)      => api.post('/paginas', body),
+    update:      (id, body) => api.put(`/paginas/${id}`, body),
+    delete:      (id)       => api.delete(`/paginas/${id}`),
+}
+
+// --- Roles ---
+export const rolesApi = {
+    getAll:     ()          => api.get('/roles'),
+    getById:    (id)       => api.get(`/roles/${id}`),
+    create:     (body)      => api.post('/roles', body),
+    update:     (id, body) => api.put(`/roles/${id}`, body),
+    delete:     (id)       => api.delete(`/roles/${id}`),
+}
 
 // --- API Zebra Printer --- Ver. Bruto
 const apiZPL = axios.create({

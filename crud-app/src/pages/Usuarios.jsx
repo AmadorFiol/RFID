@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { usuariosApi } from '../services/api'
+import {usuariosApi, rolesApi, clientesApi} from '../services/api'
 import FormModal from '../components/FormModal'
 
 const EMPTY = {
@@ -8,10 +8,12 @@ const EMPTY = {
     nombre: '',
     email: '',
     password: '',
+    rolId:''
 }
 
 export default function Usuarios() {
     const [usuarios, setUsuarios] = useState([])
+    const [roles, setRoles] = useState([])
     const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState(null) // null = create, obj = edit
@@ -20,8 +22,12 @@ export default function Usuarios() {
     const load = async () => {
         setLoading(true)
         try {
-            const res = await usuariosApi.getAll()
-            setUsuarios(res.data??null)
+            const [rl, us] = await Promise.all([
+                rolesApi.getAll(),
+                usuariosApi.getAll()
+            ])
+            setRoles(rl.data??null)
+            setUsuarios(us.data??null)
         } catch (e) {
             toast.error(`Error al cargar usuarios: ${e.message}`)
         } finally {
@@ -44,6 +50,7 @@ export default function Usuarios() {
             nombre: usuario.nombre,
             email: usuario.email,
             password: usuario.password,
+            rolId: usuario.rolId
         })
         setModalOpen(true)
     }
@@ -59,6 +66,7 @@ export default function Usuarios() {
         nombre: form.nombre,
         email: form.email,
         password: form.password,
+        rol: { id : form.rolId }
     })
 
     const handleSubmit = async () => {
@@ -103,6 +111,7 @@ export default function Usuarios() {
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Password</th>
+                        <th>Rol</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
@@ -117,6 +126,12 @@ export default function Usuarios() {
                             <td>{u.nombre}</td>
                             <td>{u.email}</td>
                             <td>{u.password}</td>
+                            <td>
+                                <span className="nested">
+                                    <strong>{u.rol.nombre}</strong> &nbsp;
+                                    <span className="badge">{u.rol.id}</span>
+                                </span>
+                            </td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(u)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(u)}>[del]</button>
@@ -177,6 +192,19 @@ export default function Usuarios() {
                         required
                         placeholder="Contraseña"
                     />
+                </div>
+                <div className="form-group">
+                    <label>Elegir el rol</label>
+                    <select
+                        value={form.rolId}
+                        onChange={(e) => setForm({ ...form, rolId: e.target.value })}
+                        required
+                    >
+                        <option value="" disabled={true}>-- Selecciona Rol --</option>
+                        {roles.map((u) => (
+                            <option key={u.id} value={u.id}>{u.nombre} ({u.id})</option>
+                        ))}
+                    </select>
                 </div>
             </FormModal>
         </div>
