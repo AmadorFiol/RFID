@@ -1,6 +1,7 @@
 package com.matgroup.api.repository;
 
 import com.matgroup.api.model.Etiqueta;
+import com.matgroup.api.model.Pagina;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -8,21 +9,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
-
-    List<Etiqueta> findByClienteId(Long idCliente);
-
-    List<Etiqueta> findByLoteId(Long idLote);
-
-    List<Etiqueta> findByInventarioId(Long idInventario);
-
-    @Query(value = "SELECT e.* " +
-            "FROM \"etiqueta\" e " +
-            "JOIN \"cliente\" c ON e.id_cliente=c.id " +
+public interface PaginaRepository extends JpaRepository<Pagina, Long> {
+    @Query(value = "SELECT e.*" +
+            "FROM \"pagina\" e " +
+            "JOIN \"rol\" c ON e.id_rol=c.id " +
             "JOIN \"usuario\" u ON c.id_usuario=u.cif " +
             "WHERE u.cif=?1  " +
             "ORDER BY e.id",
             nativeQuery = true
     )
-    List<Etiqueta> findByUsuarioId(String idUsuario);
+    List<Pagina> findByUsuarioId(String idUsuario);
 }

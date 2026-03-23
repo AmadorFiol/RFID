@@ -3,6 +3,8 @@ import Etiquetas from "../pages/Etiquetas.jsx";
 import Inventarios from "../pages/Inventarios.jsx";
 import Lotes from "../pages/Lotes.jsx";
 import Usuarios from "../pages/Usuarios.jsx";
+import Paginas from "../pages/Paginas.jsx";
+import Roles from "../pages/Roles.jsx";
 
 export const getPagesComponent = (pageName)=>{
     switch (pageName) {
@@ -16,6 +18,10 @@ export const getPagesComponent = (pageName)=>{
             return Lotes
         case "usuarios":
             return Usuarios
+        case "paginas":
+            return Paginas
+        case "roles":
+            return Roles
         default:
             console.log("Componente no encontrado")
             break

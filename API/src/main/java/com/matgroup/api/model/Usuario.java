@@ -26,4 +26,8 @@ public class Usuario {
 
     @Column(name = "password", length = 16)
     private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "id_rol")
+    private Rol rol;
 }

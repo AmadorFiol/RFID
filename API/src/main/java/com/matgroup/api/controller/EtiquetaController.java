@@ -57,7 +57,7 @@ public class EtiquetaController {
     }
 
     @GetMapping("/inventario/{idInventario}")
-    public ResponseEntity<List<Etiqueta>> getByInvetario(@PathVariable("idInventario") Long idInventario) {
+    public ResponseEntity<List<Etiqueta>> getByInventario(@PathVariable("idInventario") Long idInventario) {
         List<Etiqueta> etiquetaList = etiquetaService.findByInventario(idInventario);
 
         if(etiquetaList.size()<1){
@@ -70,7 +70,7 @@ public class EtiquetaController {
     }
 
     @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Etiqueta>> getByCliente(@PathVariable("idUsuario") String idUsuario) {
+    public ResponseEntity<List<Etiqueta>> getByUsuario(@PathVariable("idUsuario") String idUsuario) {
         List<Etiqueta> etiquetaList = etiquetaService.findByUsuario(idUsuario);
 
         if(etiquetaList.size()<1){

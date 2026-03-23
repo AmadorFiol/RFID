@@ -6,7 +6,9 @@ const pagesName = [ //Esto se cambiara por el getByUsuario
     "etiquetas",
     "inventarios",
     "lotes",
-    "usuarios"
+    "usuarios",
+    "paginas",
+    "roles"
 ]
 
 let PAGES = [];
