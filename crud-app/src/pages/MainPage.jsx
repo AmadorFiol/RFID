@@ -1,17 +1,21 @@
 import {useState} from "react";
-import Clientes from "./Clientes.jsx";
-import Etiquetas from "./Etiquetas.jsx";
-import Inventarios from "./Inventarios.jsx";
-import Lotes from "./Lotes.jsx";
-import Usuarios from "./Usuarios.jsx";
+import {getPagesComponent} from "../utils/getPagesComponent.js";
 
-const PAGES = [
-    { key: 'clientes', label: 'Clientes', component: Clientes },
-    { key: 'etiquetas', label: 'Etiquetas', component: Etiquetas },
-    { key: 'inventarios', label: 'Inventarios', component: Inventarios},
-    { key: 'lotes', label: 'Lotes', component: Lotes },
-    { key: 'usuarios',label: 'Usuarios', component: Usuarios},
+const pagesName = [ //Esto se cambiara por el getByUsuario
+    "clientes",
+    "etiquetas",
+    "inventarios",
+    "lotes",
+    "usuarios"
 ]
+
+let PAGES = [];
+
+pagesName.map(pageName=> PAGES.push({
+    key: pageName,
+    component: getPagesComponent(pageName)
+}))
+
 
 export default function MainPage(){
     const [activePage, setActivePage] = useState('')
@@ -27,7 +31,7 @@ export default function MainPage(){
                         className={`nav-btn${activePage === p.key ? ' active' : ''}`}
                         onClick={() => setActivePage(p.key)}
                     >
-                        {p.label}
+                        {p.component.name}
                     </button>
                 ))}
             </nav>

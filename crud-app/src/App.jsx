@@ -12,12 +12,14 @@ import MainPage from "./pages/MainPage.jsx";
 
 /* TODO: ✖ ✔
 *   API:
+*       Crear tablas, entidades, etc de Rol y Page
 *       Crear tablas, entidades, etc de Plantilla y Pedido -- Baja prioridad --
 *       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario) -- Baja prioridad --
 *   .
 *   Pantallas:
 *       Pantallas Usuario-Admin:
 *           En el CRUD
+*               Pages de Rol y Page
 *               Pages de Plantilla y Pedido
 *           Pantalla comenzar impresión
 *               Como agregar varios archivos?

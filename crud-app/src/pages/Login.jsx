@@ -30,7 +30,7 @@ export default function Login({setLoggedUser}){
     return(
         <div className="popup-overlay">
             <div className="popup-content">
-                <p className="popup-title">Inicio de sesión/Login</p>
+                <p className="popup-title">/login</p>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Email</label>
