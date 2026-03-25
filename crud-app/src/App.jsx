@@ -1,12 +1,6 @@
-import { useState } from 'react'
+import {createContext, useState} from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Clientes from './pages/Clientes'
-import Lotes from './pages/Lotes'
-import Etiquetas from './pages/Etiquetas'
-import getZpl from "./services/zpl.js";
-import Inventarios from "./pages/Inventarios.jsx";
-import Usuarios from "./pages/Usuarios.jsx";
 import Login from "./pages/Login.jsx"
 import MainPage from "./pages/MainPage.jsx";
 
@@ -18,7 +12,6 @@ import MainPage from "./pages/MainPage.jsx";
 *   Pantallas:
 *       Pantallas Usuario-Admin:
 *           En el CRUD
-*               Pages de Rol y Page
 *               Pages de Plantilla y Pedido
 *           Pantalla comenzar impresión
 *               Como agregar varios archivos?
@@ -28,14 +21,12 @@ import MainPage from "./pages/MainPage.jsx";
 *       Pantallas Usuario-NoAdmin:
 *           Creación plantilla etiqueta => Plantilla se descarga
 *           Pedir impresión etiquetas => Crear pedido
-*           CRUD especifico etiquetas y clientes del user
 *   .
 *   Para native => Node.js O Express
 *   .
-*   El pedido,
-*       Como nos llega la info a poner en la plantilla?
-*       Creamos una tabla pedidos?
 * */
+
+export const UserContext = createContext(null)
 
 export default function App() {
     const [loggedUser,setLoggedUser]= useState(null)
@@ -49,7 +40,11 @@ export default function App() {
 
     return (
         <>
-            {!loggedUser? <Login setLoggedUser={setLoggedUser}/>:<MainPage/>}
+            {loggedUser?
+                <UserContext.Provider value={loggedUser}>
+                    <MainPage/>
+                </UserContext.Provider>
+                : <Login setLoggedUser={setLoggedUser} />}
 
             <ToastContainer
                 pauseOnHover={false}
