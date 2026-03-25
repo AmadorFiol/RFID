@@ -41,9 +41,9 @@ export default function App() {
     return (
         <>
             {loggedUser?
-                <UserContext.Provider value={loggedUser}>
+                <UserContext value={loggedUser}>
                     <MainPage/>
-                </UserContext.Provider>
+                </UserContext>
                 : <Login setLoggedUser={setLoggedUser} />}
 
             <ToastContainer
