@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    List<Cliente> findByUsuarioCif(String usuarioCif);
+    List<Cliente> findByUsuarioCifOrderById(String usuarioCif);
 
     List<Cliente> findByUsuarioCifAndNombre(String usuarioCif, String nombre);
 }

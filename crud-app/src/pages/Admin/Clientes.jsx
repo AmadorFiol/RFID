@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import {clientesApi, usuariosApi} from '../services/api'
-import FormModal from '../components/FormModal'
+import {clientesApi, usuariosApi} from '../../services/api.js'
+import FormModal from '../../components/FormModal.jsx'
 
 const EMPTY = {
     nombre: '',
@@ -98,7 +98,7 @@ export default function Clientes() {
                 <table>
                     <thead>
                     <tr>
-                        <th>CIF</th>
+                        <th>ID</th>
                         <th>Usuario</th>
                         <th>Nombre</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
@@ -114,7 +114,7 @@ export default function Clientes() {
                             <td className="td-id">{c.id}</td>
                             <td>
                               <span className="nested">
-                                Usuario <strong>#{c.usuario.nombre}</strong> &nbsp;
+                                <strong>{c.usuario.nombre}</strong> &nbsp;
                                   <span className="badge">{c.usuario.cif}</span>
                               </span>
                             </td>
@@ -156,7 +156,7 @@ export default function Clientes() {
                         value={form.nombre}
                         onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                         required
-                        placeholder="Nombre del cliente"
+                        placeholder="Nombre"
                     />
                 </div>
             </FormModal>

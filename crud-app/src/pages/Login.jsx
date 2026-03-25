@@ -7,8 +7,18 @@ const EMPTY = {
     password: '',
 }
 
+const DebugUser1 = { // User con rol Admin
+    email: 'a@a',
+    password: 'a'
+}
+
+const DebugUser2 = { // User con rol Comun
+    email: 'b@b',
+    password: 'b'
+}
+
 export default function Login({setLoggedUser}){
-    const [form, setForm] = useState(EMPTY)
+    const [form, setForm] = useState(DebugUser2)
 
     const buildBody = () => ({
         email: form.email,
@@ -38,8 +48,8 @@ export default function Login({setLoggedUser}){
                             type="email"
                             maxLength={64}
                             onChange={(e) => setForm({ ...form, email: e.target.value })}
-                            required
-                            placeholder="Email del usuario"
+                            //required
+                            placeholder="Email"
                         />
                     </div>
                     <div className="form-group">
@@ -48,8 +58,8 @@ export default function Login({setLoggedUser}){
                             type="password"
                             maxLength={64}
                             onChange={(e) => setForm({ ...form, password: e.target.value })}
-                            required
-                            placeholder="Contraseña del usuario"
+                            //required
+                            placeholder="Contraseña"
                         />
                     </div>
                     <div className="form-actions">

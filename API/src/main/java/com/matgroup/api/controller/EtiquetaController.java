@@ -30,45 +30,6 @@ public class EtiquetaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/cliente/{idCliente}")
-    public ResponseEntity<List<Etiqueta>> getByCliente(@PathVariable("idCliente") Long idCliente) {
-        List<Etiqueta> etiquetaList = etiquetaService.findByCliente(idCliente);
-
-        if(etiquetaList.size()<1){
-            return ResponseEntity.notFound().build();
-        }else{
-            return Optional.of(etiquetaList)
-                    .map(ResponseEntity::ok)
-                    .orElse(null);
-        }
-    }
-
-    @GetMapping("/lote/{idLote}")
-    public ResponseEntity<List<Etiqueta>> getByLote(@PathVariable("idLote") Long idLote) {
-        List<Etiqueta> etiquetaList = etiquetaService.findByLote(idLote);
-
-        if(etiquetaList.size()<1){
-            return ResponseEntity.notFound().build();
-        }else{
-        return Optional.of(etiquetaList)
-                .map(ResponseEntity::ok)
-                .orElse(null);
-        }
-    }
-
-    @GetMapping("/inventario/{idInventario}")
-    public ResponseEntity<List<Etiqueta>> getByInventario(@PathVariable("idInventario") Long idInventario) {
-        List<Etiqueta> etiquetaList = etiquetaService.findByInventario(idInventario);
-
-        if(etiquetaList.size()<1){
-            return ResponseEntity.notFound().build();
-        }else{
-            return Optional.of(etiquetaList)
-                    .map(ResponseEntity::ok)
-                    .orElse(null);
-        }
-    }
-
     @GetMapping("/usuario/{idUsuario}")
     public ResponseEntity<List<Etiqueta>> getByUsuario(@PathVariable("idUsuario") String idUsuario) {
         List<Etiqueta> etiquetaList = etiquetaService.findByUsuario(idUsuario);

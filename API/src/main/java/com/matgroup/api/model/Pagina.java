@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "page",schema = "public")
+@Table(name = "pagina",schema = "public")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,11 +16,11 @@ public class Pagina {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "nombre", length = 16)
-    private String nombre;
-
     @ManyToOne
     @JoinColumn(name = "id_rol")
     private Rol rol;
+
+    @Column(name = "nombre", length = 16)
+    private String nombre;
 }
 

@@ -1,6 +1,5 @@
 package com.matgroup.api.controller;
 
-import com.matgroup.api.model.Etiqueta;
 import com.matgroup.api.model.Pagina;
 import com.matgroup.api.service.PaginaService;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +30,9 @@ public class PaginaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Pagina>> getByUsuario(@PathVariable("idUsuario") String idUsuario) {
-        List<Pagina> paginaList = paginaService.findByUsuario(idUsuario);
+    @GetMapping("/rol/{idRol}")
+    public ResponseEntity<List<Pagina>>  getByRol(@PathVariable("idRol") String idRol) {
+        List<Pagina> paginaList = paginaService.findByRol(Long.parseLong(idRol));
 
         if(paginaList.size()<1){
             return ResponseEntity.notFound().build();

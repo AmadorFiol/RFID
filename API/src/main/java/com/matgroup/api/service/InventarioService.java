@@ -3,6 +3,7 @@ package com.matgroup.api.service;
 import com.matgroup.api.model.Inventario;
 import com.matgroup.api.repository.InventarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class InventarioService {
     private final InventarioRepository inventarioRepository;
 
     public List<Inventario> findAll() {
-        return inventarioRepository.findAll();
+        return inventarioRepository.findAll(Sort.by("id"));
     }
 
     public Optional<Inventario> findById(Long id) {

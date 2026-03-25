@@ -43,6 +43,14 @@ public class UsuarioController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody Map<String, String> json) {
+        return usuarioService.login(json.get("email"),json.get("password") )
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+
+    }
+
     @PutMapping("/{cif}")
     public ResponseEntity<Usuario> update(@PathVariable("cif") String cif, @RequestBody Usuario usuario) {
         if (!usuarioService.findById(cif).isPresent()) {
@@ -59,13 +67,5 @@ public class UsuarioController {
         }
         usuarioService.deleteById(cif);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<Usuario> login(@RequestBody Map<String, String> json) {
-        return usuarioService.login(json.get("email"),json.get("password") )
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-
     }
 }

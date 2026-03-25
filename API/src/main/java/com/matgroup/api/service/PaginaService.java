@@ -1,9 +1,9 @@
 package com.matgroup.api.service;
 
-import com.matgroup.api.model.Etiqueta;
 import com.matgroup.api.model.Pagina;
 import com.matgroup.api.repository.PaginaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,19 +14,23 @@ import java.util.Optional;
 public class PaginaService {
     private final PaginaRepository paginaRepository;
 
-    public List<Pagina> findAll() { return paginaRepository.findAll();
+    public List<Pagina> findAll() {
+        return paginaRepository.findAll(Sort.by("rolId"));
     }
 
-    public Optional<Pagina> findById(Long id) {return paginaRepository.findById(id);
+    public Optional<Pagina> findById(Long id) {
+        return paginaRepository.findById(id);
     }
 
-    public Pagina save(Pagina pagina) {return paginaRepository.save(pagina);
+    public List<Pagina> findByRol(Long idRol) {
+        return paginaRepository.findByRolIdOrderByNombre(idRol);
     }
 
-    public void deleteById(Long id) {paginaRepository.deleteById(id);
+    public Pagina save(Pagina pagina) {
+        return paginaRepository.save(pagina);
     }
 
-    public List<Pagina> findByUsuario(String idUsuario) {
-        return paginaRepository.findByUsuarioId(idUsuario);
+    public void deleteById(Long id) {
+        paginaRepository.deleteById(id);
     }
 }

@@ -10,12 +10,6 @@ import java.util.List;
 @Repository
 public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
 
-    List<Etiqueta> findByClienteId(Long idCliente);
-
-    List<Etiqueta> findByLoteId(Long idLote);
-
-    List<Etiqueta> findByInventarioId(Long idInventario);
-
     @Query(value = "SELECT e.* " +
             "FROM \"etiqueta\" e " +
             "JOIN \"cliente\" c ON e.id_cliente=c.id " +
@@ -24,5 +18,5 @@ public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
             "ORDER BY e.id",
             nativeQuery = true
     )
-    List<Etiqueta> findByUsuarioId(String idUsuario);
+    List<Etiqueta> findByUsuarioIdOrderById(String idUsuario);
 }

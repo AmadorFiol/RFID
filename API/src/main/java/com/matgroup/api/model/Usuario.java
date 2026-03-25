@@ -18,6 +18,10 @@ public class Usuario {
     @Column(name = "cif", length = 8, nullable = false)
     private String cif;
 
+    @ManyToOne
+    @JoinColumn(name = "id_rol")
+    private Rol rol;
+
     @Column(name = "nombre", length = 64)
     private String nombre;
 
@@ -26,8 +30,4 @@ public class Usuario {
 
     @Column(name = "password", length = 16)
     private String password;
-
-    @ManyToOne
-    @JoinColumn(name = "id_rol")
-    private Rol rol;
 }

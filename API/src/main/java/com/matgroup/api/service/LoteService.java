@@ -3,6 +3,7 @@ package com.matgroup.api.service;
 import com.matgroup.api.model.Lote;
 import com.matgroup.api.repository.LoteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class LoteService {
     private final LoteRepository loteRepository;
 
     public List<Lote> findAll() {
-        return loteRepository.findAll();
+        return loteRepository.findAll(Sort.by("id"));
     }
 
     public Optional<Lote> findById(Long id) {

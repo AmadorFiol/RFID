@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import {usuariosApi, rolesApi, clientesApi} from '../services/api'
-import FormModal from '../components/FormModal'
+import {usuariosApi, rolesApi} from '../../services/api.js'
+import FormModal from '../../components/FormModal.jsx'
 
 const EMPTY = {
     cif: '',
+    rolId:'',
     nombre: '',
     email: '',
-    password: '',
-    rolId:''
+    password: ''
 }
 
 export default function Usuarios() {
@@ -22,12 +22,12 @@ export default function Usuarios() {
     const load = async () => {
         setLoading(true)
         try {
-            const [rl, us] = await Promise.all([
-                rolesApi.getAll(),
-                usuariosApi.getAll()
+            const [us, rl] = await Promise.all([
+                usuariosApi.getAll(),
+                rolesApi.getAll()
             ])
-            setRoles(rl.data??null)
             setUsuarios(us.data??null)
+            setRoles(rl.data??null)
         } catch (e) {
             toast.error(`Error al cargar usuarios: ${e.message}`)
         } finally {
@@ -47,10 +47,10 @@ export default function Usuarios() {
         setEditing(usuario)
         setForm({
             cif: usuario.cif,
+            rolId: usuario.rol.id,
             nombre: usuario.nombre,
             email: usuario.email,
-            password: usuario.password,
-            rolId: usuario.rolId
+            password: usuario.password
         })
         setModalOpen(true)
     }
@@ -63,10 +63,10 @@ export default function Usuarios() {
 
     const buildBody = () => ({
         cif: form.cif,
+        rol: { id : form.rolId },
         nombre: form.nombre,
         email: form.email,
-        password: form.password,
-        rol: { id : form.rolId }
+        password: form.password
     })
 
     const handleSubmit = async () => {
@@ -108,10 +108,10 @@ export default function Usuarios() {
                     <thead>
                     <tr>
                         <th>CIF</th>
+                        <th>Rol</th>
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Password</th>
-                        <th>Rol</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
@@ -123,15 +123,15 @@ export default function Usuarios() {
                     ) : usuarios.map((u) => (
                         <tr key={u.cif}>
                             <td className="td-id">{u.cif}</td>
-                            <td>{u.nombre}</td>
-                            <td>{u.email}</td>
-                            <td>{u.password}</td>
                             <td>
                                 <span className="nested">
                                     <strong>{u.rol.nombre}</strong> &nbsp;
                                     <span className="badge">{u.rol.id}</span>
                                 </span>
                             </td>
+                            <td>{u.nombre}</td>
+                            <td>{u.email}</td>
+                            <td>{u.password}</td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(u)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(u)}>[del]</button>
@@ -161,6 +161,19 @@ export default function Usuarios() {
                     />
                 </div>
                 <div className="form-group">
+                    <label>Rol</label>
+                    <select
+                        value={form.rolId}
+                        onChange={(e) => setForm({ ...form, rolId: e.target.value })}
+                        required
+                    >
+                        <option value="" disabled={true}>-- Selecciona Rol --</option>
+                        {roles.map((r) => (
+                            <option key={r.id} value={r.id}>{r.nombre} ({r.id})</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="form-group">
                     <label>Nombre</label>
                     <input
                         type="text"
@@ -179,7 +192,7 @@ export default function Usuarios() {
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                         required
-                        placeholder="Email del usuario"
+                        placeholder="Email"
                     />
                 </div>
                 <div className="form-group">
@@ -192,19 +205,6 @@ export default function Usuarios() {
                         required
                         placeholder="Contraseña"
                     />
-                </div>
-                <div className="form-group">
-                    <label>Elegir el rol</label>
-                    <select
-                        value={form.rolId}
-                        onChange={(e) => setForm({ ...form, rolId: e.target.value })}
-                        required
-                    >
-                        <option value="" disabled={true}>-- Selecciona Rol --</option>
-                        {roles.map((u) => (
-                            <option key={u.id} value={u.id}>{u.nombre} ({u.id})</option>
-                        ))}
-                    </select>
                 </div>
             </FormModal>
         </div>

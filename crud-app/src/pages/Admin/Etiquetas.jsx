@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import {etiquetasApi, clientesApi, lotesApi, inventariosApi, usuariosApi} from '../services/api'
-import FormModal from '../components/FormModal'
+import {etiquetasApi, clientesApi, lotesApi, inventariosApi} from '../../services/api.js'
+import FormModal from '../../components/FormModal.jsx'
 
 const EMPTY = {
     loteId: '',
@@ -82,7 +82,7 @@ export default function Etiquetas() {
                 toast.success(`Etiqueta #${editing.id} actualizada`)
             } else {
                 const created = await etiquetasApi.create(buildBody())
-                toast.success(`Etiqueta #${created.id} creada`)
+                toast.success(`Etiqueta #${created.data.id} creada`)
             }
             closeModal()
             await load()

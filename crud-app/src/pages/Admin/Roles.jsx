@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { lotesApi } from '../services/api'
-import FormModal from '../components/FormModal'
+import { rolesApi } from '../../services/api.js'
+import FormModal from '../../components/FormModal.jsx'
 
 const EMPTY = {
-    fechaImpresion: '',
+    nombre: '',
 }
 
-export default function Lotes() {
-    const [lotes, setLotes] = useState([])
+export default function Roles() {
+    const [roles, setRoles] = useState([])
     const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState(null)
@@ -17,10 +17,10 @@ export default function Lotes() {
     const load = async () => {
         setLoading(true)
         try {
-            const res = await lotesApi.getAll()
-            setLotes(res.data??null)
+            const res = await rolesApi.getAll()
+            setRoles(res.data??null)
         } catch (e) {
-            toast.error(`Error al cargar lotes: ${e.message}`)
+            toast.error(`Error al cargar roles: ${e.message}`)
         } finally {
             setLoading(false)
         }
@@ -34,9 +34,9 @@ export default function Lotes() {
         setModalOpen(true)
     }
 
-    const openEdit = (lote) => {
-        setEditing(lote)
-        setForm({ fechaImpresion: lote.fechaImpresion })
+    const openEdit = (rol) => {
+        setEditing(rol)
+        setForm({ nombre: rol.nombre })
         setModalOpen(true)
     }
 
@@ -47,17 +47,17 @@ export default function Lotes() {
     }
 
     const buildBody = () => ({
-        fechaImpresion: form.fechaImpresion,
+        nombre: form.nombre,
     })
 
     const handleSubmit = async () => {
         try {
             if (editing) {
-                await lotesApi.update(editing.id, buildBody())
-                toast.success(`Lote #${editing.id} actualizado`)
+                await rolesApi.update(editing.id, buildBody())
+                toast.success(`Rol #${editing.id} actualizado`)
             } else {
-                const created = await lotesApi.create(buildBody())
-                toast.success(`Lote #${created.id} creado`)
+                const created = await rolesApi.create(buildBody())
+                toast.success(`Rol #${created.data.id} creado`)
             }
             closeModal()
             await load()
@@ -66,11 +66,11 @@ export default function Lotes() {
         }
     }
 
-    const handleDelete = async (lote) => {
-        if (!confirm(`¿Eliminar lote #${lote.id} (${lote.fechaImpresion})?`)) return
+    const handleDelete = async (rol) => {
+        if (!confirm(`¿Eliminar rol #${rol.id} (${rol.nombre})?`)) return
         try {
-            await lotesApi.delete(lote.id)
-            toast.success(`Lote #${lote.id} eliminado`)
+            await rolesApi.delete(rol.id)
+            toast.success(`Rol #${rol.id} eliminado`)
             await load()
         } catch (e) {
             toast.error(`Error: ${e.message}`)
@@ -80,8 +80,8 @@ export default function Lotes() {
     return (
         <div className="main-content">
             <div className="page-header">
-                <p className="page-title">/ <span>lotes</span></p>
-                <button className="btn btn-primary" onClick={openCreate}>[+] Nuevo Lote</button>
+                <p className="page-title">/ <span>roles</span></p>
+                <button className="btn btn-primary" onClick={openCreate}>[+] Nuevo Rol</button>
             </div>
 
             <div className="table-wrapper">
@@ -89,22 +89,22 @@ export default function Lotes() {
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Fecha de Impresión</th>
+                        <th>Nombre</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     {loading ? (
                         <tr className="state-row"><td colSpan={3}>Cargando...</td></tr>
-                    ) : lotes.length === 0 ? (
+                    ) : roles.length === 0 ? (
                         <tr className="state-row"><td colSpan={3}>Sin datos</td></tr>
-                    ) : lotes.map((l) => (
-                        <tr key={l.id}>
-                            <td className="td-id">#{l.id}</td>
-                            <td>{l.fechaImpresion}</td>
+                    ) : roles.map((r) => (
+                        <tr key={r.id}>
+                            <td className="td-id">#{r.id}</td>
+                            <td>{r.nombre}</td>
                             <td className="td-actions">
-                                <button className="btn btn-edit" onClick={() => openEdit(l)}>[edit]</button>
-                                <button className="btn btn-del" onClick={() => handleDelete(l)}>[del]</button>
+                                <button className="btn btn-edit" onClick={() => openEdit(r)}>[edit]</button>
+                                <button className="btn btn-del" onClick={() => handleDelete(r)}>[del]</button>
                             </td>
                         </tr>
                     ))}
@@ -115,15 +115,15 @@ export default function Lotes() {
             <FormModal
                 open={modalOpen}
                 onClose={closeModal}
-                title={editing ? `Editar lote #${editing.id}` : 'Nuevo <Lote>'}
+                title={editing ? `Editar rol #${editing.id}` : 'Nuevo <Rol>'}
                 onSubmit={handleSubmit}
             >
                 <div className="form-group">
-                    <label>Fecha de Impresión</label>
+                    <label>Nombre del Rol</label>
                     <input
-                        type="date"
-                        value={form.fechaImpresion}
-                        onChange={(e) => setForm({ ...form, fechaImpresion: e.target.value })}
+                        type="text"
+                        value={form.nombre}
+                        onChange={(e) => setForm({ ...form, nombre: e.target.value })}
                         required
                     />
                 </div>

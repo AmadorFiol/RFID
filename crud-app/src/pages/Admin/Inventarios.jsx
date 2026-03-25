@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { inventariosApi } from '../services/api'
-import FormModal from '../components/FormModal'
+import { inventariosApi } from '../../services/api.js'
+import FormModal from '../../components/FormModal.jsx'
 
 const EMPTY = {
     nombre: '',
