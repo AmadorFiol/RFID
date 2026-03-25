@@ -6,8 +6,8 @@ import MainPage from "./pages/MainPage.jsx";
 
 /* TODO: ✖ ✔
 *   API:
-*       Crear tablas, entidades, etc de Plantilla y Pedido -- Baja prioridad --
-*       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario) -- Baja prioridad --
+*       Crear tablas, entidades, etc de Plantilla y Pedido
+*       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario)
 *   .
 *   Pantallas:
 *       Pantallas Usuario-Admin:

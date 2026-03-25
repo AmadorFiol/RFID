@@ -55,6 +55,25 @@ export const paginasApi = {
     delete:         (id)        => api.delete(`/paginas/${id}`),
 }
 
+// --- Pedidos ---
+export const pedidosApi = {
+    getAll:         ()          => api.get('/pedidos'),
+    getById:        (id)        => api.get(`/pedidos/${id}`),
+    getByUsuario:   (cif)       => api.get(`/pedidos/usuario/${cif}`),
+    create:         (body)      => api.post('/pedidos', body),
+    update:         (id, body)  => api.put(`/pedidos/${id}`, body),
+    delete:         (id)        => api.delete(`/pedidos/${id}`),
+}
+
+// --- Plantillas ---
+export const plantillasApi={
+    getAll:         ()          => api.get('/plantillas'),
+    getById:        (id)        => api.get(`/plantillas/${id}`),
+    create:         (body)      => api.post('/plantillas', body),
+    update:         (id, body)  => api.put(`/plantillas/${id}`, body),
+    delete:         (id)        => api.delete(`/plantillas/${id}`),
+}
+
 // --- Roles ---
 export const rolesApi = {
     getAll:         ()          => api.get('/roles'),
