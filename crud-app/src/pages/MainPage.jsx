@@ -3,6 +3,8 @@ import {getPagesComponent} from "../utils/getPagesComponent.js";
 import {paginasApi} from "../services/api.js";
 import {toast} from "react-toastify";
 import {UserContext} from "../App.jsx";
+import Pruebas from "./Admin/Pruebas.jsx";
+
 
 export default function MainPage(){
     const [activePage, setActivePage] = useState('')
@@ -18,6 +20,9 @@ export default function MainPage(){
                     {key: p.id, nombre: p.nombre, component: getPagesComponent(p.id)}
                 )
             )
+            pages.push({
+                key: "pruebas", nombre: "Pruebas", component: Pruebas
+            })
             setNavbar(pages)
         } catch (e) {
             console.error(e.message)

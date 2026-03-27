@@ -119,7 +119,7 @@ export default function Roles() {
                 onSubmit={handleSubmit}
             >
                 <div className="form-group">
-                    <label>Nombre del Rol</label>
+                    <label>Nombre</label>
                     <input
                         type="text"
                         value={form.nombre}

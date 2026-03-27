@@ -16,7 +16,8 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "id_plantilla")
+    @ManyToOne
+    @JoinColumn(name = "id_plantilla")
     private Plantilla plantilla;
 
     @Column(name = "cantitad")

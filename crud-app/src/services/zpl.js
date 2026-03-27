@@ -4,7 +4,7 @@ export default function getZpl(props){
     const labelZPL = new Label();
 
     labelZPL.printDensity = new PrintDensity(PrintDensityName['8dpmm']);
-    labelZPL.width = 100;       //Label size is mm, others is in dots/... pxl(?
+    labelZPL.width = 100;       //Label size is mm, others is in dots/... pxl(? // 1inch = 208 dots
     labelZPL.height = 150;
     labelZPL.padding = new Spacing(10);
 

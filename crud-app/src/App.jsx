@@ -5,24 +5,21 @@ import Login from "./pages/Login.jsx"
 import MainPage from "./pages/MainPage.jsx";
 
 /* TODO: ✖ ✔
-*   API:
-*       Crear tablas, entidades, etc de Plantilla y Pedido
-*       Crear endpoints Plantilla y Pedido (A pedido también PedidoByUsuario)
+*   API/DB:
+*       Crear tabla/entidad info_pedido {id,id_pedido,data}
+*       Agregar campo {id_lote} a Pedido
+*       Agregar campo {nombre} a Plantilla
 *   .
 *   Pantallas:
 *       Pantallas Usuario-Admin:
-*           En el CRUD
-*               Pages de Plantilla y Pedido
-*           Pantalla comenzar impresión
-*               Como agregar varios archivos?
-*           Pantalla pedidos impresión
-*               pedido = {cantidad, plantillaAdjunta, user, }
+*           Pantalla realizar impresión
+*           Crear pages Plantillas y Pedidos en condiciones
 *       ..
 *       Pantallas Usuario-NoAdmin:
-*           Creación plantilla etiqueta => Plantilla se descarga
-*           Pedir impresión etiquetas => Crear pedido
+*           Creación plantilla etiqueta
+*           Crear pedido etiquetas
 *   .
-*   Para native => Node.js O Express
+*   Para native => Next.js O Express
 *   .
 * */
 

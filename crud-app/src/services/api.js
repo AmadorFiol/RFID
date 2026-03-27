@@ -92,18 +92,3 @@ export const usuariosApi = {
     update:         (cif, body) => api.put(`/usuarios/${cif}`, body),
     delete:         (cif)       => api.delete(`/usuarios/${cif}`),
 }
-
-// --- API Zebra Printer --- Ver. Bruto
-const apiZPL = axios.create({
-    baseURL: 'https://api.zebra.com/v2/devices/printers',
-    headers: {
-        'Content-Type': 'multipart/form-data',
-        'apikey': 'l3Q9D1cBaAnsCMQPjI8lQDfyKtT8fwVQ',
-        'tenant': 'acd5cfe9481523d320736c0af339e647'
-    },
-})
-const bodyZPL={sn:"99J195100056",zpl_file:"label.zpl"}
-
-export const sendZPL= (body) => apiZPL.post(`/send`,body)
-
-// console.log(sendZPL(bodyZPL))

@@ -8,6 +8,8 @@ import Roles from "../pages/Admin/Roles.jsx";
 
 import ClientesComun from "../pages/Comun/Clientes.jsx"
 import EtiquetasComun from "../pages/Comun/Etiquetas.jsx"
+import Pedidos from "../pages/Admin/Pedidos.jsx";
+import Plantillas from "../pages/Admin/Plantillas.jsx";
 
 export const getPagesComponent = (pageId)=>{
     switch (pageId) {
@@ -21,6 +23,10 @@ export const getPagesComponent = (pageId)=>{
             return Lotes
         case 106:
             return Paginas
+        case 153:
+            return Pedidos
+        case 152:
+            return Plantillas
         case 107:
             return Roles
         case 108:
@@ -30,7 +36,7 @@ export const getPagesComponent = (pageId)=>{
         case 203:
             return EtiquetasComun
         default:
-            console.log("Componente no encontrado")
+            console.error(`[ERROR 404] Componente para pagina con id ${pageId} no encontrado`)
             break
     }
 }
