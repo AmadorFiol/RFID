@@ -1,17 +1,25 @@
 # React + Vite
 
 ## Dependencies
+--- API Connection ---
+
 Axios (npm i axios)
 
 Cors (npm i cors)
 
-JSZPL (npm i jszpl)
+--- UI ---
 
 React-Toastify (npm i react-toastify)
 
 ReactJS-Popup (npm i reactjs-popup)
 
+--- ZPL ---
+
+JSZPL (npm i jszpl)
+
 Zebra-Browser-Print-Wrapper (npm i zebra-browser-print-wrapper)
+
+Zebra-Renderer-JS (npm i zpl-renderer-js)
 
 ## 📁 Folder structure
 ```
