@@ -10,8 +10,8 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Plantilla {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -19,4 +19,10 @@ public class Plantilla {
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "cif")
     private Usuario usuario;
+
+    @Column(name = "nombre", length = 64)
+    private String nombre;
+
+    @Column(name = "zpl_code")
+    private String  zplCode;
 }

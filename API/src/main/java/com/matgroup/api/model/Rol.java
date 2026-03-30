@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

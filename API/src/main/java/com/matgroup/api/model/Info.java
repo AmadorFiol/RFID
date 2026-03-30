@@ -6,24 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "pedido",schema = "public")
+@Table(name = "info",schema = "public")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Pedido {
+public class Info {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_plantilla")
-    private Plantilla plantilla;
+    @JoinColumn(name = "id_pedido")
+    private Pedido pedido;
 
-    @ManyToOne
-    @JoinColumn(name = "id_lote")
-    private Lote lote;
-
-    @Column(name = "cantitad")
-    private Integer cantidad;
+    @Column(name="data")
+    private String data;
 }

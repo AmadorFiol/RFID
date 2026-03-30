@@ -114,7 +114,6 @@ export default function Pedidos() {
                             <td className="td-id">#{p.id}</td>
                             <td>{p.plantilla.id}</td>
                             <td>{p.cantidad}</td>
-                            <td>{p.info}</td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(p)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(p)}>[del]</button>
@@ -151,15 +150,6 @@ export default function Pedidos() {
                         value={form.cantidad}
                         onChange={(e) => setForm({ ...form, cantidad: e.target.value })}
                         min={1}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Info</label>
-                    <input
-                        type="text"
-                        value={form.info}
-                        onChange={(e) => setForm({ ...form, info: e.target.value })}
                         required
                     />
                 </div>

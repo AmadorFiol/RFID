@@ -5,10 +5,11 @@ import Login from "./pages/Login.jsx"
 import MainPage from "./pages/MainPage.jsx";
 
 /* TODO: ✖ ✔
-*   API/DB:
-*       Crear tabla/entidad info_pedido {id,id_pedido,data}
-*       Agregar campo {id_lote} a Pedido
-*       Agregar campo {nombre} a Plantilla
+*   API/DB: ✔
+*       Crear tabla/entidad info_pedido {id,id_pedido,data} ✔
+*       Agregar campo {id_lote} a Pedido ✔
+*       Agregar campo {nombre} a Plantilla ✔
+*       Crear endpoints info ✔
 *   .
 *   Pantallas:
 *       Pantallas Usuario-Admin:
@@ -27,13 +28,6 @@ export const UserContext = createContext(null)
 
 export default function App() {
     const [loggedUser,setLoggedUser]= useState(null)
-
-/*    //Test ZPL
-    console.log(getZpl({
-        width: 200,
-        height : 300,
-        text : "pepito palotes"
-    }))*/
 
     return (
         <>

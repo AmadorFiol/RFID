@@ -92,3 +92,11 @@ export const usuariosApi = {
     update:         (cif, body) => api.put(`/usuarios/${cif}`, body),
     delete:         (cif)       => api.delete(`/usuarios/${cif}`),
 }
+
+// --- Info ---
+export const infoApi = {
+    getByPedido:    (id)        =>api.get(`/info/pedido/${id}`),
+    create:         (body)      =>api.post('/info',body),
+    update:         (id,body)   =>api.put(`/info/${id}`,body),
+    delete:         (id)        =>api.delete(`/info/${id}`)
+}
