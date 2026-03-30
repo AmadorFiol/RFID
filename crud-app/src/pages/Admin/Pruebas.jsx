@@ -1,64 +1,78 @@
 import ZebraBrowserPrintWrapper from "zebra-browser-print-wrapper"
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
+import {pedidosApi, infoApi} from "../../services/api.js";
+import {toast} from "react-toastify";
+import getZpl from "../../services/zpl.js";
 
 export default function Pruebas(){
+    const [pedidos,setPedidos] = useState([])
 
-    const prueba = async (code_zplFull) => {
+    const prueba = async () => {
+        console.log("Effect 2")
         try {
-
-            // Create a new instance of the object
+            // Creamos nueva instancia del objeto
             const browserPrint = new ZebraBrowserPrintWrapper();
 
-            // Select default printer
+            // Obtenemos la impresora predeterminada
             const defaultPrinter= await browserPrint.getDefaultPrinter();
+            console.log("Printer",defaultPrinter.name)
 
-            // Set the printer
+            // Setteamos la impresora
             browserPrint.setPrinter(defaultPrinter);
 
-            // Check printer status
+            // Obtenemos el estado de la impresora
             const printerStatus = await browserPrint.checkPrinterStatus();
 
-            // Check if the printer is ready
+            // Y comprobamos si esta preparada
             if(printerStatus.isReadyToPrint) {
 
-                // Send ZPL to printer
-                await browserPrint.print(code_zplFull);
+                // Establecemos el código ZPL a enviar
+                let fullZPL = ""
+
+                for(const p in pedidos) {
+                    console.log(p)
+                    const res = await infoApi.getByPedido(pedidos[p].id)
+                    const info = res.data
+
+                    console.log("Info",info)
+                    info.map((i)=>{
+
+                        fullZPL+=pedidos[p].plantilla.zplCode+i.data
+
+                    })
+                }
+
+                console.log("Código final",fullZPL)
+
+                // Enviamos código ZPL a la impresora
+                //await browserPrint.print(fullZPL);
 
             } else {
                 console.log("Error/s", printerStatus.errors);
             }
 
         } catch (error) {
+            toast.error(error)
             throw new Error(error);
         }
     };
 
-    const labels=[
-        `^XA
-        ^DFE:SAMPLE.ZPL^FS
-        ^BY2,2,100
-        ^FO20,20^BC^FN1^FS
-        ^XZ
-        ^XA
-        ^XFE:SAMPLE.ZPL
-        ^FN1^FD123456789^FS
-        ^XZ`,
-
-        `^XA
-        ^DFE:SAMPLE.ZPL^FS
-        ^BY2,2,100
-        ^FO20,20^BC^FN1^FS
-        ^XZ
-        ^XA
-        ^XFE:SAMPLE.ZPL
-        ^FN1^FD24032006^FS
-        ^XZ`
-    ]
-
-    let code_zplFull=``
-    for (let i=0;i<labels.length;i++){
-        code_zplFull+=labels[i]
+    const load = async () =>{
+        try {
+            const res = await pedidosApi.getAll()
+            setPedidos(res.data??null)
+        }catch (e){
+            toast.error(`Error al cargar: ${e.message}`)
+        }
     }
 
-    useEffect(()=>{prueba(code_zplFull)},[]);
+    useEffect(()=>{ load() },[])
+    useEffect(()=>{ pedidos.length>0? prueba():console.log("No hay pedidos") },[pedidos.length])
+
+/*    //Test JSZPL
+    console.log(getZpl({
+        width: 200,
+        height: 300,
+        text: "pepito palotes"
+    }))*/
 }

@@ -5,11 +5,7 @@ import Login from "./pages/Login.jsx"
 import MainPage from "./pages/MainPage.jsx";
 
 /* TODO: ✖ ✔
-*   API/DB: ✔
-*       Crear tabla/entidad info_pedido {id,id_pedido,data} ✔
-*       Agregar campo {id_lote} a Pedido ✔
-*       Agregar campo {nombre} a Plantilla ✔
-*       Crear endpoints info ✔
+*   API/DB:
 *   .
 *   Pantallas:
 *       Pantallas Usuario-Admin:
