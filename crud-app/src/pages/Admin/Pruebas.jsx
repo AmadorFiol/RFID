@@ -60,11 +60,20 @@ export default function Pruebas(){
     prueba()
 
     return (
-        <>{
-            myImg && <img
-                src={`data:image/png;base64,${myImg}`}
-            />
-        }</>
+        <>
+            <div style={{display: "flex", gap: "2rem", marginLeft:"5rem"}}>
+                <textarea
+                    value={zpl}
+                    onChange={(e) => setZpl(e.target.value)}
+                    cols={100}
+                />
+                {
+                    myImg && <img
+                        src={`data:image/png;base64,${myImg}`}
+                    />
+                }
+            </div>
+        </>
     )
 
     /**/
