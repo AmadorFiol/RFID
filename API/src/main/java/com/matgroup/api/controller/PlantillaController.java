@@ -29,6 +29,15 @@ public class PlantillaController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/usuario/{cif}")
+    public ResponseEntity<List<Plantilla>> getByUsuarioId(@PathVariable("cif") String cif) {
+        List<Plantilla> plantillaList = plantillaService.findByUsuarioId(cif);
+        if (plantillaList.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(plantillaList);
+    }
+
     @PostMapping
     public ResponseEntity<Plantilla> create(@RequestBody Plantilla plantilla) {
         return ResponseEntity.status(HttpStatus.CREATED).body(plantillaService.save(plantilla));

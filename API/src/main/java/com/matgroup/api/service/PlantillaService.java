@@ -22,6 +22,10 @@ public class PlantillaService {
         return plantillaRepository.findById(id);
     }
 
+    public List<Plantilla> findByUsuarioId(String cif) {
+        return plantillaRepository.findByUsuarioCifOrderById(cif);
+    }
+
     public Plantilla save(Plantilla plantilla) {
         return plantillaRepository.save(plantilla);
     }
