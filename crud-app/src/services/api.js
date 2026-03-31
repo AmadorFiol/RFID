@@ -69,6 +69,7 @@ export const pedidosApi = {
 export const plantillasApi={
     getAll:         ()          => api.get('/plantillas'),
     getById:        (id)        => api.get(`/plantillas/${id}`),
+    getByUsuario:   (cif)       => api.get(`/plantillas/usuario/${cif}`),
     create:         (body)      => api.post('/plantillas', body),
     update:         (id, body)  => api.put(`/plantillas/${id}`, body),
     delete:         (id)        => api.delete(`/plantillas/${id}`),

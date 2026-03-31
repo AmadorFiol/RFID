@@ -1,15 +1,17 @@
-import Clientes from "../pages/Admin/Clientes.jsx";
-import Etiquetas from "../pages/Admin/Etiquetas.jsx";
-import Inventarios from "../pages/Admin/Inventarios.jsx";
-import Lotes from "../pages/Admin/Lotes.jsx";
-import Usuarios from "../pages/Admin/Usuarios.jsx";
-import Paginas from "../pages/Admin/Paginas.jsx";
-import Roles from "../pages/Admin/Roles.jsx";
+import Clientes from "../pages/Admin/Clientes.jsx"
+import Etiquetas from "../pages/Admin/Etiquetas.jsx"
+import Inventarios from "../pages/Admin/Inventarios.jsx"
+import Lotes from "../pages/Admin/Lotes.jsx"
+import Paginas from "../pages/Admin/Paginas.jsx"
+import Pedidos from "../pages/Admin/Pedidos.jsx"
+import Plantillas from "../pages/Admin/Plantillas.jsx"
+import Roles from "../pages/Admin/Roles.jsx"
+import Usuarios from "../pages/Admin/Usuarios.jsx"
 
 import ClientesComun from "../pages/Comun/Clientes.jsx"
 import EtiquetasComun from "../pages/Comun/Etiquetas.jsx"
-import Pedidos from "../pages/Admin/Pedidos.jsx";
-import Plantillas from "../pages/Admin/Plantillas.jsx";
+import PedidosComun from "../pages/Comun/Pedidos.jsx"
+import PlantillasComun from "../pages/Comun/Plantillas.jsx"
 
 export const getPagesComponent = (pageId)=>{
     switch (pageId) {
@@ -35,6 +37,10 @@ export const getPagesComponent = (pageId)=>{
             return ClientesComun
         case 203:
             return EtiquetasComun
+        case 252:
+            return PedidosComun
+        case 204:
+            return PlantillasComun
         default:
             console.error(`[ERROR 404] Componente para pagina con id ${pageId} no encontrado`)
             break

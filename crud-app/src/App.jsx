@@ -10,11 +10,10 @@ import MainPage from "./pages/MainPage.jsx";
 *   Pantallas:
 *       Pantallas Usuario-Admin:
 *           Pantalla realizar impresión
-*           Crear pages Plantillas y Pedidos en condiciones
+*           Crear pages Pedidos en condiciones
 *       ..
 *       Pantallas Usuario-NoAdmin:
-*           Creación plantilla etiqueta
-*           Crear pedido etiquetas
+*       ..
 *   .
 *   Para native => Next.js O Express
 *   .

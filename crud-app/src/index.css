@@ -237,7 +237,7 @@ tbody td {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 24px;
-  width: 380px;
+  width: fit-content;
   max-width: 95vw;
 }
 

@@ -1,32 +1,61 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { toast } from 'react-toastify'
 import {plantillasApi, usuariosApi} from '../../services/api.js'
 import FormModal from '../../components/FormModal.jsx'
+import {UserContext} from "../../App.jsx";
+import {Label} from "jszpl";
 import LabelPreviewer from "../../components/LabelPreviewer.jsx";
 
+const INITIAL_ZPL =`^XA
+
+^FX Top section with logo, name and address.
+^CF0,60
+^FO50,50^GB100,100,100^FS
+^FO75,75^FR^GB100,100,100^FS
+^FO93,93^GB40,40,40^FS
+^FO220,50^FDIntershipping, Inc.^FS
+^CF0,30
+^FO220,115^FD1000 Shipping Lane^FS
+^FO220,155^FDShelbyville TN 38102^FS
+^FO220,195^FDUnited States (USA)^FS
+^FO50,250^GB700,3,3^FS
+
+^FX Second section with recipient address and permit information.
+^CFA,30
+^FO50,300^FDJohn Doe^FS
+^FO50,340^FD100 Main Street^FS
+^FO50,380^FDSpringfield TN 39021^FS
+^FO50,420^FDUnited States (USA)^FS
+^CFA,15
+^FO600,300^GB150,150,3^FS
+^FO638,340^FDPermit^FS
+^FO638,390^FD123456^FS
+^FO50,500^GB700,3,3^FS
+
+^FX Third section with bar code.
+^BY5,2,200
+^FO100,525^BC^FD12345678^FS
+
+^XZ`
+
 const EMPTY = {
-    usuarioCif: '',
     nombre: '',
-    zplCode: ''
+    zplCode: INITIAL_ZPL
 }
 
 export default function Plantillas() {
     const [plantillas, setPlantillas] = useState([])
-    const [usuarios, setUsuarios] = useState([])
     const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState(null)
     const [form, setForm] = useState(EMPTY)
+    const user = useContext(UserContext)
 
     const load = async () => {
         setLoading(true)
         try {
-            const [pl, us] = await Promise.all([
-                plantillasApi.getAll(),
-                usuariosApi.getAll()
-            ])
-            setPlantillas(pl.data??null)
-            setUsuarios(us.data??null)
+            const res = await plantillasApi.getByUsuario(user.cif)
+            setPlantillas(res.data??null)
         } catch (e) {
             toast.error(`Error al cargar plantillas: ${e.message}`)
         } finally {
@@ -44,7 +73,7 @@ export default function Plantillas() {
 
     const openEdit = (plantilla) => {
         setEditing(plantilla)
-        setForm({ usuarioCif: plantilla.usuario.cif, nombre: plantilla.nombre,zplCode: plantilla.zplCode })
+        setForm({ nombre: plantilla.nombre, zplCode: plantilla.zplCode })
         setModalOpen(true)
     }
 
@@ -55,12 +84,13 @@ export default function Plantillas() {
     }
 
     const buildBody = () => ({
-        usuario: { cif: form.usuarioCif },
+        usuario: { cif: user.cif },
         nombre: form.nombre,
-        zpl_code: form.zplCode
+        zplCode: form.zplCode
     })
 
     const handleSubmit = async () => {
+        console.log(form.zplCode)
         try {
             if (editing) {
                 await plantillasApi.update(editing.id, buildBody())
@@ -99,7 +129,6 @@ export default function Plantillas() {
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Usuario</th>
                         <th>Nombre</th>
                         <th>Codigo ZPL</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
@@ -113,12 +142,6 @@ export default function Plantillas() {
                     ) : plantillas.map((p) => (
                         <tr key={p.id}>
                             <td className="td-id">#{p.id}</td>
-                            <td>
-                              <span className="nested">
-                                <strong>{p.usuario.nombre}</strong> &nbsp;
-                                  <span className="badge">{p.usuario.cif}</span>
-                              </span>
-                            </td>
                             <td>{p.nombre}</td>
                             <td>--- Pulse editar para ver ---</td>
                             <td className="td-actions">
@@ -137,19 +160,6 @@ export default function Plantillas() {
                 title={editing ? `Editar plantilla #${editing.id}` : 'Nueva <Plantilla>'}
                 onSubmit={handleSubmit}
             >
-                <div className="form-group">
-                    <label>Usuario</label>
-                    <select
-                        value={form.usuarioCif}
-                        onChange={(e) => setForm({ ...form, usuarioCif: e.target.value })}
-                        required
-                    >
-                        <option value="" disabled={true}>-- Selecciona usuario --</option>
-                        {usuarios.map((u) => (
-                            <option key={u.cif} value={u.cif}>{u.nombre} ({u.cif})</option>
-                        ))}
-                    </select>
-                </div>
                 <div className="form-group">
                     <label>Nombre</label>
                     <input

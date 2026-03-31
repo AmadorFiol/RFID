@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.sql.Blob;
+
 @Entity
 @Table(name = "plantilla",schema = "public")
 @Data
@@ -23,6 +25,6 @@ public class Plantilla {
     @Column(name = "nombre", length = 64)
     private String nombre;
 
-    @Column(name = "zpl_code")
-    private String  zplCode;
+    @Column(name = "zpl_code",columnDefinition = "TEXT")
+    private String zplCode;
 }

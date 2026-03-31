@@ -1,18 +1,17 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import {plantillasApi, usuariosApi} from '../../services/api.js'
+import {pedidosApi, plantillasApi} from '../../services/api.js'
 import FormModal from '../../components/FormModal.jsx'
-import LabelPreviewer from "../../components/LabelPreviewer.jsx";
 
 const EMPTY = {
-    usuarioCif: '',
-    nombre: '',
-    zplCode: ''
+    plantillaId: '',
+    zpl_code: '',
+    info: ''
 }
 
-export default function Plantillas() {
+export default function Pedidos() {
+    const [pedidos, setPedidos] = useState([])
     const [plantillas, setPlantillas] = useState([])
-    const [usuarios, setUsuarios] = useState([])
     const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState(null)
@@ -21,14 +20,14 @@ export default function Plantillas() {
     const load = async () => {
         setLoading(true)
         try {
-            const [pl, us] = await Promise.all([
-                plantillasApi.getAll(),
-                usuariosApi.getAll()
+            const [pe, pl] = await Promise.all([
+                pedidosApi.getAll(),
+                plantillasApi.getAll()
             ])
+            setPedidos(pe.data??null)
             setPlantillas(pl.data??null)
-            setUsuarios(us.data??null)
         } catch (e) {
-            toast.error(`Error al cargar plantillas: ${e.message}`)
+            toast.error(`Error al cargar pedidos: ${e.message}`)
         } finally {
             setLoading(false)
         }
@@ -42,9 +41,9 @@ export default function Plantillas() {
         setModalOpen(true)
     }
 
-    const openEdit = (plantilla) => {
-        setEditing(plantilla)
-        setForm({ usuarioCif: plantilla.usuario.cif, nombre: plantilla.nombre,zplCode: plantilla.zplCode })
+    const openEdit = (pedido) => {
+        setEditing(pedido)
+        setForm({ plantillaId: pedido.plantilla.id, cantidad: pedido.cantidad, info: pedido.info })
         setModalOpen(true)
     }
 
@@ -55,19 +54,19 @@ export default function Plantillas() {
     }
 
     const buildBody = () => ({
-        usuario: { cif: form.usuarioCif },
-        nombre: form.nombre,
-        zpl_code: form.zplCode
+        plantilla: { id: form.plantillaId },
+        cantidad: form.cantidad,
+        info: form.info
     })
 
     const handleSubmit = async () => {
         try {
             if (editing) {
-                await plantillasApi.update(editing.id, buildBody())
-                toast.success(`Plantilla #${editing.id} actualizada`)
+                await pedidosApi.update(editing.id, buildBody())
+                toast.success(`Pedido #${editing.id} actualizado`)
             } else {
-                const created = await plantillasApi.create(buildBody())
-                toast.success(`Plantilla #${created.data.id} creada`)
+                const created = await pedidosApi.create(buildBody())
+                toast.success(`Pedido #${created.data.id} creado`)
             }
             closeModal()
             await load()
@@ -76,11 +75,11 @@ export default function Plantillas() {
         }
     }
 
-    const handleDelete = async (plantilla) => {
-        if (!confirm(`¿Eliminar plantilla #${plantilla.id}?`)) return
+    const handleDelete = async (pedido) => {
+        if (!confirm(`¿Eliminar pedido #${pedido.id}?`)) return
         try {
-            await plantillasApi.delete(plantilla.id)
-            toast.success(`Plantilla #${plantilla.id} eliminada`)
+            await pedidosApi.delete(pedido.id)
+            toast.success(`Pedido #${pedido.id} eliminado`)
             await load()
         } catch (e) {
             toast.error(`Error: ${e.message}`)
@@ -90,8 +89,8 @@ export default function Plantillas() {
     return (
         <div className="main-content">
             <div className="page-header">
-                <p className="page-title">/ <span>plantillas</span></p>
-                <button className="btn btn-primary" onClick={openCreate}>[+] Nueva Plantilla</button>
+                <p className="page-title">/ <span>pedidos</span></p>
+                <button className="btn btn-primary" onClick={openCreate}>[+] Nueva Pedido</button>
             </div>
 
             <div className="table-wrapper">
@@ -99,28 +98,22 @@ export default function Plantillas() {
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Usuario</th>
-                        <th>Nombre</th>
-                        <th>Codigo ZPL</th>
+                        <th>Plantilla</th>
+                        <th>Cantidad</th>
+                        <th>Info</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     {loading ? (
                         <tr className="state-row"><td colSpan={3}>Cargando...</td></tr>
-                    ) : plantillas.length === 0 ? (
+                    ) : pedidos.length === 0 ? (
                         <tr className="state-row"><td colSpan={3}>Sin datos</td></tr>
-                    ) : plantillas.map((p) => (
+                    ) : pedidos.map((p) => (
                         <tr key={p.id}>
                             <td className="td-id">#{p.id}</td>
-                            <td>
-                              <span className="nested">
-                                <strong>{p.usuario.nombre}</strong> &nbsp;
-                                  <span className="badge">{p.usuario.cif}</span>
-                              </span>
-                            </td>
-                            <td>{p.nombre}</td>
-                            <td>--- Pulse editar para ver ---</td>
+                            <td>{p.plantilla.id}</td>
+                            <td>{p.cantidad}</td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(p)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(p)}>[del]</button>
@@ -134,33 +127,32 @@ export default function Plantillas() {
             <FormModal
                 open={modalOpen}
                 onClose={closeModal}
-                title={editing ? `Editar plantilla #${editing.id}` : 'Nueva <Plantilla>'}
+                title={editing ? `Editar pedido #${editing.id}` : 'Nuevo <Pedido>'}
                 onSubmit={handleSubmit}
             >
                 <div className="form-group">
-                    <label>Usuario</label>
+                    <label>Plantilla</label>
                     <select
-                        value={form.usuarioCif}
-                        onChange={(e) => setForm({ ...form, usuarioCif: e.target.value })}
+                        value={form.plantillaId}
+                        onChange={(e) => setForm({ ...form, plantillaId: e.target.value })}
                         required
                     >
-                        <option value="" disabled={true}>-- Selecciona usuario --</option>
-                        {usuarios.map((u) => (
-                            <option key={u.cif} value={u.cif}>{u.nombre} ({u.cif})</option>
+                        <option value="" disabled={true}>-- Selecciona plantilla --</option>
+                        {plantillas.map((pl) => (
+                            <option key={pl.id} value={pl.id}>{pl.id}</option>
                         ))}
                     </select>
                 </div>
                 <div className="form-group">
-                    <label>Nombre</label>
+                    <label>Cantidad</label>
                     <input
-                        type="text"
-                        value={form.nombre}
-                        onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                        maxLength={64}
+                        type="number"
+                        value={form.cantidad}
+                        onChange={(e) => setForm({ ...form, cantidad: e.target.value })}
+                        min={1}
                         required
                     />
                 </div>
-                <LabelPreviewer form={form} setForm={setForm}/>
             </FormModal>
         </div>
     )

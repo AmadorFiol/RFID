@@ -18,7 +18,7 @@ const DebugUser2 = { // User con rol Comun
 }
 
 export default function Login({setLoggedUser}){
-    const [form, setForm] = useState(DebugUser1)
+    const [form, setForm] = useState(DebugUser2)
 
     const buildBody = () => ({
         email: form.email,
