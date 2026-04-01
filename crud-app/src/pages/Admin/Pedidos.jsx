@@ -1,32 +1,39 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import {pedidosApi} from '../../services/api.js'
-import Label from "../../components/Label.jsx";
+import Label from "../../components/Label.jsx"
+import {printLabels} from "../../utils/printLabels.js";
 
 
 export default function Pedidos() {
     const [pedidos, setPedidos] = useState([])
     const [checkeds, setCheckeds] = useState([])
-    const [loading, setLoading] = useState(true)
 
     const load = async () => {
-        setLoading(true)
         try {
-            const res = pedidosApi.getAll()
-            setPedidos(res.data??null)
+            const res = await pedidosApi.getAll()
+            setPedidos(res.data??[])
         } catch (e) {
             toast.error(`Error al cargar pedidos: ${e.message}`)
-        } finally {
-            setLoading(false)
         }
     }
-
     useEffect(() => { load() }, [])
 
+    const onClick = (p) => {
+        checkeds.includes(p) ?
+            setCheckeds(checkeds.filter(c => c !== p))
+            : setCheckeds([...checkeds, p])
+    }
 
+    const print = () => {
+        checkeds.length<1?
+            toast.error("No se ha seleccionado ninguna label"):
+            printLabels(checkeds)
+    }
     return (
         <>
-            {pedidos.map((p)=>{<Label pedido={p} checked={p in checkeds} />})}
+            {pedidos.map((p)=><Label pedido={p} checked={checkeds.includes(p)} onClick={()=>onClick(p)}/>)}
+            <button onClick={print}>Imprimir seleccion</button>
         </>
     )
 }
