@@ -14,7 +14,7 @@ export default function LabelPreviewer({form,setForm}){
     getImg()
 
     return (
-        <div style={{display: "flex", gap: "2rem", marginLeft:"5rem"}}>
+        <div style={{display: "flex", gap: "2rem"}}>
             <textarea
                 value={form.zplCode}
                 onChange={(e) => setForm({...form, zplCode: e.target.value})}

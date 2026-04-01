@@ -21,6 +21,10 @@ Zebra-Browser-Print-Wrapper (npm i zebra-browser-print-wrapper)
 
 Zebra-Renderer-JS (npm i zpl-renderer-js)
 
+--- CSV Handling ---
+
+Papaparse (npm i papaparse)
+
 ## 📁 Folder structure
 ```
 web

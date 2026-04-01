@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import {pedidosApi, plantillasApi} from '../../services/api.js'
 import FormModal from '../../components/FormModal.jsx'
+import * as Papa from 'papaparse'
 
 const EMPTY = {
     plantillaId: '',
@@ -56,13 +57,17 @@ export default function Pedidos() {
     const buildBody = () => ({
         plantilla: { id: form.plantillaId },
         cantidad: form.cantidad,
-        info: form.info
     })
+
+    const saveInfo = async () => {
+
+    }
 
     const handleSubmit = async () => {
         try {
             if (editing) {
                 await pedidosApi.update(editing.id, buildBody())
+                saveInfo()
                 toast.success(`Pedido #${editing.id} actualizado`)
             } else {
                 const created = await pedidosApi.create(buildBody())
@@ -100,7 +105,6 @@ export default function Pedidos() {
                         <th>ID</th>
                         <th>Plantilla</th>
                         <th>Cantidad</th>
-                        <th>Info</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
@@ -150,6 +154,16 @@ export default function Pedidos() {
                         value={form.cantidad}
                         onChange={(e) => setForm({ ...form, cantidad: e.target.value })}
                         min={1}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>CSV</label>
+                    <input
+                        type="file"
+                        accept=".csv"
+                        value={form.info}
+                        onChange={(e)=>setForm({ ...form, info:e.target.value })}
                         required
                     />
                 </div>

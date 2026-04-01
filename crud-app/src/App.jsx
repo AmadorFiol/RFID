@@ -9,10 +9,9 @@ import MainPage from "./pages/MainPage.jsx";
 *   .
 *   Pantallas:
 *       Pantallas Usuario-Admin:
-*           Pantalla realizar impresión
-*           Crear pages Pedidos en condiciones
 *       ..
 *       Pantallas Usuario-NoAdmin:
+*           Agregar a page pedido campo en el que insertar un csv
 *       ..
 *   .
 *   Para native => Next.js O Express

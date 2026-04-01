@@ -4,6 +4,8 @@ import {pedidosApi, infoApi} from "../../services/api.js";
 import {toast} from "react-toastify";
 import getZpl from "../../services/zpl.js";
 import {ready} from "zpl-renderer-js";
+import Papa from "papaparse";
+
 const INITIAL_ZPL =`^XA
 
 ^FX Top section with logo, name and address.
@@ -37,6 +39,36 @@ const INITIAL_ZPL =`^XA
 ^XZ`
 
 export default function Pruebas(){
+    // Test Papaparse
+    const PAPAPARSE_CONFIG= {
+        delimiter: ",",
+        newline: "\n",
+        complete: (results)=>{
+            console.log("Results: ",results)
+        }
+    }
+    const [form, setForm] = useState({info:''})
+
+    const handleSubmit = () => {
+        Papa.parse(form.info,PAPAPARSE_CONFIG)
+    }
+
+    return(
+        <form
+            onSubmit={handleSubmit}
+        >
+            <input
+                type="file"
+                accept=".csv"
+                value={form.info}
+                onChange={(e)=>setForm({ ...form, info:e.target.value })}
+                required
+            />
+            <br/>
+            <button type="submit">Guardar</button>
+        </form>
+    )
+
 /*    // Test ZPL-Renderer
     const [zpl,setZpl] = useState(INITIAL_ZPL)
     const [myImg, setImg] = useState('')
