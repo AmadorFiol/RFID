@@ -24,12 +24,14 @@ export default function Label({pedido, checked, onClick}){
     getImg()
 
     return(
-        <div key={pedido.id} onClick={onClick}>
+        <div
+            key={pedido.id}
+            onClick={onClick}
+            className="label"
+            style={{backgroundImage: `url(data:image/png;base64,${img})`,backgroundSize:"cover"}}
+        >
             <input type="checkbox" checked={checked} readOnly/>
-            <img
-                src={`data:image/png;base64,${img}`}
-            />
-            <p>{pedido.cantidad}</p>
+            <p>Cantidad a imprimir: {pedido.cantidad}</p>
         </div>
     )
 }

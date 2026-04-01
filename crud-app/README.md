@@ -29,7 +29,9 @@ web
 │   │   ├── react.svg
 │   │   └── vite.svg
 │   ├── components
-│   │   └── FormModal.jsx
+│   │   ├── FormModal.jsx
+│   │   ├── Label.jsx
+│   │   └── LabelPreviewer.jsx
 │   ├── pages
 │   │   ├── Admin
 │   │   │   ├── Clientes.jsx
@@ -43,14 +45,17 @@ web
 │   │   │   └── Usuarios.jsx
 │   │   ├── Comun
 │   │   │   ├── Clientes.jsx
-│   │   │   └── Etiquetas.jsx
+│   │   │   ├── Etiquetas.jsx
+│   │   │   ├── Pedidos.jsx
+│   │   │   └── Plantillas.jsx
 │   │   ├── Login.jsx
 │   │   └── MainPage.jsx
-│   ├── services    # API Calls
+│   ├── services
 │   │   ├── api.js
 │   │   └── zpl.js
 │   ├── utils
-│   │   └── getPagesComponent.js
+│   │   ├── getPagesComponent.js
+│   │   └── printLabels.js
 │   ├── App.jsx
 │   ├── index.css
 │   └── main.jsx

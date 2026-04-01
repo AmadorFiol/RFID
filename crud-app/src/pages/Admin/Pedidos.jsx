@@ -32,8 +32,10 @@ export default function Pedidos() {
     }
     return (
         <>
-            {pedidos.map((p)=><Label pedido={p} checked={checkeds.includes(p)} onClick={()=>onClick(p)}/>)}
-            <button onClick={print}>Imprimir seleccion</button>
+            <div className="grid-labels">
+                {pedidos.map((p)=><Label pedido={p} checked={checkeds.includes(p)} onClick={()=>onClick(p)}/>)}
+            </div>
+            <button className="btn-print" onClick={print}>Imprimir seleccion</button>
         </>
     )
 }
