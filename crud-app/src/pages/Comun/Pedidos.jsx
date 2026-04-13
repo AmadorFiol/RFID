@@ -65,7 +65,7 @@ export default function Pedidos() {
                 results.data.map((row)=> {
                     let info="^XA^XFE:SAMPLE.ZPL"
                     row.map((r,i)=>{
-                        info+=`^FN${i}^FD${r}^FS`
+                        info+=`^FN${i+1}^FD${r}^FS`
                     })
                     info+="^XZ"
                     infoApi.create({
