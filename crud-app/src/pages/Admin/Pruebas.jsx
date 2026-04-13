@@ -39,18 +39,16 @@ const INITIAL_ZPL =`^XA
 ^XZ`
 
 export default function Pruebas(){
-    // Test Papaparse
-    const PAPAPARSE_CONFIG= {
-        delimiter: ",",
-        newline: "\n",
-        complete: (results)=>{
-            console.log("Results: ",results)
-        }
-    }
-    const [form, setForm] = useState({info:''})
+/*    // Test Papaparse
+    const [form, setForm] = useState({info:{}})
 
-    const handleSubmit = () => {
-        Papa.parse(form.info,PAPAPARSE_CONFIG)
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        Papa.parse(form.info,{
+            complete: (results)=>{
+                console.log("Results: ",results)
+            }
+        })
     }
 
     return(
@@ -60,14 +58,14 @@ export default function Pruebas(){
             <input
                 type="file"
                 accept=".csv"
-                value={form.info}
-                onChange={(e)=>setForm({ ...form, info:e.target.value })}
+                onChange={(e)=>setForm({ ...form, info:e.target.files[0] })}
                 required
             />
             <br/>
             <button type="submit">Guardar</button>
         </form>
     )
+    /**/
 
 /*    // Test ZPL-Renderer
     const [zpl,setZpl] = useState(INITIAL_ZPL)
