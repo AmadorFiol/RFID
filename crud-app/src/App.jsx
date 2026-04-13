@@ -11,7 +11,6 @@ import MainPage from "./pages/MainPage.jsx";
 *       Pantallas Usuario-Admin:
 *       ..
 *       Pantallas Usuario-NoAdmin:
-*           Agregar a page pedido campo en el que insertar un csv
 *       ..
 *   .
 *   Para native => Next.js O Express

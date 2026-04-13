@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import {pedidosApi, plantillasApi} from '../../services/api.js'
+import {infoApi, pedidosApi, plantillasApi} from '../../services/api.js'
 import FormModal from '../../components/FormModal.jsx'
 import * as Papa from 'papaparse'
 
 const EMPTY = {
     plantillaId: '',
-    zpl_code: '',
-    info: ''
+    cantidad: '',
+    info: {}
 }
 
 export default function Pedidos() {
@@ -44,7 +44,7 @@ export default function Pedidos() {
 
     const openEdit = (pedido) => {
         setEditing(pedido)
-        setForm({ plantillaId: pedido.plantilla.id, cantidad: pedido.cantidad, info: pedido.info })
+        setForm({ plantillaId: pedido.plantilla.id, cantidad: pedido.cantidad, info:{} })
         setModalOpen(true)
     }
 
@@ -59,18 +59,33 @@ export default function Pedidos() {
         cantidad: form.cantidad,
     })
 
-    const saveInfo = async () => {
-
+    const saveInfo = async (pedidoId) => {
+        Papa.parse(form.info,{
+            complete: (results)=>{
+                results.data.map((row)=> {
+                    let info="^XA^XFE:SAMPLE.ZPL"
+                    row.map((r,i)=>{
+                        info+=`^FN${i}^FD${r}^FS`
+                    })
+                    info+="^XZ"
+                    infoApi.create({
+                        pedido: { id: pedidoId },
+                        data:info
+                    })
+                })
+            }
+        })
     }
 
     const handleSubmit = async () => {
         try {
             if (editing) {
                 await pedidosApi.update(editing.id, buildBody())
-                saveInfo()
+                await saveInfo(editing.id)
                 toast.success(`Pedido #${editing.id} actualizado`)
             } else {
                 const created = await pedidosApi.create(buildBody())
+                await saveInfo(created.id)
                 toast.success(`Pedido #${created.data.id} creado`)
             }
             closeModal()
@@ -162,8 +177,7 @@ export default function Pedidos() {
                     <input
                         type="file"
                         accept=".csv"
-                        value={form.info}
-                        onChange={(e)=>setForm({ ...form, info:e.target.value })}
+                        onChange={(e)=>setForm({ ...form, info:e.target.files[0] })}
                         required
                     />
                 </div>

@@ -1,6 +1,8 @@
 package com.matgroup.api.controller;
 
+import com.matgroup.api.model.Info;
 import com.matgroup.api.model.Pedido;
+import com.matgroup.api.service.InfoService;
 import com.matgroup.api.service.PedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class PedidoController {
 
     private final PedidoService pedidoService;
+    private final InfoService infoService;
 
     @GetMapping
     public List<Pedido> getAll() {
@@ -54,6 +57,9 @@ public class PedidoController {
             return ResponseEntity.notFound().build();
         }
         pedido.setId(id);
+        List<Info> infoList = infoService.findByPedidoId(id);
+        System.out.println(infoList);
+        infoList.forEach(info -> infoService.delete(info.getId()));
         return ResponseEntity.ok(pedidoService.save(pedido));
     }
 
