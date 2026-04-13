@@ -46,7 +46,14 @@ export default function Pruebas(){
         e.preventDefault()
         Papa.parse(form.info,{
             complete: (results)=>{
-                console.log("Results: ",results)
+                results.data.map((row)=> {
+                    let info="^XA^XFE:SAMPLE.ZPL"
+                    row.map((r,i)=>{
+                        info+=`^FN${i}^FD${r}^FS`
+                    })
+                    info+="^XZ"
+                    console.log(info)
+                })
             }
         })
     }
