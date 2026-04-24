@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext} from 'react'
 import { toast } from 'react-toastify'
-import {etiquetasApi, clientesApi, lotesApi, inventariosApi} from '../../services/api.js'
+import {etiquetasApi, clientesApi, inventariosApi} from '../../services/api.js'
 import FormModal from '../../components/FormModal.jsx'
 import {UserContext} from "../../App.jsx";
 
