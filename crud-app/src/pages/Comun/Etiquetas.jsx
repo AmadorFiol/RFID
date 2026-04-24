@@ -5,7 +5,6 @@ import FormModal from '../../components/FormModal.jsx'
 import {UserContext} from "../../App.jsx";
 
 const EMPTY = {
-    loteId: '',
     clienteId: '',
     inventarioId: '',
     codigo: '',
@@ -28,12 +27,10 @@ export default function Etiquetas() {
         try {
             const [et, lo,cl,iv] = await Promise.all([
                 etiquetasApi.getByUsuario(user.cif),
-                lotesApi.getAll(),
                 clientesApi.getByUsuario(user.cif),
                 inventariosApi.getAll(),
             ])
             setEtiquetas(et.data??null)
-            setLotes(lo.data??null)
             setClientes(cl.data??null)
             setInventarios(iv.data??null)
         } catch (e) {
@@ -54,7 +51,6 @@ export default function Etiquetas() {
     const openEdit = (etiqueta) => {
         setEditing(etiqueta)
         setForm({
-            loteId: etiqueta.lote.id,
             clienteId: etiqueta.cliente.id,
             inventarioId: etiqueta.inventario.id,
             codigo: etiqueta.codigo??'',
@@ -70,7 +66,6 @@ export default function Etiquetas() {
     }
 
     const buildBody = () => ({
-        lote: { id: form.loteId },
         cliente: { id: form.clienteId },
         inventario: { id: form.inventarioId },
         codigo: form.codigo,
@@ -116,7 +111,6 @@ export default function Etiquetas() {
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Lote</th>
                         <th>Cliente</th>
                         <th>Inventario</th>
                         <th>Codigo</th>
@@ -132,12 +126,6 @@ export default function Etiquetas() {
                     ) : etiquetas.map((e) => (
                         <tr key={e.id}>
                             <td className="td-id">#{e.id}</td>
-                            <td>
-                                <span className="nested">
-                                Lote <strong>#{e.lote.id}</strong> &nbsp;
-                                    <span className="badge">{e.lote.fechaImpresion}</span>
-                              </span>
-                            </td>
                             <td>
                                 {e.cliente?
                                     <span className="nested">
@@ -171,19 +159,6 @@ export default function Etiquetas() {
                 title={editing ? `Editar etiqueta #${editing.id}` : 'Nueva <Etiqueta>'}
                 onSubmit={handleSubmit}
             >
-                <div className="form-group">
-                    <label>Lote</label>
-                    <select
-                        value={form.loteId}
-                        onChange={(e) => setForm({ ...form, loteId: e.target.value })}
-                        required
-                    >
-                        <option value="" disabled={true}>-- Selecciona lote --</option>
-                        {lotes.map((l) => (
-                            <option key={l.id} value={l.id}>#{l.id} — {l.fechaImpresion}</option>
-                        ))}
-                    </select>
-                </div>
                 <div className="form-group">
                     <label>Cliente</label>
                     <select

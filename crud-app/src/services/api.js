@@ -36,15 +36,6 @@ export const inventariosApi = {
     delete:         (id)        => api.delete(`/inventarios/${id}`),
 }
 
-// --- Lotes ---
-export const lotesApi = {
-    getAll:         ()          => api.get('/lotes'),
-    getById:        (id)        => api.get(`/lotes/${id}`),
-    create:         (body)      => api.post('/lotes', body),
-    update:         (id, body)  => api.put(`/lotes/${id}`, body),
-    delete:         (id)        => api.delete(`/lotes/${id}`),
-}
-
 // --- Paginas ---
 export const paginasApi = {
     getAll:         ()          => api.get('/paginas'),

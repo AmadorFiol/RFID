@@ -1,7 +1,6 @@
 import Clientes from "../pages/Admin/Clientes.jsx"
 import Etiquetas from "../pages/Admin/Etiquetas.jsx"
 import Inventarios from "../pages/Admin/Inventarios.jsx"
-import Lotes from "../pages/Admin/Lotes.jsx"
 import Paginas from "../pages/Admin/Paginas.jsx"
 import Pedidos from "../pages/Admin/Pedidos.jsx"
 import Plantillas from "../pages/Admin/Plantillas.jsx"
@@ -15,31 +14,29 @@ import PlantillasComun from "../pages/Comun/Plantillas.jsx"
 
 export const getPagesComponent = (pageId)=>{
     switch (pageId) {
-        case 102:
-            return Clientes
-        case 103:
-            return Etiquetas
-        case 104:
-            return Inventarios
-        case 105:
-            return Lotes
-        case 106:
+        case 1:
             return Paginas
-        case 153:
+        case 2:
+            return Clientes
+        case 3:
+            return Etiquetas
+        case 4:
+            return Inventarios
+        case 5:
             return Pedidos
-        case 152:
+        case 6:
             return Plantillas
-        case 107:
+        case 7:
             return Roles
-        case 108:
+        case 8:
             return Usuarios
-        case 202:
+        case 9:
             return ClientesComun
-        case 203:
+        case 10:
             return EtiquetasComun
-        case 252:
+        case 11:
             return PedidosComun
-        case 204:
+        case 12:
             return PlantillasComun
         default:
             console.error(`[ERROR 404] Componente para pagina con id ${pageId} no encontrado`)

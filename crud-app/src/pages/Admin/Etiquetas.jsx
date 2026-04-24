@@ -4,7 +4,6 @@ import {etiquetasApi, clientesApi, lotesApi, inventariosApi} from '../../service
 import FormModal from '../../components/FormModal.jsx'
 
 const EMPTY = {
-    loteId: '',
     clienteId: '',
     inventarioId: '',
     codigo: '',
@@ -13,7 +12,6 @@ const EMPTY = {
 
 export default function Etiquetas() {
     const [etiquetas, setEtiquetas] = useState([])
-    const [lotes, setLotes] = useState([])
     const [clientes, setClientes] = useState([])
     const [inventarios, setInventarios] = useState([])
     const [loading, setLoading] = useState(true)
@@ -24,14 +22,12 @@ export default function Etiquetas() {
     const load = async () => {
         setLoading(true)
         try {
-            const [et, lo,cl,iv] = await Promise.all([
+            const [et,cl,iv] = await Promise.all([
                 etiquetasApi.getAll(),
-                lotesApi.getAll(),
                 clientesApi.getAll(),
                 inventariosApi.getAll(),
             ])
             setEtiquetas(et.data??null)
-            setLotes(lo.data??null)
             setClientes(cl.data??null)
             setInventarios(iv.data??null)
         } catch (e) {
@@ -52,7 +48,6 @@ export default function Etiquetas() {
     const openEdit = (etiqueta) => {
         setEditing(etiqueta)
         setForm({
-            loteId: etiqueta.lote.id,
             clienteId: etiqueta.cliente.id,
             inventarioId: etiqueta.inventario.id,
             codigo: etiqueta.codigo??'',
@@ -68,7 +63,6 @@ export default function Etiquetas() {
     }
 
     const buildBody = () => ({
-        lote: { id: form.loteId },
         cliente: { id: form.clienteId },
         inventario: { id: form.inventarioId },
         codigo: form.codigo,
@@ -115,7 +109,6 @@ export default function Etiquetas() {
                     <tr>
                         <th>ID</th>
                         <th>Usuario</th>
-                        <th>Lote</th>
                         <th>Cliente</th>
                         <th>Inventario</th>
                         <th>Codigo</th>
@@ -136,12 +129,6 @@ export default function Etiquetas() {
                                     <strong>{e.cliente.usuario.nombre}</strong> &nbsp;
                                     <span className="badge">{e.cliente.usuario.cif}</span>
                                 </span>
-                            </td>
-                            <td>
-                                <span className="nested">
-                                Lote <strong>#{e.lote.id}</strong> &nbsp;
-                                  <span className="badge">{e.lote.fechaImpresion}</span>
-                              </span>
                             </td>
                             <td>
                                 {e.cliente?
@@ -176,19 +163,6 @@ export default function Etiquetas() {
                 title={editing ? `Editar etiqueta #${editing.id}` : 'Nueva <Etiqueta>'}
                 onSubmit={handleSubmit}
             >
-                <div className="form-group">
-                    <label>Lote</label>
-                    <select
-                        value={form.loteId}
-                        onChange={(e) => setForm({ ...form, loteId: e.target.value })}
-                        required
-                    >
-                        <option value="" disabled={true}>-- Selecciona lote --</option>
-                        {lotes.map((l) => (
-                            <option key={l.id} value={l.id}>#{l.id} — {l.fechaImpresion}</option>
-                        ))}
-                    </select>
-                </div>
                 <div className="form-group">
                     <label>Cliente</label>
                     <select
