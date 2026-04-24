@@ -13,13 +13,13 @@ import lombok.AllArgsConstructor;
 public class Info {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_pedido")
+    @JoinColumn(name = "id_pedido", nullable = false)
     private Pedido pedido;
 
-    @Column(name="data")
+    @Column(name = "nombre", nullable = false)
     private String data;
 }

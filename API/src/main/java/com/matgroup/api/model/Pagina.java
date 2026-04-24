@@ -12,14 +12,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Pagina {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_rol")
+    @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
-    @Column(name = "nombre", length = 16)
+    @Column(name = "nombre", length = 16, nullable = false)
     private String nombre;
 }
 

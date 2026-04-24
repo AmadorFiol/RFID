@@ -38,6 +38,9 @@ const INITIAL_ZPL =`^XA
 
 ^XZ`
 
+const zpl_template = `^XA^DFE:SAMPLE.ZPL^FS^BY2,2,100^FO20,20^BC^FN1^FS^XZ`
+const zpl_vars = `^XA^XFE:SAMPLE.ZPL^FN1^FD12346754^FS^XZ`
+
 export default function Pruebas(){
 /*    // Test Papaparse
     const [form, setForm] = useState({info:{}})

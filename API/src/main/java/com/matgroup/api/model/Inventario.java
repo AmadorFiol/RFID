@@ -13,9 +13,9 @@ import lombok.NoArgsConstructor;
 public class Inventario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
-    @Column(length = 32)
+    @Column(name = "nombre", length = 32, nullable = false)
     private String nombre;
 }

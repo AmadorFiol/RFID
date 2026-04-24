@@ -13,17 +13,13 @@ import lombok.AllArgsConstructor;
 public class Pedido {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_plantilla")
+    @JoinColumn(name = "id_plantilla", nullable = false)
     private Plantilla plantilla;
 
-    @ManyToOne
-    @JoinColumn(name = "id_lote")
-    private Lote lote;
-
-    @Column(name = "cantitad")
+    @Column(name = "cantitad", nullable = false)
     private Integer cantidad;
 }

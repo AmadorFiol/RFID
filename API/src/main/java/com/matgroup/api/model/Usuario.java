@@ -19,15 +19,15 @@ public class Usuario {
     private String cif;
 
     @ManyToOne
-    @JoinColumn(name = "id_rol")
+    @JoinColumn(name = "id_rol", nullable = false)
     private Rol rol;
 
-    @Column(name = "nombre", length = 64)
+    @Column(name = "nombre", length = 64, nullable = false)
     private String nombre;
 
-    @Column(name = "email", length = 64)
+    @Column(name = "email", length = 64, nullable = false)
     private String email;
 
-    @Column(name = "password", length = 16)
+    @Column(name = "password", length = 64, nullable = false)
     private String password;
 }

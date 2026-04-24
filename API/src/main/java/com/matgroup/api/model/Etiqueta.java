@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-// TODO: Agregar campo de alias
 @Entity
 @Table(name = "etiqueta",schema = "public")
 @Data
@@ -13,25 +12,23 @@ import lombok.AllArgsConstructor;
 public class Etiqueta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_lote")
-    private Lote lote;
-
-    @ManyToOne
-    @JoinColumn(name = "id_inventario")
+    @JoinColumn(name = "id_inventario", nullable = false)
     private Inventario inventario;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente")
+    @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
 
-    @Column(length = 32)
-    private String codigo;
+    @Column(name = "alias", length = 16)
+    private String alias;
 
-    @Enumerated(EnumType.STRING)
-    @Column(length = 16)
-    private Estado estado;
+    @Column(name = "epc", length = 32, nullable = false)
+    private String epc;
+
+    @Column(name="tid", length = 32)
+    private String tid;
 }

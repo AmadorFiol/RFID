@@ -12,9 +12,9 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Rol {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
-    @Column(name = "nombre", length = 16)
+    @Column(name = "nombre", length = 16, nullable = false)
     private String nombre;
 }
