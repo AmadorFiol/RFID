@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class Inventario {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 

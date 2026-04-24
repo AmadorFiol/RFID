@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Pagina {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 

@@ -15,6 +15,7 @@ import java.sql.Blob;
 public class Plantilla {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 

@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 public class Etiqueta {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 

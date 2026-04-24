@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 public class Pedido {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "BIGSERIAL")
     private Long id;
 
