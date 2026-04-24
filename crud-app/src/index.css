@@ -230,6 +230,7 @@ tbody td {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-y:auto;
 }
 
 .popup-content {
