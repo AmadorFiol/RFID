@@ -6,8 +6,9 @@ import FormModal from '../../components/FormModal.jsx'
 const EMPTY = {
     clienteId: '',
     inventarioId: '',
-    codigo: '',
-    estado: '',
+    alias: '',
+    epc: '',
+    tid: '',
 }
 
 export default function Etiquetas() {
@@ -50,8 +51,9 @@ export default function Etiquetas() {
         setForm({
             clienteId: etiqueta.cliente.id,
             inventarioId: etiqueta.inventario.id,
-            codigo: etiqueta.codigo??'',
-            estado: etiqueta.estado,
+            alias: etiqueta.alias??'',
+            epc: etiqueta.epc,
+            tid: etiqueta.tid??'',
         })
         setModalOpen(true)
     }
@@ -65,8 +67,9 @@ export default function Etiquetas() {
     const buildBody = () => ({
         cliente: { id: form.clienteId },
         inventario: { id: form.inventarioId },
-        codigo: form.codigo,
-        estado: form.estado
+        alias: form.alias,
+        epc: form.epc,
+        tid: form.tid,
     })
 
     const handleSubmit = async () => {
@@ -111,16 +114,17 @@ export default function Etiquetas() {
                         <th>Usuario</th>
                         <th>Cliente</th>
                         <th>Inventario</th>
-                        <th>Codigo</th>
-                        <th>Estado</th>
+                        <th>Alias</th>
+                        <th>EPC</th>
+                        <th>TID</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     {loading ? (
-                        <tr className="state-row"><td colSpan={4}>Cargando...</td></tr>
+                        <tr className="state-row"><td colSpan={8}>Cargando...</td></tr>
                     ) : etiquetas.length === 0 ? (
-                        <tr className="state-row"><td colSpan={4}>Sin datos</td></tr>
+                        <tr className="state-row"><td colSpan={8}>Sin datos</td></tr>
                     ) : etiquetas.map((e) => (
                         <tr key={e.id}>
                             <td className="td-id">#{e.id}</td>
@@ -145,8 +149,9 @@ export default function Etiquetas() {
                                   <span className="badge">{e.inventario.nombre}</span>
                               </span>
                             </td>
-                            <td>{e.codigo??''}</td>
-                            <td>{e.estado}</td>
+                            <td>{e.alias}</td>
+                            <td>{e.epc}</td>
+                            <td>{e.tid}</td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(e)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(e)}>[del]</button>
@@ -190,28 +195,34 @@ export default function Etiquetas() {
                     </select>
                 </div>
                 <div className="form-group">
-                    <label>Codigo</label>
+                    <label>Alias</label>
                     <input
                         type="text"
-                        maxLength={32}
-                        value={form.codigo}
-                        onChange={(e) => setForm({ ...form, codigo: e.target.value })}
-                        placeholder="Codigo de la etiqueta"
+                        maxLength={16}
+                        value={form.alias}
+                        onChange={(e) => setForm({ ...form, alias: e.target.value })}
+                        placeholder="Alias de la etiqueta"
                     />
                 </div>
                 <div className="form-group">
-                    <label>Estado</label>
-                    <select
-                        value={form.estado}
-                        onChange={(e) => setForm({ ...form, estado: e.target.value })}
-                        required
-                    >
-                        <option value="" disabled={true}>-- Selecciona estado --</option>
-                        <option value="EN_USO">En uso</option>
-                        <option value="LIBRE">Libre</option>
-                        <option value="ROTA">Rota</option>
-                        <option value="DESECHADA">Desechada</option>
-                    </select>
+                    <label>EPC</label>
+                    <input
+                        type="text"
+                        maxLength={32}
+                        value={form.epc}
+                        onChange={(e) => setForm({ ...form, epc: e.target.value })}
+                        placeholder="EPC de la etiqueta"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>TID</label>
+                    <input
+                        type="text"
+                        maxLength={32}
+                        value={form.tid}
+                        onChange={(e) => setForm({ ...form, tid: e.target.value })}
+                        placeholder="TID de la etiqueta"
+                    />
                 </div>
             </FormModal>
         </div>
