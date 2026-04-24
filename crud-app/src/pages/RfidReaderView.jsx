@@ -1,0 +1,74 @@
+import useRfidReader from '../hooks/useRfidReader.js';
+
+export default function RfidReaderView() {
+    const { tags, reading, connected, start, stop, clear } = useRfidReader();
+
+    return (
+        <div style={{ fontFamily: 'system-ui, sans-serif', margin: '2rem' }}>
+            <h1>Lecturas RFID — Impinj R420</h1>
+
+            <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center', marginBottom: '1rem' }}>
+                <button
+                    onClick={start}
+                    disabled={reading}
+                    style={{ padding: '.5rem 1rem', background: '#2ecc71', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                    ▶ Iniciar lectura
+                </button>
+                <button
+                    onClick={stop}
+                    disabled={!reading}
+                    style={{ padding: '.5rem 1rem', background: '#e74c3c', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                    ■ Parar
+                </button>
+                <button
+                    onClick={clear}
+                    style={{ padding: '.5rem 1rem', background: '#95a5a6', color: 'white', border: 'none', cursor: 'pointer' }}
+                >
+                    Limpiar
+                </button>
+                <span style={{ marginLeft: '1rem', fontWeight: 'bold', color: reading ? '#2ecc71' : '#7f8c8d' }}>
+          {reading ? 'LEYENDO' : 'Parado'}
+        </span>
+                <span style={{ marginLeft: '1rem', color: connected ? '#2ecc71' : '#e74c3c' }}>
+          {connected ? '● WS conectado' : '○ WS desconectado'}
+        </span>
+                <span style={{ marginLeft: '1rem' }}>Total únicos: {tags.size}</span>
+            </div>
+
+            <table style={{ borderCollapse: 'collapse', width: '100%', fontFamily: 'monospace' }}>
+                <thead>
+                <tr style={{ background: '#34495e', color: 'white' }}>
+                    <th>EPC</th>
+                    <th>TID</th>
+                    <th>Lecturas</th>
+                    <th>Antena</th>
+                    <th>RSSI (dBm)</th>
+                    <th>Última vez visto</th>
+                    <th>Reader</th>
+                </tr>
+                </thead>
+                <tbody>
+                {tags.map(t => {
+                    return <TagRow tag={t}/>
+                })}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
+function TagRow( tag ) {
+    return (
+        <tr key={tag.tag.epc}>
+            <td>{tag.tag.epc}</td>
+            <td>{tag.tag.tid??null}</td>
+            <td>{tag.tag.readCount}</td>
+            <td>{tag.tag.antennaPort}</td>
+            <td>{tag.tag.rssi}</td>
+            <td>{new Date(tag.tag.lastSeen).toLocaleTimeString()}</td>
+            <td>{tag.tag.readerHostname}</td>
+        </tr>
+    );
+}

@@ -3,6 +3,8 @@ package com.matgroup.api;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/* TODO_SYMBOLS: ✖ ✔ */
+
 @SpringBootApplication
 public class ApiApplication {
 

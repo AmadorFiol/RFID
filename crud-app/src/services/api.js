@@ -96,8 +96,17 @@ export const usuariosApi = {
 
 // --- Info ---
 export const infoApi = {
-    getByPedido:    (id)        =>api.get(`/info/pedido/${id}`),
-    create:         (body)      =>api.post('/info',body),
-    update:         (id,body)   =>api.put(`/info/${id}`,body),
-    delete:         (id)        =>api.delete(`/info/${id}`)
+    getByPedido:    (id)        => api.get(`/info/pedido/${id}`),
+    create:         (body)      => api.post('/info',body),
+    update:         (id,body)   => api.put(`/info/${id}`,body),
+    delete:         (id)        => api.delete(`/info/${id}`)
+}
+
+// --- Lectura RFID ---
+export const rfidApi = {
+    getStatus:      ()          => api.get('/rfid/status'),
+    getTags:        ()          => api.get('/rfid/tags'),
+    start:          ()          => api.post('/rfid/start'),
+    stop:           ()          => api.post('/rfid/stop'),
+    clear:          ()          => api.post('/rfid/clear')
 }

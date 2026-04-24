@@ -1,0 +1,6 @@
+rfid:
+    reader:
+        hostname: speedwayr-13-5e-86.local
+        tx-power-dbm: 30.0
+        rx-sensitivity-dbm: -70.0
+        antennas: 1

@@ -55,9 +55,9 @@ public class RfidReaderService {
 
         // 2. Configurar qué queremos que informe el reader en cada reporte
         ReportConfig report = settings.getReport();
+        report.setIncludeFastId(true);
         report.setIncludeAntennaPortNumber(true);
         report.setIncludePeakRssi(true);
-        report.setIncludeFirstSeenTime(true);
         report.setIncludeLastSeenTime(true);
         report.setIncludeSeenCount(true);
         report.setMode(ReportMode.Individual); // un reporte por tag detectada
@@ -81,25 +81,24 @@ public class RfidReaderService {
         // 5. Listener que recibe cada reporte del reader
         reader.setTagReportListener((ImpinjReader r, TagReport tagReport) -> {
             for (Tag tag : tagReport.getTags()) {
-                String epc = tag.getEpc().toHexString();
-                int seenThisReport = tag.getTagSeenCount();
-                long firstSeenNow = tag.getFirstSeenTime().getLocalDateTime().getTime();
-                long lastSeenNow  = tag.getLastSeenTime().getLocalDateTime().getTime();
-                double rssiNow    = tag.getPeakRssiInDbm();
-                int antennaNow    = tag.getAntennaPortNumber();
+                String epc          = tag.getEpc().toHexString();
+                String tid          = tag.getTid().toHexString();
+                int seenThisReport  = tag.getTagSeenCount();
+                long lastSeenNow    = tag.getLastSeenTime().getLocalDateTime().getTime();
+                double rssiNow      = tag.getPeakRssiInDbm();
+                int antennaNow      = tag.getAntennaPortNumber();
 
                 TagRead merged = tagCache.merge(
                         epc,
-                        TagRead.of(epc, antennaNow, rssiNow,
-                                firstSeenNow, lastSeenNow, seenThisReport, hostname),
+                        TagRead.of(epc, tid, antennaNow, rssiNow, lastSeenNow, seenThisReport, hostname),
                         (prev, fresh) -> TagRead.of(
-                                epc,
-                                fresh.antennaPort(),                       // antena más reciente
-                                fresh.rssi(),                              // RSSI más reciente
-                                Math.min(prev.firstSeen(), fresh.firstSeen()), // primer avistamiento
-                                Math.max(prev.lastSeen(),  fresh.lastSeen()),  // último avistamiento
-                                prev.readCount() + fresh.readCount(),      // ¡aquí acumulamos!
-                                hostname
+                                epc,                                            // EPC
+                                tid,                                            // TID
+                                fresh.antennaPort(),                            // Antena más reciente
+                                fresh.rssi(),                                   // RSSI más reciente
+                                Math.max(prev.lastSeen(), fresh.lastSeen()),    // Ultimo avistamiento
+                                prev.readCount() + fresh.readCount(),           // Contador de veces visto
+                                hostname                                        // Nombre del lector
                         )
                 );
 

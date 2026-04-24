@@ -13,6 +13,9 @@ React-Toastify (npm i react-toastify)
 
 ReactJS-Popup (npm i reactjs-popup)
 
+--- WebSocket ---
+Stomp (npm i @stomp/stompjs)
+
 --- ZPL ---
 
 JSZPL (npm i jszpl)

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-
+// TODO: Agregar campo de alias
 @Entity
 @Table(name = "etiqueta",schema = "public")
 @Data

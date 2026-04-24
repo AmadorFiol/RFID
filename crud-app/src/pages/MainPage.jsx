@@ -4,6 +4,7 @@ import {paginasApi} from "../services/api.js";
 import {toast} from "react-toastify";
 import {UserContext} from "../App.jsx";
 import Pruebas from "./Admin/Pruebas.jsx";
+import RfidReaderView from "./RfidReaderView.jsx";
 
 
 export default function MainPage(){
@@ -20,6 +21,10 @@ export default function MainPage(){
                     {key: p.id, nombre: p.nombre, component: getPagesComponent(p.id)}
                 )
             )
+            pages.push({
+                key: "rfidRead", nombre: "Leer RFIDS", component: RfidReaderView
+            })
+
             pages.push({
                 key: "pruebas", nombre: "Pruebas", component: Pruebas
             })

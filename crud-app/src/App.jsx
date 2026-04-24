@@ -4,17 +4,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import Login from "./pages/Login.jsx"
 import MainPage from "./pages/MainPage.jsx";
 
-/* TODO: ✖ ✔
-*   API/DB:
-*   .
-*   Pantallas:
-*       Pantallas Usuario-Admin:
-*       ..
-*       Pantallas Usuario-NoAdmin:
-*       ..
-*   .
-*   Para native => Next.js O Express
-*   .
+/* TODO_SYMBOLS: ✖ ✔ */
+
+/* TODO:
+*   Si un tag no se lee por 1s eliminar de lista (Comprobar que tanto tiempo ha pasado desde lastSeen)
 * */
 
 export const UserContext = createContext(null)
