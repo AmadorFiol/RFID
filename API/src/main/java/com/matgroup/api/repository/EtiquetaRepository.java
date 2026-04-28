@@ -19,4 +19,6 @@ public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
             nativeQuery = true
     )
     List<Etiqueta> findByUsuarioIdOrderById(String idUsuario);
+
+    Etiqueta findByEpcAndTid(String epc, String tid);
 }

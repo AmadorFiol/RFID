@@ -44,15 +44,13 @@ public class ClienteController {
     }
 
     @GetMapping("/usuario/{idUser}/default")
-    public ResponseEntity<List<Cliente>> getDefault(@PathVariable("idUser") String idUser) {
-        List<Cliente> clienteList = clienteService.findDefault(idUser);
+    public ResponseEntity<Cliente> getDefault(@PathVariable("idUser") String idUser) {
+        Cliente cliente = clienteService.findDefault(idUser);
 
-        if(clienteList.size()<1){
+        if(cliente == null){
             return ResponseEntity.notFound().build();
         }else{
-            return Optional.of(clienteList)
-                    .map(ResponseEntity::ok)
-                    .orElse(null);
+            return ResponseEntity.ok(cliente);
         }
     }
 

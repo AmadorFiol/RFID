@@ -27,7 +27,7 @@ public class ClienteService {
         return clienteRepository.findByUsuarioCifOrderById(usuarioCif);
     }
 
-    public List<Cliente> findDefault(String usuarioCif){
+    public Cliente findDefault(String usuarioCif){
         return clienteRepository.findByUsuarioCifAndNombre(usuarioCif,"[Sin Asignar]");
     }
 

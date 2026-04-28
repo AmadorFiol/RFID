@@ -10,5 +10,5 @@ import java.util.List;
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     List<Cliente> findByUsuarioCifOrderById(String usuarioCif);
 
-    List<Cliente> findByUsuarioCifAndNombre(String usuarioCif, String nombre);
+    Cliente findByUsuarioCifAndNombre(String usuarioCif, String nombre);
 }

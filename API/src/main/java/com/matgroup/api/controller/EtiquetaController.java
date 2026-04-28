@@ -1,6 +1,8 @@
 package com.matgroup.api.controller;
 
+import com.matgroup.api.model.Cliente;
 import com.matgroup.api.model.Etiqueta;
+import com.matgroup.api.service.ClienteService;
 import com.matgroup.api.service.EtiquetaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class EtiquetaController {
 
     private final EtiquetaService etiquetaService;
+    private final ClienteService clienteService;
 
     @GetMapping
     public List<Etiqueta> getAll() {
@@ -43,8 +46,21 @@ public class EtiquetaController {
         }
     }
 
+    @GetMapping("/{epc}/{tid}")
+    public ResponseEntity<Etiqueta> getByEpcAndTid(@PathVariable("epc") String epc, @PathVariable("tid") String tid) {
+        Etiqueta etiqueta = etiquetaService.findByEpcAndTid(epc,tid);
+        if(etiqueta==null){
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(etiqueta);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Etiqueta> create(@RequestBody Etiqueta etiqueta) {
+        System.out.println("cliente: "+etiqueta.getCliente());
+//        Optional<Cliente> cliente = clienteService.findById(etiqueta.getCliente().getId());
+//        etiqueta.setCliente(cliente.get());
         return ResponseEntity.status(HttpStatus.CREATED).body(etiquetaService.save(etiqueta));
     }
 

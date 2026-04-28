@@ -1,39 +1,64 @@
-import { useEffect, useState, useCallback } from 'react';
+import {useEffect, useState, useCallback, useContext} from 'react';
 import { Client } from '@stomp/stompjs';
 import {toast} from "react-toastify";
-import {rfidApi} from "../services/api.js";
+import {etiquetasApi, clientesApi, rfidApi} from "../services/api.js";
+import {UserContext} from "../App.jsx";
 
 export default function useRfidReader() {
     const [tags, setTags] = useState([]);
     const [connected, setConnected] = useState(false);
     const [reading, setReading] = useState(false);
+    const [client, setClient] = useState({});
+    const user = useContext(UserContext)
 
+    // TODO Solucionar error del setClient
     const load = async ()=>{
         try{
-            const [st,ta] = await Promise.all([
+            const [st,ta, cli] = await Promise.all([
                 rfidApi.getStatus(),
-                rfidApi.getTags()
+                rfidApi.getTags(),
+                clientesApi.getDefault(user.cif)
             ])
-            setReading(st.data.reading)
-            setTags([...ta.data])
+            setReading(st.data.reading)     // Funciona bien
+            setTags(ta.data)                // Funciona bien
+            console.log("Res",cli.data)     // Veo que hay datos en la Promise
+            setClient(cli.data)             // Setteo el contenido de la Promise
         }catch (e){
             toast.error(`Error conectando al lector rfid: ${e.message}`)
             console.log(`[ERROR] ${e.message}`)
         }
     }
 
+    const addTagToDB = async (tag) => {
+        console.log("Client",client)    // Sigue siendo un obj vacio ._.
+        try{
+            await etiquetasApi.getByEpcAndTib(tag.epc,tag.tid)
+        } catch (e) {
+            if (e.isAxiosError) {
+                etiquetasApi.create({
+                    cliente: {id: client.id},
+                    inventario: {id: 0},
+                    alias: '',
+                    epc: tag.epc,
+                    tid: tag.tid,
+                })
+            }
+        }
+    }
+
     useEffect(() => {
         const wsUrl = 'ws://localhost:8080/ws';
 
-        const client = new Client({
+        const wsClient = new Client({
             brokerURL: wsUrl,
             reconnectDelay: 3000,
             heartbeatIncoming: 10000,
             heartbeatOutgoing: 10000,
             onConnect: () => {
                 setConnected(true);
-                client.subscribe('/topic/tags', (msg) => {
+                wsClient.subscribe('/topic/tags', (msg) => {
                     const res = JSON.parse(msg.body);
+                    addTagToDB(res)
                     setTags(prev=>{
                         let fresh = [];
                         if(prev.length>0){
@@ -56,13 +81,13 @@ export default function useRfidReader() {
             onStompError: (frame) => console.error('STOMP error:', frame)
         });
 
-        client.activate();
+        wsClient.activate();
 
         // Cargar el estado inicial desde REST
         load()
 
         return () => {
-            client.deactivate()
+            wsClient.deactivate()
         }
     }, [])
 

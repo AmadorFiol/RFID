@@ -27,6 +27,10 @@ public class EtiquetaService {
         return etiquetaRepository.findByUsuarioIdOrderById(idUsuario);
     }
 
+    public Etiqueta findByEpcAndTid(String epc, String tid) {
+        return etiquetaRepository.findByEpcAndTid(epc, tid);
+    }
+
     public Etiqueta save(Etiqueta etiqueta) {
         return etiquetaRepository.save(etiqueta);
     }
