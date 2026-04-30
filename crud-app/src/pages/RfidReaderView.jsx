@@ -1,7 +1,47 @@
 import useRfidReader from '../hooks/useRfidReader.js';
+import {clientesApi, etiquetasApi} from "../services/api.js";
+import {useContext, useEffect, useState} from "react";
+import {toast} from "react-toastify";
+import {UserContext} from "../App.jsx";
 
 export default function RfidReaderView() {
     const { tags, reading, connected, start, stop, clear } = useRfidReader();
+    const [cliente, setCliente] = useState()
+    const user = useContext(UserContext)
+
+    const load = async ()=>{
+        try{
+            const res = await clientesApi.getDefault(user.cif)
+            setCliente(res.data)
+        }catch (e){
+            toast.error(`Error obteniendo cliente default: ${e.message}`)
+            console.log(`[ERROR] ${e.message}`)
+        }
+    }
+
+    useEffect(() => { load() },[])
+
+    const addTagToDB = async (tag) => {
+        try{
+            await etiquetasApi.getByEpcAndTid(tag.epc,tag.tid)
+            console.log(`[200] ${tag.epc} OK`)
+        } catch (e) {
+            console.log(`[404] ${tag.epc} NOT FOUND`)
+            if (e.isAxiosError) {
+                etiquetasApi.create({
+                    cliente: {id: cliente.id},
+                    inventario: {id: 0},
+                    alias: '',
+                    epc: tag.epc,
+                    tid: tag.tid,
+                })
+            }
+        }
+    }
+
+    for (const i in tags) {
+        addTagToDB(tags[i])
+    }
 
     return (
         <div style={{ fontFamily: 'system-ui, sans-serif', margin: '2rem' }}>
@@ -29,12 +69,11 @@ export default function RfidReaderView() {
                     Limpiar
                 </button>
                 <span style={{ marginLeft: '1rem', fontWeight: 'bold', color: reading ? '#2ecc71' : '#7f8c8d' }}>
-          {reading ? 'LEYENDO' : 'Parado'}
-        </span>
+                    {reading ? 'LEYENDO' : 'Parado'}
+                </span>
                 <span style={{ marginLeft: '1rem', color: connected ? '#2ecc71' : '#e74c3c' }}>
-          {connected ? '● WS conectado' : '○ WS desconectado'}
-        </span>
-                <span style={{ marginLeft: '1rem' }}>Total únicos: {tags.size}</span>
+                    {connected ? '● WS conectado' : '○ WS desconectado'}
+                </span>
             </div>
 
             <table style={{ borderCollapse: 'collapse', width: '100%', fontFamily: 'monospace' }}>

@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Set;
+import java.util.concurrent.*;
 
 @Service
 public class RfidReaderService {
@@ -20,6 +23,11 @@ public class RfidReaderService {
     private final SimpMessagingTemplate messagingTemplate;
     private final ImpinjReader reader = new ImpinjReader();
     private final Map<String, TagRead> tagCache = new ConcurrentHashMap<>();
+
+    // Reportes periodicos
+    private final Set<String> pendingUpdates = ConcurrentHashMap.newKeySet();
+    private ScheduledExecutorService scheduler;
+    private ScheduledFuture<?> flushTask;
 
     @Value("${rfid.reader.hostname}")
     private String hostname;
@@ -32,6 +40,9 @@ public class RfidReaderService {
 
     @Value("${rfid.reader.antennas}")
     private String antennasCsv;
+
+    @Value("${rfid.reader.report-interval-ms}")
+    private long reportIntervalMs;
 
     private volatile boolean reading = false;
 
@@ -88,7 +99,7 @@ public class RfidReaderService {
                 double rssiNow      = tag.getPeakRssiInDbm();
                 int antennaNow      = tag.getAntennaPortNumber();
 
-                TagRead merged = tagCache.merge(
+                tagCache.merge(
                         epc,
                         TagRead.of(epc, tid, antennaNow, rssiNow, lastSeenNow, seenThisReport, hostname),
                         (prev, fresh) -> TagRead.of(
@@ -102,23 +113,64 @@ public class RfidReaderService {
                         )
                 );
 
-                messagingTemplate.convertAndSend("/topic/tags", merged);
+                pendingUpdates.add(epc);
             }
         });
 
         // 6. Aplicar y arrancar
         reader.applySettings(settings);
         reader.start();
+
+        // Arranca el scheduler de flush periódico
+        scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread t = new Thread(r, "rfid-flush");
+            t.setDaemon(true);
+            return t;
+        });
+        flushTask = scheduler.scheduleAtFixedRate(
+                this::flushPendingUpdates,
+                reportIntervalMs,
+                reportIntervalMs,
+                TimeUnit.MILLISECONDS
+        );
+
         reading = true;
         log.info("Lectura iniciada.");
     }
 
+    private void flushPendingUpdates() {
+        try {
+            if (pendingUpdates.isEmpty()) return;
+
+            // Snapshot atómico: copiamos y vaciamos el set
+            List<String> epcsToSend = new ArrayList<>(pendingUpdates);
+            pendingUpdates.removeAll(epcsToSend);
+
+            List<TagRead> snapshot = new ArrayList<>(epcsToSend.size());
+            for (String epc : epcsToSend) {
+                TagRead tr = tagCache.get(epc);
+                if (tr != null) snapshot.add(tr);
+            }
+
+            if (!snapshot.isEmpty()) {
+                messagingTemplate.convertAndSend("/topic/tags", snapshot);
+            }
+        } catch (Exception e) {
+            log.error("Error en flush periódico", e);
+        }
+    }
+
     public synchronized void stopReading() throws OctaneSdkException {
         if (!reading) return;
+
+        if (flushTask != null) flushTask.cancel(false);
+        if (scheduler != null) scheduler.shutdown();
+
+        // Flush final por si quedaron lecturas pendientes
+        flushPendingUpdates();
+
         reader.stop();
-        if (reader.isConnected()) {
-            reader.disconnect();
-        }
+        if (reader.isConnected()) reader.disconnect();
         reading = false;
         log.info("Lectura detenida.");
     }
@@ -133,6 +185,7 @@ public class RfidReaderService {
 
     public void clearCache() {
         tagCache.clear();
+        pendingUpdates.clear();
     }
 
     @PreDestroy

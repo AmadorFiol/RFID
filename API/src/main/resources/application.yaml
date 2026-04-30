@@ -4,3 +4,4 @@ rfid:
         tx-power-dbm: 30.0
         rx-sensitivity-dbm: -70.0
         antennas: 1
+        report-interval-ms: 5000 # Reporte cada 5s
