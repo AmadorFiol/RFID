@@ -26,8 +26,8 @@ export default function RfidReaderView() {
             await etiquetasApi.getByEpcAndTid(tag.epc,tag.tid)
             console.log(`[200] ${tag.epc} OK`)
         } catch (e) {
-            console.log(`[404] ${tag.epc} NOT FOUND`)
-            if (e.isAxiosError) {
+            if (e.isAxiosError && e.status === 404) {
+                console.log(`[404] ${tag.epc} NOT FOUND`)
                 etiquetasApi.create({
                     cliente: {id: cliente.id},
                     inventario: {id: 0},
@@ -35,6 +35,8 @@ export default function RfidReaderView() {
                     epc: tag.epc,
                     tid: tag.tid,
                 })
+            } else if (e.status === 500) {
+                console.log(`[500] ${tag.epc} DUPED TAG`)
             }
         }
     }

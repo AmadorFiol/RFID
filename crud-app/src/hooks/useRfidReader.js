@@ -38,18 +38,6 @@ export default function useRfidReader() {
                     const res = JSON.parse(msg.body);
                     console.log("WS Res: ",res)
                     setTags(res);
-                    /*setTags(prev=>{
-                        let fresh = [];
-                        for (const i in prev) {
-                            if (prev[i].epc===(res.epc)) {
-                                fresh.push(res)
-                            } else {
-                                fresh.push(prev[i])
-                            }
-                        }
-                        fresh.includes(res)? null:fresh.push(res)
-                        return fresh
-                    })/**/
                 });
             },
             onDisconnect: () => setConnected(false),
@@ -68,6 +56,7 @@ export default function useRfidReader() {
         if (res.status===200) {
             setReading(true)
             toast.success("Lectura Iniciada")
+            console.log("-------------------- Reading ON --------------------")
         }
     }, [])
 
@@ -76,6 +65,7 @@ export default function useRfidReader() {
         if (res.status===200) {
             setReading(false)
             toast.success("Lectura parada")
+            console.log("-------------------- Reading OFF --------------------")
         }
     }, [])
 

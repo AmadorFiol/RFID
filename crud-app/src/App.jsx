@@ -7,7 +7,6 @@ import MainPage from "./pages/MainPage.jsx";
 /* TODO_SYMBOLS: ✖ ✔ */
 
 /* TODO:
-*   Si un tag no se lee por 1s eliminar de lista (Comprobar que tanto tiempo ha pasado desde lastSeen)
 *   Solucionar problema de condición de carrera en el guardado de tags leídos (hook/useRfid y pages/RfidReader)
 * */
 
