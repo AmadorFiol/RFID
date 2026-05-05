@@ -22,6 +22,7 @@ export default function RfidReaderView() {
     useEffect(() => { load() },[])
 
     const addTagToDB = async (tag) => {
+        tag.tid===''? tag.tid="000000000000000000000000":null
         try{
             await etiquetasApi.getByEpcAndTid(tag.epc,tag.tid)
             console.log(`[200] ${tag.epc} OK`)
@@ -29,14 +30,12 @@ export default function RfidReaderView() {
             if (e.isAxiosError && e.status === 404) {
                 console.log(`[404] ${tag.epc} NOT FOUND`)
                 etiquetasApi.create({
+                    epc: tag.epc,
+                    tid: tag.tid,
                     cliente: {id: cliente.id},
                     inventario: {id: 0},
                     alias: '',
-                    epc: tag.epc,
-                    tid: tag.tid,
                 })
-            } else if (e.status === 500) {
-                console.log(`[500] ${tag.epc} DUPED TAG`)
             }
         }
     }

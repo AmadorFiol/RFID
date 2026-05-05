@@ -6,10 +6,6 @@ import MainPage from "./pages/MainPage.jsx";
 
 /* TODO_SYMBOLS: ✖ ✔ */
 
-/* TODO:
-*   Solucionar problema de condición de carrera en el guardado de tags leídos (hook/useRfid y pages/RfidReader)
-* */
-
 export const UserContext = createContext(null)
 
 export default function App() {

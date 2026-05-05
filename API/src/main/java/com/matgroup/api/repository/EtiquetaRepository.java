@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
@@ -21,4 +22,8 @@ public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
     List<Etiqueta> findByUsuarioIdOrderById(String idUsuario);
 
     Etiqueta findByEpcAndTid(String epc, String tid);
+
+    Optional<Etiqueta> findByEpc(String epc);
+
+    void deleteByEpc(String epc);
 }

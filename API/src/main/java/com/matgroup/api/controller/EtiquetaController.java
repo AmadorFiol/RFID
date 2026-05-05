@@ -23,18 +23,18 @@ public class EtiquetaController {
         return etiquetaService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Etiqueta> getById(@PathVariable("id") Long id) {
-        return etiquetaService.findById(id)
+    @GetMapping("/{epc}")
+    public ResponseEntity<Etiqueta> getByEpc(@PathVariable String epc) {
+        return etiquetaService.findByEpc(epc)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/usuario/{idUsuario}")
-    public ResponseEntity<List<Etiqueta>> getByUsuario(@PathVariable("idUsuario") String idUsuario) {
+    public ResponseEntity<List<Etiqueta>> getByUsuario(@PathVariable String idUsuario) {
         List<Etiqueta> etiquetaList = etiquetaService.findByUsuario(idUsuario);
 
-        if(etiquetaList.size()<1){
+        if(etiquetaList.isEmpty()){
             return ResponseEntity.notFound().build();
         }else{
             return Optional.of(etiquetaList)
@@ -44,7 +44,7 @@ public class EtiquetaController {
     }
 
     @GetMapping("/{epc}/{tid}")
-    public ResponseEntity<Etiqueta> getByEpcAndTid(@PathVariable("epc") String epc, @PathVariable("tid") String tid) {
+    public ResponseEntity<Etiqueta> getByEpcAndTid(@PathVariable String epc, @PathVariable String tid) {
         Etiqueta etiqueta = etiquetaService.findByEpcAndTid(epc,tid);
         if(etiqueta==null){
             return ResponseEntity.notFound().build();
@@ -58,21 +58,21 @@ public class EtiquetaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(etiquetaService.save(etiqueta));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Etiqueta> update(@PathVariable("id") Long id, @RequestBody Etiqueta etiqueta) {
-        if (!etiquetaService.findById(id).isPresent()) {
+    @PutMapping("/{epc}")
+    public ResponseEntity<Etiqueta> update(@PathVariable String epc, @RequestBody Etiqueta etiqueta) {
+        if (etiquetaService.findByEpc(epc).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        etiqueta.setId(id);
+        etiqueta.setEpc(epc);
         return ResponseEntity.ok(etiquetaService.save(etiqueta));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        if (!etiquetaService.findById(id).isPresent()) {
+    @DeleteMapping("/{epc}")
+    public ResponseEntity<Void> delete(@PathVariable String epc) {
+        if (etiquetaService.findByEpc(epc).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        etiquetaService.deleteById(id);
+        etiquetaService.deleteByEpc(epc);
         return ResponseEntity.noContent().build();
     }
 }

@@ -110,13 +110,12 @@ export default function Etiquetas() {
                 <table>
                     <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>EPC</th>
+                        <th>TID</th>
                         <th>Usuario</th>
                         <th>Cliente</th>
                         <th>Inventario</th>
                         <th>Alias</th>
-                        <th>EPC</th>
-                        <th>TID</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
@@ -127,7 +126,8 @@ export default function Etiquetas() {
                         <tr className="state-row"><td colSpan={8}>Sin datos</td></tr>
                     ) : etiquetas.map((e) => (
                         <tr key={e.id}>
-                            <td className="td-id">#{e.id}</td>
+                            <td>{e.epc}</td>
+                            <td>{e.tid}</td>
                             <td>
                                 <span className="nested">
                                     <strong>{e.cliente.usuario.nombre}</strong> &nbsp;
@@ -150,8 +150,6 @@ export default function Etiquetas() {
                               </span>
                             </td>
                             <td>{e.alias}</td>
-                            <td>{e.epc}</td>
-                            <td>{e.tid}</td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(e)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(e)}>[del]</button>
@@ -168,6 +166,26 @@ export default function Etiquetas() {
                 title={editing ? `Editar etiqueta #${editing.id}` : 'Nueva <Etiqueta>'}
                 onSubmit={handleSubmit}
             >
+                <div className="form-group">
+                    <label>EPC</label>
+                    <input
+                        type="text"
+                        maxLength={32}
+                        value={form.epc}
+                        onChange={(e) => setForm({ ...form, epc: e.target.value })}
+                        placeholder="EPC de la etiqueta"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>TID</label>
+                    <input
+                        type="text"
+                        maxLength={32}
+                        value={form.tid}
+                        onChange={(e) => setForm({ ...form, tid: e.target.value })}
+                        placeholder="TID de la etiqueta"
+                    />
+                </div>
                 <div className="form-group">
                     <label>Cliente</label>
                     <select
@@ -202,26 +220,6 @@ export default function Etiquetas() {
                         value={form.alias}
                         onChange={(e) => setForm({ ...form, alias: e.target.value })}
                         placeholder="Alias de la etiqueta"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>EPC</label>
-                    <input
-                        type="text"
-                        maxLength={32}
-                        value={form.epc}
-                        onChange={(e) => setForm({ ...form, epc: e.target.value })}
-                        placeholder="EPC de la etiqueta"
-                    />
-                </div>
-                <div className="form-group">
-                    <label>TID</label>
-                    <input
-                        type="text"
-                        maxLength={32}
-                        value={form.tid}
-                        onChange={(e) => setForm({ ...form, tid: e.target.value })}
-                        placeholder="TID de la etiqueta"
                     />
                 </div>
             </FormModal>

@@ -19,8 +19,8 @@ public class EtiquetaService {
         return etiquetaRepository.findAll(Sort.by("id"));
     }
 
-    public Optional<Etiqueta> findById(Long id) {
-        return etiquetaRepository.findById(id);
+    public Optional<Etiqueta> findByEpc(String epc) {
+        return etiquetaRepository.findByEpc(epc);
     }
 
     public List<Etiqueta> findByUsuario(String idUsuario) {
@@ -35,7 +35,7 @@ public class EtiquetaService {
         return etiquetaRepository.save(etiqueta);
     }
 
-    public void deleteById(Long id) {
-        etiquetaRepository.deleteById(id);
+    public void deleteByEpc(String epc) {
+        etiquetaRepository.deleteByEpc(epc);
     }
 }
