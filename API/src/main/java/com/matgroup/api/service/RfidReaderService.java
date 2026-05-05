@@ -26,6 +26,7 @@ public class RfidReaderService {
 
     // Reportes periodicos
     private final Set<String> pendingUpdates = ConcurrentHashMap.newKeySet();
+    private final EtiquetaService etiquetaService;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> flushTask;
 
@@ -46,8 +47,9 @@ public class RfidReaderService {
 
     private volatile boolean reading = false;
 
-    public RfidReaderService(SimpMessagingTemplate messagingTemplate) {
+    public RfidReaderService(SimpMessagingTemplate messagingTemplate, EtiquetaService etiquetaService) {
         this.messagingTemplate = messagingTemplate;
+        this.etiquetaService = etiquetaService;
     }
 
     public synchronized void startReading() throws OctaneSdkException {
@@ -94,6 +96,7 @@ public class RfidReaderService {
             for (Tag tag : tagReport.getTags()) {
                 String epc          = tag.getEpc().toHexString();
                 String tid          = tag.getTid().toHexString();
+                String alias        = (etiquetaService.findByEpc(tag.getEpc().toHexString()).get().getAlias());
                 int seenThisReport  = tag.getTagSeenCount();
                 long lastSeenNow    = tag.getLastSeenTime().getLocalDateTime().getTime();
                 double rssiNow      = tag.getPeakRssiInDbm();
@@ -101,10 +104,11 @@ public class RfidReaderService {
 
                 tagCache.merge(
                         epc,
-                        TagRead.of(epc, tid, antennaNow, rssiNow, lastSeenNow, seenThisReport, hostname),
+                        TagRead.of(epc, tid, alias, antennaNow, rssiNow, lastSeenNow, seenThisReport, hostname),
                         (prev, fresh) -> TagRead.of(
                                 epc,                                            // EPC
                                 tid,                                            // TID
+                                alias,                                          // Alias
                                 fresh.antennaPort(),                            // Antena más reciente
                                 fresh.rssi(),                                   // RSSI más reciente
                                 Math.max(prev.lastSeen(), fresh.lastSeen()),    // Ultimo avistamiento

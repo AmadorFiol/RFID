@@ -82,6 +82,7 @@ export default function RfidReaderView() {
                 <tr style={{ background: '#34495e', color: 'white' }}>
                     <th>EPC</th>
                     <th>TID</th>
+                    <th>Alias</th>
                     <th>Lecturas</th>
                     <th>Antena</th>
                     <th>RSSI (dBm)</th>
@@ -103,7 +104,8 @@ function TagRow( tag ) {
     return (
         <tr key={tag.tag.epc}>
             <td>{tag.tag.epc}</td>
-            <td>{tag.tag.tid??null}</td>
+            <td>{tag.tag.tid}</td>
+            <td>{tag.tag.alias}</td>
             <td>{tag.tag.readCount}</td>
             <td>{tag.tag.antennaPort}</td>
             <td>{tag.tag.rssi}</td>

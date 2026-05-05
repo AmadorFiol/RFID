@@ -14,7 +14,6 @@ import java.util.Map;
 @CrossOrigin
 public class RfidController {
 
-    // TODO: Adaptar para React
     private final RfidReaderService rfidService;
 
     @GetMapping("/status")
