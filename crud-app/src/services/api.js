@@ -13,8 +13,8 @@ export const clientesApi = {
     getByUsuario:   (cif)       => api.get(`/clientes/usuario/${cif}`),
     getDefault:     (cif)       => api.get(`/clientes/usuario/${cif}/default`),
     create:         (body)      => api.post('/clientes', body),
-    update:         (id, body)  => api.put(`/clientes/${id}`, body),
-    delete:         (id)        => api.delete(`/clientes/${id}`),
+    update:         (epc, body)  => api.put(`/clientes/${epc}`, body),
+    delete:         (epc)        => api.delete(`/clientes/${epc}`),
 }
 
 // --- Etiquetas ---

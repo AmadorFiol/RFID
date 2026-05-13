@@ -52,4 +52,7 @@ public class Etiqueta {
     @Id
     @Column(name="tid", length = 32)
     private String tid;
+
+    @Column(name="tagModel", length = 16)
+    private String tagModel;
 }

@@ -16,7 +16,7 @@ public class EtiquetaService {
     private final EtiquetaRepository etiquetaRepository;
 
     public List<Etiqueta> findAll() {
-        return etiquetaRepository.findAll(Sort.by("id"));
+        return etiquetaRepository.findAll(Sort.by("epc"));
     }
 
     public Optional<Etiqueta> findByEpc(String epc) {

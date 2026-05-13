@@ -1,6 +1,7 @@
 package com.matgroup.api.service;
 
 import com.impinj.octane.*;
+import com.matgroup.api.model.Etiqueta;
 import com.matgroup.api.model.TagRead;
 import jakarta.annotation.PreDestroy;
 import org.slf4j.Logger;
@@ -9,10 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.*;
 
 @Service
@@ -71,7 +69,6 @@ public class RfidReaderService {
         report.setIncludeFastId(true);
         report.setIncludeAntennaPortNumber(true);
         report.setIncludePeakRssi(true);
-        report.setIncludeLastSeenTime(true);
         report.setIncludeSeenCount(true);
         report.setMode(ReportMode.Individual); // un reporte por tag detectada
 
@@ -88,30 +85,33 @@ public class RfidReaderService {
         }
 
         // 4. Modo de búsqueda: DualTarget funciona bien para inventario continuo
+        settings.setRfMode(1002);
         settings.setSearchMode(SearchMode.DualTarget);
         settings.setSession(1);
+        settings.setTagPopulationEstimate(32);
 
         // 5. Listener que recibe cada reporte del reader
         reader.setTagReportListener((ImpinjReader r, TagReport tagReport) -> {
             for (Tag tag : tagReport.getTags()) {
                 String epc          = tag.getEpc().toHexString();
                 String tid          = tag.getTid().toHexString();
-                String alias        = (etiquetaService.findByEpc(tag.getEpc().toHexString()).get().getAlias());
+                Optional<Etiqueta> etiqueta = etiquetaService.findByEpc(tag.getEpc().toHexString());
+                String alias        = etiqueta.isPresent()? etiqueta.get().getAlias():"";
+                String tagModel     = tag.getModelDetails().getModelName().toString();
                 int seenThisReport  = tag.getTagSeenCount();
-                long lastSeenNow    = tag.getLastSeenTime().getLocalDateTime().getTime();
                 double rssiNow      = tag.getPeakRssiInDbm();
                 int antennaNow      = tag.getAntennaPortNumber();
 
                 tagCache.merge(
                         epc,
-                        TagRead.of(epc, tid, alias, antennaNow, rssiNow, lastSeenNow, seenThisReport, hostname),
+                        TagRead.of(epc, tid, alias, tagModel, antennaNow, rssiNow, seenThisReport, hostname),
                         (prev, fresh) -> TagRead.of(
                                 epc,                                            // EPC
                                 tid,                                            // TID
                                 alias,                                          // Alias
+                                tagModel,                                       // Modelo del chip
                                 fresh.antennaPort(),                            // Antena más reciente
                                 fresh.rssi(),                                   // RSSI más reciente
-                                Math.max(prev.lastSeen(), fresh.lastSeen()),    // Ultimo avistamiento
                                 prev.readCount() + fresh.readCount(),           // Contador de veces visto
                                 hostname                                        // Nombre del lector
                         )

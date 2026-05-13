@@ -16,7 +16,7 @@ public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
             "JOIN \"cliente\" c ON e.id_cliente=c.id " +
             "JOIN \"usuario\" u ON c.id_usuario=u.cif " +
             "WHERE u.cif=?1  " +
-            "ORDER BY e.id",
+            "ORDER BY e.epc",
             nativeQuery = true
     )
     List<Etiqueta> findByUsuarioIdOrderById(String idUsuario);

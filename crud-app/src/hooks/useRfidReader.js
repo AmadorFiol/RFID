@@ -32,6 +32,7 @@ export default function useRfidReader() {
             reconnectDelay: 3000,
             heartbeatIncoming: 10000,
             heartbeatOutgoing: 10000,
+
             onConnect: () => {
                 setConnected(true);
                 wsClient.subscribe('/topic/tags', (msg) => {
@@ -74,6 +75,7 @@ export default function useRfidReader() {
         if (res.status===200) {
             setTags([])
             toast.success("Tabla limpiada")
+            console.log("-------------------- Cleaned Table --------------------")
         }
     }, [])
 

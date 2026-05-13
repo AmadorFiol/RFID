@@ -35,6 +35,7 @@ export default function RfidReaderView() {
                     cliente: {id: cliente.id},
                     inventario: {id: 0},
                     alias: '',
+                    tagModel: tag.tagModel,
                 })
             }
         }
@@ -49,20 +50,22 @@ export default function RfidReaderView() {
             <h1>Lecturas RFID — Impinj R420</h1>
 
             <div style={{ display: 'flex', gap: '.5rem', alignItems: 'center', marginBottom: '1rem' }}>
-                <button
-                    onClick={start}
-                    disabled={reading}
-                    style={{ padding: '.5rem 1rem', background: '#2ecc71', color: 'white', border: 'none', cursor: 'pointer' }}
-                >
-                    ▶ Iniciar lectura
-                </button>
-                <button
-                    onClick={stop}
-                    disabled={!reading}
-                    style={{ padding: '.5rem 1rem', background: '#e74c3c', color: 'white', border: 'none', cursor: 'pointer' }}
-                >
-                    ■ Parar
-                </button>
+                {!reading?
+                    <button
+                        onClick={start}
+                        style={{ padding: '.5rem 1rem', background: '#2ecc71', color: 'white', border: 'none', cursor: 'pointer' }}
+                    >
+                        ▶ Iniciar lectura
+                     </button>
+                    :
+                    <button
+                        onClick={stop}
+                        style={{ padding: '.5rem 1rem', background: '#e74c3c', color: 'white', border: 'none', cursor: 'pointer' }}
+                    >
+                        ■ Parar lectura
+                    </button>
+                }
+
                 <button
                     onClick={clear}
                     style={{ padding: '.5rem 1rem', background: '#95a5a6', color: 'white', border: 'none', cursor: 'pointer' }}
@@ -83,10 +86,10 @@ export default function RfidReaderView() {
                     <th>EPC</th>
                     <th>TID</th>
                     <th>Alias</th>
+                    <th>Modelo del Tag</th>
                     <th>Lecturas</th>
                     <th>Antena</th>
                     <th>RSSI (dBm)</th>
-                    <th>Última vez visto</th>
                     <th>Reader</th>
                 </tr>
                 </thead>
@@ -106,10 +109,10 @@ function TagRow( tag ) {
             <td>{tag.tag.epc}</td>
             <td>{tag.tag.tid}</td>
             <td>{tag.tag.alias}</td>
+            <td>{tag.tag.tagModel}</td>
             <td>{tag.tag.readCount}</td>
             <td>{tag.tag.antennaPort}</td>
             <td>{tag.tag.rssi}</td>
-            <td>{new Date(tag.tag.lastSeen).toLocaleTimeString()}</td>
             <td>{tag.tag.readerHostname}</td>
         </tr>
     );
