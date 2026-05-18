@@ -55,4 +55,7 @@ public class Etiqueta {
 
     @Column(name="tagModel", length = 16)
     private String tagModel;
+
+    @Column(name="alertar", columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
+    private boolean alertar;
 }

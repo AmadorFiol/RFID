@@ -3,5 +3,5 @@ rfid:
         hostname: speedwayr-13-5e-86.local
         tx-power-dbm: 30.0
         rx-sensitivity-dbm: -80.0
-        antennas: 1
-        report-interval-ms: 5000 # Reporte cada 5 s
+        antennas: 1,4
+        report-interval-ms: 2500 # Reporte cada 2.5 s

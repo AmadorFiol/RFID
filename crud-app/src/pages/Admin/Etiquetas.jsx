@@ -10,6 +10,7 @@ const EMPTY = {
     inventarioId: '',
     alias: '',
     tagModel: '',
+    alertar: false,
 }
 
 export default function Etiquetas() {
@@ -56,6 +57,7 @@ export default function Etiquetas() {
             inventarioId: etiqueta.inventario.id,
             alias: etiqueta.alias??'',
             tagModel: etiqueta.tagModel??'',
+            alertar: etiqueta.alertar,
         })
         setModalOpen(true)
     }
@@ -73,6 +75,7 @@ export default function Etiquetas() {
         inventario: { id: form.inventarioId },
         alias: form.alias,
         tagModel: form.tagModel,
+        alertar: form.alertar,
     })
 
     const handleSubmit = async () => {
@@ -120,6 +123,7 @@ export default function Etiquetas() {
                         <th>Cliente</th>
                         <th>Inventario</th>
                         <th>Modelo del tag</th>
+                        <th>Alertar?</th>
                         <th style={{ textAlign: 'right' }}>Acciones</th>
                     </tr>
                     </thead>
@@ -152,6 +156,7 @@ export default function Etiquetas() {
                               </span>
                             </td>
                             <td>{e.tagModel}</td>
+                            <td>{e.alertar? "Si":"No"}</td>
                             <td className="td-actions">
                                 <button className="btn btn-edit" onClick={() => openEdit(e)}>[edit]</button>
                                 <button className="btn btn-del" onClick={() => handleDelete(e)}>[del]</button>
@@ -233,6 +238,14 @@ export default function Etiquetas() {
                         disabled={true}
                         onChange={(e) => setForm({ ...form, tagModel: e.target.value })}
                         placeholder="Modelo del chip de la etiqueta"
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Alertar si se encuentra?</label>
+                    <input
+                        type="checkbox"
+                        checked={form.alertar}
+                        onChange={(e) => setForm({...form,alertar: e.target.checked})}
                     />
                 </div>
             </FormModal>

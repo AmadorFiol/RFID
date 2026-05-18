@@ -101,10 +101,11 @@ public class RfidReaderService {
                 int seenThisReport  = tag.getTagSeenCount();
                 double rssiNow      = tag.getPeakRssiInDbm();
                 int antennaNow      = tag.getAntennaPortNumber();
+                boolean alertar     = etiqueta.map(Etiqueta::isAlertar).orElse(false);
 
                 tagCache.merge(
                         epc,
-                        TagRead.of(epc, tid, alias, tagModel, antennaNow, rssiNow, seenThisReport, hostname),
+                        TagRead.of(epc, tid, alias, tagModel, antennaNow, rssiNow, seenThisReport, hostname, alertar),
                         (prev, fresh) -> TagRead.of(
                                 epc,                                            // EPC
                                 tid,                                            // TID
@@ -113,7 +114,8 @@ public class RfidReaderService {
                                 fresh.antennaPort(),                            // Antena más reciente
                                 fresh.rssi(),                                   // RSSI más reciente
                                 prev.readCount() + fresh.readCount(),           // Contador de veces visto
-                                hostname                                        // Nombre del lector
+                                hostname,                                       // Nombre del lector
+                                alertar
                         )
                 );
 

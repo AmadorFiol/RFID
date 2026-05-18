@@ -72,6 +72,7 @@ export default function RfidReaderView() {
                 >
                     Limpiar
                 </button>
+
                 <span style={{ marginLeft: '1rem', fontWeight: 'bold', color: reading ? '#2ecc71' : '#7f8c8d' }}>
                     {reading ? 'LEYENDO' : 'Parado'}
                 </span>
@@ -95,6 +96,7 @@ export default function RfidReaderView() {
                 </thead>
                 <tbody>
                 {tags.map(t => {
+                    t.alertar && toast.info(`Se ha encontrado la etiqueta ${t.alias}`)
                     return <TagRow tag={t}/>
                 })}
                 </tbody>
