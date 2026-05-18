@@ -36,6 +36,7 @@ export default function RfidReaderView() {
                     inventario: {id: 0},
                     alias: '',
                     tagModel: tag.tagModel,
+                    alertar: false,
                 })
             }
         }
