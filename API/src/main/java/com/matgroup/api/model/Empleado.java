@@ -22,7 +22,7 @@ public class Empleado {
     private Usuario usuario;
 
     @OneToOne
-    @JoinColumn(name = "id_etiqueta", referencedColumnName = "epc", nullable = false)
+    @JoinColumn(name = "id_etiqueta", referencedColumnName = "iid", nullable = false)
     private Etiqueta etiqueta;
 
     @Column(name="dni", length = 16)
