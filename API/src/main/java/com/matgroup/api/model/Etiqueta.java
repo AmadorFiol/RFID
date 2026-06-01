@@ -38,10 +38,6 @@ public class Etiqueta {
     @JoinColumn(name = "id_inventario", nullable = false)
     private Inventario inventario;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
-    private Cliente cliente;
-
     @Column(name = "alias", length = 16)
     private String alias;
 
@@ -64,9 +60,8 @@ public class Etiqueta {
     private Long iid;
 
     // Constructor sin iid
-    public Etiqueta(Inventario inventario, Cliente cliente, String alias, String epc, String tid, String tagModel, boolean alertar) {
+    public Etiqueta(Inventario inventario, String alias, String epc, String tid, String tagModel, boolean alertar) {
         this.inventario = inventario;
-        this.cliente = cliente;
         this.alias = alias;
         this.epc = epc;
         this.tid = tid;
