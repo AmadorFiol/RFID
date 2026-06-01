@@ -22,8 +22,8 @@ public class Fichaje {
     @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = false)
     private Empleado empleado;
 
-    @Column(name = "dentro")
-    private Boolean dentro;
+    @Column(name = "entrada")
+    private Boolean entrada;
 
     @Column(name = "timestamp", columnDefinition = "TIMESTAMP")
     private Timestamp timestamp;
