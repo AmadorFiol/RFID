@@ -58,4 +58,19 @@ public class Etiqueta {
 
     @Column(name="alertar", columnDefinition = "BOOLEAN NOT NULL DEFAULT FALSE")
     private boolean alertar;
+
+    //Id interno para poder hacer las FK y otras operaciones
+    @Column(name="iid", columnDefinition = "BIGSERIAL", unique = true)
+    private Long iid;
+
+    // Constructor sin iid
+    public Etiqueta(Inventario inventario, Cliente cliente, String alias, String epc, String tid, String tagModel, boolean alertar) {
+        this.inventario = inventario;
+        this.cliente = cliente;
+        this.alias = alias;
+        this.epc = epc;
+        this.tid = tid;
+        this.tagModel = tagModel;
+        this.alertar = alertar;
+    }
 }
