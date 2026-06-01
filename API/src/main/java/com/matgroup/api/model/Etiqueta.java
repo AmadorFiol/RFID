@@ -46,7 +46,7 @@ public class Etiqueta {
     private String alias;
 
     @Id
-    @Column(name = "epc", length = 32, nullable = false)
+    @Column(name = "epc", length = 64, nullable = false)
     private String epc;
 
     @Id
