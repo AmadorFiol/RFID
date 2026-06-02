@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import {useState, useEffect, useContext} from 'react'
 import { toast } from 'react-toastify'
 import {infoApi, pedidosApi, plantillasApi} from '../../services/api.js'
 import FormModal from '../../components/FormModal.jsx'
 import * as Papa from 'papaparse'
+import {UserContext} from "../../App.jsx";
 
 const EMPTY = {
     plantillaId: '',
@@ -17,13 +18,14 @@ export default function Pedidos() {
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState(null)
     const [form, setForm] = useState(EMPTY)
+    const user = useContext(UserContext);
 
     const load = async () => {
         setLoading(true)
         try {
             const [pe, pl] = await Promise.all([
-                pedidosApi.getAll(),
-                plantillasApi.getAll()
+                pedidosApi.getByUsuario(user.cif),
+                plantillasApi.getByUsuario(user.cif)
             ])
             setPedidos(pe.data??null)
             setPlantillas(pl.data??null)
