@@ -9,7 +9,6 @@ const api = axios.create({
 // --- Clientes ---
 export const clientesApi = {
     getAll:         ()          => api.get('/clientes'),
-    getById:        (id)        => api.get(`/clientes/${id}`),
     getByUsuario:   (cif)       => api.get(`/clientes/usuario/${cif}`),
     getDefault:     (cif)       => api.get(`/clientes/usuario/${cif}/default`),
     create:         (body)      => api.post('/clientes', body),
@@ -20,7 +19,6 @@ export const clientesApi = {
 // --- Etiquetas ---
 export const etiquetasApi = {
     getAll:         ()          => api.get('/etiquetas'),
-    getById:        (id)        => api.get(`/etiquetas/${id}`),
     getByUsuario:   (cif)       => api.get(`/etiquetas/usuario/${cif}`),
     getByEpcAndTid: (epc,tid)   => api.get(`/etiquetas/${epc}/${tid}`),
     create:         (body)      => api.post('/etiquetas', body),
@@ -31,7 +29,6 @@ export const etiquetasApi = {
 // --- Inventarios ---
 export const inventariosApi = {
     getAll:         ()          => api.get('/inventarios'),
-    getById:        (id)        => api.get(`/inventarios/${id}`),
     create:         (body)      => api.post('/inventarios', body),
     update:         (id, body)  => api.put(`/inventarios/${id}`, body),
     delete:         (id)        => api.delete(`/inventarios/${id}`),
@@ -40,7 +37,6 @@ export const inventariosApi = {
 // --- Paginas ---
 export const paginasApi = {
     getAll:         ()          => api.get('/paginas'),
-    getById:        (id)        => api.get(`/paginas/${id}`),
     getByRol:       (idRol)     => api.get(`/paginas/rol/${idRol}`),
     create:         (body)      => api.post('/paginas', body),
     update:         (id, body)  => api.put(`/paginas/${id}`, body),
@@ -50,7 +46,6 @@ export const paginasApi = {
 // --- Pedidos ---
 export const pedidosApi = {
     getAll:         ()          => api.get('/pedidos'),
-    getById:        (id)        => api.get(`/pedidos/${id}`),
     getByUsuario:   (cif)       => api.get(`/pedidos/usuario/${cif}`),
     create:         (body)      => api.post('/pedidos', body),
     update:         (id, body)  => api.put(`/pedidos/${id}`, body),
@@ -60,7 +55,6 @@ export const pedidosApi = {
 // --- Plantillas ---
 export const plantillasApi={
     getAll:         ()          => api.get('/plantillas'),
-    getById:        (id)        => api.get(`/plantillas/${id}`),
     getByUsuario:   (cif)       => api.get(`/plantillas/usuario/${cif}`),
     create:         (body)      => api.post('/plantillas', body),
     update:         (id, body)  => api.put(`/plantillas/${id}`, body),
@@ -70,7 +64,6 @@ export const plantillasApi={
 // --- Roles ---
 export const rolesApi = {
     getAll:         ()          => api.get('/roles'),
-    getById:        (id)        => api.get(`/roles/${id}`),
     create:         (body)      => api.post('/roles', body),
     update:         (id, body)  => api.put(`/roles/${id}`, body),
     delete:         (id)        => api.delete(`/roles/${id}`),
@@ -79,7 +72,6 @@ export const rolesApi = {
 // --- Usuarios ---
 export const usuariosApi = {
     getAll:         ()          => api.get('/usuarios'),
-    getById:        (cif)       => api.get(`/usuarios/${cif}`),
     login:          (body)      => api.post(`/usuarios/login`, body),
     create:         (body)      => api.post('/usuarios', body),
     update:         (cif, body) => api.put(`/usuarios/${cif}`, body),
