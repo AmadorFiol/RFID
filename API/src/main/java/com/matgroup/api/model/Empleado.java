@@ -31,6 +31,9 @@ public class Empleado {
     @Column(name="nombre", length = 32)
     private String nombre;
 
-    @Column(name="apellido", length = 32)
-    private String apellido;
+    @Column(name="apellido1", length = 32)
+    private String apellido1;
+
+    @Column(name="apellido2",length = 32)
+    private String apellido2;
 }
