@@ -133,7 +133,7 @@ export default function Etiquetas() {
                     ) : etiquetas.length === 0 ? (
                         <tr className="state-row"><td colSpan={8}>Sin datos</td></tr>
                     ) : etiquetas.map((e) => (
-                        <tr key={e.epc}>
+                        <tr key={e.epc+e.tid}>
                             <td>{e.epc}</td>
                             <td>{e.tid}</td>
                             <td>{e.alias}</td>
