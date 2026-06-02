@@ -31,7 +31,7 @@ public class FichajeController {
     }
 
     @GetMapping("/empleado/{idEmpleado}")
-    public ResponseEntity<List<Fichaje>> getByUsuario(@PathVariable("idEmpleado") Long idEmpleado) {
+    public ResponseEntity<List<Fichaje>> getByEmpleado(@PathVariable("idEmpleado") Long idEmpleado) {
         List<Fichaje> fichajeList = fichajeService.findByEmpleado(idEmpleado);
 
         if(fichajeList.isEmpty()){
