@@ -1,6 +1,6 @@
 import useRfidReader from '../hooks/useRfidReader.js';
 import {clientesApi, etiquetasApi} from "../services/api.js";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
 import {UserContext} from "../App.jsx";
 
@@ -8,6 +8,8 @@ export default function RfidReaderView() {
     const { tags, reading, connected, start, stop, clear } = useRfidReader();
     const [cliente, setCliente] = useState()
     const user = useContext(UserContext)
+    let tagsIn = useRef([])
+    let tagsOut = useRef([])
 
     const load = async ()=>{
         try{
@@ -25,10 +27,10 @@ export default function RfidReaderView() {
         tag.tid===''? tag.tid="000000000000000000000000":null
         try{
             await etiquetasApi.getByEpcAndTid(tag.epc,tag.tid)
-            console.log(`[200] ${tag.epc} OK`)
         } catch (e) {
             if (e.isAxiosError && e.status === 404) {
                 console.log(`[404] ${tag.epc} NOT FOUND`)
+                console.log("Creando registro en la DB")
                 etiquetasApi.create({
                     epc: tag.epc,
                     tid: tag.tid,
@@ -57,7 +59,7 @@ export default function RfidReaderView() {
                         style={{ padding: '.5rem 1rem', background: '#2ecc71', color: 'white', border: 'none', cursor: 'pointer' }}
                     >
                         ▶ Iniciar lectura
-                     </button>
+                    </button>
                     :
                     <button
                         onClick={stop}
@@ -68,7 +70,7 @@ export default function RfidReaderView() {
                 }
 
                 <button
-                    onClick={clear}
+                    onClick={() => { tagsIn.current = []; tagsOut.current = []; clear() }}
                     style={{ padding: '.5rem 1rem', background: '#95a5a6', color: 'white', border: 'none', cursor: 'pointer' }}
                 >
                     Limpiar
@@ -89,34 +91,39 @@ export default function RfidReaderView() {
                     <th>TID</th>
                     <th>Alias</th>
                     <th>Modelo del Tag</th>
-                    <th>Lecturas</th>
-                    <th>Antena</th>
-                    <th>RSSI (dBm)</th>
+                    <th>Localización</th>
                     <th>Reader</th>
                 </tr>
                 </thead>
                 <tbody>
                 {tags.map(t => {
-                    t.alertar && toast.info(`Se ha encontrado la etiqueta ${t.alias}`)
-                    return <TagRow tag={t}/>
+                    if (t.alertar) {
+                        if (t.antennaPort === 1 && !tagsIn.current.includes(t.epc)) {
+                            tagsIn.current.push(t.epc)
+                            const i = tagsOut.current.indexOf(t.epc)
+                            i>0? tagsOut.current.splice(i,1):null
+                            toast.info(`${t.alias} ha entrado`)
+                        } else if (t.antennaPort === 4 && !tagsOut.current.includes(t.epc)) {
+                            tagsOut.current.push(t.epc)
+                            const i = tagsIn.current.indexOf(t.epc)
+                            i>0? tagsIn.current.splice(i,1):null
+                            toast.info(`${t.alias} ha salido`)
+                        }
+                    }
+
+                    return (
+                        <tr key={t.epc+t.tid} className={"reading-row-"+(tagsIn.current.includes(t.epc)? "in":"out")}>
+                            <td>{t.epc}</td>
+                            <td>{t.tid}</td>
+                            <td>{t.alias}</td>
+                            <td>{t.tagModel}</td>
+                            <td>{tagsIn.current.includes(t.epc)? "Dentro":"Fuera"}</td>
+                            <td>{t.readerHostname}</td>
+                        </tr>
+                    )
                 })}
                 </tbody>
             </table>
         </div>
-    );
-}
-
-function TagRow( tag ) {
-    return (
-        <tr key={tag.tag.epc}>
-            <td>{tag.tag.epc}</td>
-            <td>{tag.tag.tid}</td>
-            <td>{tag.tag.alias}</td>
-            <td>{tag.tag.tagModel}</td>
-            <td>{tag.tag.readCount}</td>
-            <td>{tag.tag.antennaPort}</td>
-            <td>{tag.tag.rssi}</td>
-            <td>{tag.tag.readerHostname}</td>
-        </tr>
     );
 }

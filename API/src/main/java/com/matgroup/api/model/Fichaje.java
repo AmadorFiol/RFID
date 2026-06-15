@@ -19,7 +19,7 @@ public class Fichaje {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id_empleado", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "id_empleado", referencedColumnName = "dni", nullable = false)
     private Empleado empleado;
 
     @Column(name = "entrada")
@@ -27,4 +27,10 @@ public class Fichaje {
 
     @Column(name = "timestamp", columnDefinition = "TIMESTAMP")
     private Timestamp timestamp;
+
+    public Fichaje(Empleado empleado, Boolean entrada) {
+        this.empleado = empleado;
+        this.entrada = entrada;
+        this.timestamp = new Timestamp(System.currentTimeMillis());
+    }
 }

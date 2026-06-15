@@ -12,8 +12,17 @@ export const clientesApi = {
     getByUsuario:   (cif)       => api.get(`/clientes/usuario/${cif}`),
     getDefault:     (cif)       => api.get(`/clientes/usuario/${cif}/default`),
     create:         (body)      => api.post('/clientes', body),
-    update:         (epc, body)  => api.put(`/clientes/${epc}`, body),
-    delete:         (epc)        => api.delete(`/clientes/${epc}`),
+    update:         (epc, body) => api.put(`/clientes/${epc}`, body),
+    delete:         (epc)       => api.delete(`/clientes/${epc}`),
+}
+
+// --- Empleados ---
+export const empleadosApi = {
+    getAll:         ()          => api.get('/empleados'),
+    getByUsuario:   (cif)       => api.get(`/empleados/usuario/${cif}`),
+    create:         (body)      => api.post('/empleados',body),
+    update:         (id,body)   => api.put(`/empleados/${id}`,body),
+    delete:         (id)        => api.delete(`/empleados/${id}`),
 }
 
 // --- Etiquetas ---
@@ -24,6 +33,18 @@ export const etiquetasApi = {
     create:         (body)      => api.post('/etiquetas', body),
     update:         (id, body)  => api.put(`/etiquetas/${id}`, body),
     delete:         (id)        => api.delete(`/etiquetas/${id}`),
+}
+
+// --- Fichajes ---
+export const fichajesApi = {
+    getAll:         ()          => api.get('/fichajes'),
+    getByEmpleado:  (idEmp)     => api.get(`/fichajes/empleado/${idEmp}`),
+    create:         (body)      => api.post('/fichajes',body),
+    update:         (id, body)  => api.put(`/fichajes/${id}`,body),
+    delete:         (id)        => api.delete(`/fichajes/${id}`),
+    getStatus:      ()          => api.get('/fichajes/status'),
+    start:          ()          => api.post('/fichajes/start'),
+    stop:           ()          => api.post('/fichajes/stop'),
 }
 
 // --- Inventarios ---

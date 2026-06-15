@@ -1,6 +1,7 @@
 package com.matgroup.api.controller;
 
 import com.matgroup.api.model.Fichaje;
+import com.matgroup.api.service.RfidFichajeService;
 import com.matgroup.api.service.FichajeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,10 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/fichaje")
+@RequestMapping("/api/fichajes")
 @RequiredArgsConstructor
 @CrossOrigin
 public class FichajeController {
@@ -31,7 +33,7 @@ public class FichajeController {
     }
 
     @GetMapping("/empleado/{idEmpleado}")
-    public ResponseEntity<List<Fichaje>> getByEmpleado(@PathVariable("idEmpleado") Long idEmpleado) {
+    public ResponseEntity<List<Fichaje>> getByEmpleado(@PathVariable("idEmpleado") String idEmpleado) {
         List<Fichaje> fichajeList = fichajeService.findByEmpleado(idEmpleado);
 
         if(fichajeList.isEmpty()){
@@ -64,5 +66,25 @@ public class FichajeController {
         }
         fichajeService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    // Endpoints rfid service
+    private final RfidFichajeService rfidFichajeService;
+
+    @GetMapping("/status")
+    public Map<String, Object> status() {
+        return Map.of("reading", rfidFichajeService.isReading());
+    }
+
+    @PostMapping("/start")
+    public Map<String, Object> start() throws Exception {
+        rfidFichajeService.startReading();
+        return Map.of("status", "started");
+    }
+
+    @PostMapping("/stop")
+    public Map<String, Object> stop() throws Exception {
+        rfidFichajeService.stopReading();
+        return Map.of("status", "stopped");
     }
 }

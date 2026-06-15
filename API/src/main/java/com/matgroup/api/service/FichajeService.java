@@ -16,15 +16,19 @@ public class FichajeService {
     private final FichajeRepository fichajeRepository;
 
     public List<Fichaje> findAll() {
-        return fichajeRepository.findAll(Sort.by("empleadoId"));
+        return fichajeRepository.findAll(Sort.by("id"));
     }
 
     public Optional<Fichaje> findById(Long id) {
         return fichajeRepository.findById(id);
     }
 
-    public List<Fichaje> findByEmpleado(Long empleadoId) {
-        return fichajeRepository.findByEmpleadoIdOrderById(empleadoId);
+    public List<Fichaje> findByEmpleado(String empleadoDni) {
+        return fichajeRepository.findByEmpleadoDniOrderById(empleadoDni);
+    }
+
+    public Optional<Fichaje> findLast(String empleadoDni) {
+        return fichajeRepository.findByEmpleadoDniLast(empleadoDni);
     }
 
     public Fichaje save(Fichaje fichaje) {

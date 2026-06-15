@@ -15,9 +15,9 @@ public class EmpleadoConverter implements Converter<String, Empleado> {
     }
 
     @Override
-    public Empleado convert(String id) {
+    public Empleado convert(String dni) {
         try {
-            return empleadoService.findById(Long.parseLong(id)).orElse(null);
+            return empleadoService.findByDni(dni).orElse(null);
         } catch (NumberFormatException e) {
             return null;
         }

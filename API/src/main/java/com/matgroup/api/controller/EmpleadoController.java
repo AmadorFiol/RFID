@@ -23,13 +23,6 @@ public class EmpleadoController {
         return empleadoService.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Empleado> getById(@PathVariable("id") Long id) {
-        return empleadoService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @GetMapping("/usuario/{idUser}")
     public ResponseEntity<List<Empleado>> getByUsuario(@PathVariable("idUser") String idUser) {
         List<Empleado> empleadoList = empleadoService.findByUsuario(idUser);
@@ -43,26 +36,33 @@ public class EmpleadoController {
         }
     }
 
+    @GetMapping("/etiqueta/{idEtiqueta}")
+    public ResponseEntity<Empleado> getByEtiqueta(@PathVariable("idEtiqueta") String idEtiqueta) {
+        return empleadoService.findByEtiqueta(Long.parseLong(idEtiqueta))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @PostMapping
     public ResponseEntity<Empleado> create(@RequestBody Empleado empleado) {
         return ResponseEntity.status(HttpStatus.CREATED).body(empleadoService.save(empleado));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Empleado> update(@PathVariable("id") Long id, @RequestBody Empleado empleado) {
-        if (empleadoService.findById(id).isEmpty()) {
+    @PutMapping("/{dni}")
+    public ResponseEntity<Empleado> update(@PathVariable("dni") String dni, @RequestBody Empleado empleado) {
+        if (empleadoService.findByDni(dni).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        empleado.setId(id);
+        empleado.setDni(dni);
         return ResponseEntity.ok(empleadoService.save(empleado));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
-        if (empleadoService.findById(id).isEmpty()) {
+    @DeleteMapping("/{dni}")
+    public ResponseEntity<Void> delete(@PathVariable("dni") String dni) {
+        if (empleadoService.findByDni(dni).isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        empleadoService.deleteById(id);
+        empleadoService.deleteByDni(dni);
         return ResponseEntity.noContent().build();
     }
 }

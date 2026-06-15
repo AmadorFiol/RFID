@@ -19,19 +19,23 @@ public class EmpleadoService {
         return empleadoRepository.findAll(Sort.by("usuarioCif"));
     }
 
-    public Optional<Empleado> findById(Long id) {
-        return empleadoRepository.findById(id);
+    public Optional<Empleado> findByDni(String dni) {
+        return empleadoRepository.findByDni(dni);
     }
 
     public List<Empleado> findByUsuario(String usuarioCif) {
-        return empleadoRepository.findByUsuarioCifOrderById(usuarioCif);
+        return empleadoRepository.findByUsuarioCifOrderByDni(usuarioCif);
+    }
+
+    public Optional<Empleado> findByEtiqueta(Long etiquetaId) {
+        return empleadoRepository.findByEtiquetaIid(etiquetaId);
     }
 
     public Empleado save(Empleado empleado) {
         return empleadoRepository.save(empleado);
     }
 
-    public void deleteById(Long id) {
-        empleadoRepository.deleteById(id);
+    public void deleteByDni(String dni) {
+        empleadoRepository.deleteByDni(dni);
     }
 }

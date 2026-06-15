@@ -1,7 +1,7 @@
 import Popup from 'reactjs-popup'
 import 'reactjs-popup/dist/index.css'
 
-export default function FormModal({ open, onClose, title, onSubmit, children, submitLabel = 'Guardar' }) {
+export default function FormModal({ open, onClose, title, onSubmit, onDelete, children, submitLabel = 'Guardar' }) {
     const handleSubmit = (e) => {
         e.preventDefault()
         onSubmit()
@@ -15,6 +15,11 @@ export default function FormModal({ open, onClose, title, onSubmit, children, su
                     <form onSubmit={handleSubmit}>
                         {children}
                         <div className="form-actions">
+                            {onDelete &&
+                            <button type="button" className="btn btn-del" onClick={()=>onDelete({id: children[0].props.value})}>
+                                Eliminar
+                            </button>
+                            }
                             <button type="button" className="btn btn-cancel" onClick={onClose}>
                                 Cancelar
                             </button>

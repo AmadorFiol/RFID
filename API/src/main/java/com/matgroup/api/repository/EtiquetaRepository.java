@@ -13,7 +13,8 @@ public interface EtiquetaRepository extends JpaRepository<Etiqueta, Long> {
 
     @Query(value = "SELECT e.* " +
             "FROM \"etiqueta\" e " +
-            "JOIN \"cliente\" c ON e.id_cliente=c.id " +
+            "JOIN \"etiqueta_cliente\" ec ON e.iid=ec.id_etiqueta " +
+            "JOIN \"cliente\" c ON ec.id_cliente=c.id " +
             "JOIN \"usuario\" u ON c.id_usuario=u.cif " +
             "WHERE u.cif=?1  " +
             "ORDER BY e.epc",

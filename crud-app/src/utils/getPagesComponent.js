@@ -6,11 +6,12 @@ import Pedidos from "../pages/Admin/Pedidos.jsx"
 import Plantillas from "../pages/Admin/Plantillas.jsx"
 import Roles from "../pages/Admin/Roles.jsx"
 import Usuarios from "../pages/Admin/Usuarios.jsx"
-
+import Empleados from "../pages/Comun/Empleados.jsx";
 import ClientesComun from "../pages/Comun/Clientes.jsx"
 import EtiquetasComun from "../pages/Comun/Etiquetas.jsx"
 import PedidosComun from "../pages/Comun/Pedidos.jsx"
 import PlantillasComun from "../pages/Comun/Plantillas.jsx"
+import Fichajes from "../pages/Comun/Fichajes.jsx";
 
 export const getPagesComponent = (pageId)=>{
     switch (pageId) {
@@ -38,6 +39,10 @@ export const getPagesComponent = (pageId)=>{
             return PedidosComun
         case 12:
             return PlantillasComun
+        case 13:
+            return Empleados
+        case 52:
+            return Fichajes
         default:
             console.error(`[ERROR 404] Componente para pagina con id ${pageId} no encontrado`)
             break

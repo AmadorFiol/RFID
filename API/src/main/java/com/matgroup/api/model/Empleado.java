@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 public class Empleado {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BIGSERIAL")
-    private Long id;
+    @Column(name="dni", length = 16)
+    private String dni;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario", referencedColumnName = "cif", nullable = false)
@@ -24,9 +23,6 @@ public class Empleado {
     @OneToOne
     @JoinColumn(name = "id_etiqueta", referencedColumnName = "iid", nullable = false)
     private Etiqueta etiqueta;
-
-    @Column(name="dni", length = 16)
-    private String dni;
 
     @Column(name="nombre", length = 32)
     private String nombre;

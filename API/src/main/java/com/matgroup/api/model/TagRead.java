@@ -6,12 +6,11 @@ public record TagRead(
         String alias,
         String tagModel,
         int antennaPort,
-        double rssi,
-        int readCount,
+        long lastSeen,
         String readerHostname,
         boolean alertar
 ) {
-    public static TagRead of(String epc, String tid, String alias, String tagModel, int antenna, double rssi, int count, String host, boolean alertar) {
-        return new TagRead(epc, tid, alias, tagModel, antenna, rssi, count, host, alertar);
+    public static TagRead of(String epc, String tid, String alias, String tagModel, int antenna, long lastSeen, String host, boolean alertar) {
+        return new TagRead(epc, tid, alias, tagModel, antenna, lastSeen, host, alertar);
     }
 }

@@ -4,6 +4,7 @@ import com.impinj.octane.*;
 import com.matgroup.api.model.Etiqueta;
 import com.matgroup.api.model.TagRead;
 import jakarta.annotation.PreDestroy;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,10 +22,10 @@ public class RfidReaderService {
     private final SimpMessagingTemplate messagingTemplate;
     private final ImpinjReader reader = new ImpinjReader();
     private final Map<String, TagRead> tagCache = new ConcurrentHashMap<>();
+    private final EtiquetaService etiquetaService;
 
     // Reportes periodicos
     private final Set<String> pendingUpdates = ConcurrentHashMap.newKeySet();
-    private final EtiquetaService etiquetaService;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> flushTask;
 
@@ -43,6 +44,7 @@ public class RfidReaderService {
     @Value("${rfid.reader.report-interval-ms}")
     private long reportIntervalMs;
 
+    @Getter
     private volatile boolean reading = false;
 
     public RfidReaderService(SimpMessagingTemplate messagingTemplate, EtiquetaService etiquetaService) {
@@ -69,7 +71,7 @@ public class RfidReaderService {
         report.setIncludeFastId(true);
         report.setIncludeAntennaPortNumber(true);
         report.setIncludePeakRssi(true);
-        report.setIncludeSeenCount(true);
+        report.setIncludeLastSeenTime(true);
         report.setMode(ReportMode.Individual); // un reporte por tag detectada
 
         // 3. Configurar antenas: desactivar todas y luego activar las indicadas
@@ -98,22 +100,22 @@ public class RfidReaderService {
                 Optional<Etiqueta> etiqueta = etiquetaService.findByEpc(tag.getEpc().toHexString());
                 String alias        = etiqueta.isPresent()? etiqueta.get().getAlias():"";
                 String tagModel     = tag.getModelDetails().getModelName().toString();
-                int seenThisReport  = tag.getTagSeenCount();
-                double rssiNow      = tag.getPeakRssiInDbm();
+                long lastSeen       = tag.getLastSeenTime().getLocalDateTime().getTime();
                 int antennaNow      = tag.getAntennaPortNumber();
                 boolean alertar     = etiqueta.map(Etiqueta::isAlertar).orElse(false);
 
                 tagCache.merge(
                         epc,
-                        TagRead.of(epc, tid, alias, tagModel, antennaNow, rssiNow, seenThisReport, hostname, alertar),
+                        TagRead.of(epc, tid, alias, tagModel, antennaNow, lastSeen, hostname, alertar),
                         (prev, fresh) -> TagRead.of(
-                                epc,                                            // EPC
-                                tid,                                            // TID
-                                alias,                                          // Alias
-                                tagModel,                                       // Modelo del chip
-                                fresh.antennaPort(),                            // Antena más reciente
-                                fresh.rssi(),                                   // RSSI más reciente
-                                prev.readCount() + fresh.readCount(),           // Contador de veces visto
+                                epc,
+                                tid,
+                                alias,
+                                tagModel,
+                                fresh.lastSeen()-prev.lastSeen()>=10000?
+                                        fresh.antennaPort():prev.antennaPort(), // Cambio la antena/location cada 10 s
+                                fresh.lastSeen()-prev.lastSeen()>=10000?
+                                        fresh.lastSeen():prev.lastSeen(),       // Actualizo "ultima" vista cada 10s
                                 hostname,                                       // Nombre del lector
                                 alertar
                         )
@@ -148,9 +150,52 @@ public class RfidReaderService {
         try {
             if (pendingUpdates.isEmpty()) return;
 
+            //Revisamos aquellas que lleven 30s sin aparecer
+            long now = (new Date()).getTime();
+            Map<String, TagRead> oldTagCache = new ConcurrentHashMap<>(tagCache);
+            for (TagRead tr : oldTagCache.values()) {
+                long timeSinceLastSeen = now-tr.lastSeen();
+
+                if(tr.epc().equals("060196000000000000000E03")) {
+                    System.out.println("     Now     : " + now);
+                    System.out.println("  Last seen  : " + tr.lastSeen());
+                    System.out.println("Time since LS: " + timeSinceLastSeen);
+                }
+                /*
+                    Init gap:       Now - LastSeen
+                    Init gap parece rondar los -3.740.000, pero no es fijo
+                    Pq la resta me da un número tan grande, y pq es negativo?
+                    Pq Now es menor que LastSeen si se establece después?
+                    28/05: Ahora Init gap ronda los -3,750M, pq el núm. es más grande??
+                    29/05: Ahora está en los -3,760M, PORQUEEEEEEEEEEEEEE
+                           El próximo lunes estará en los 3,790M entonces????
+                    01/06: Ha vuelto a los -3,750M..., está bien que baje, pero pq lo hizó??
+                    02/06: Hoy ha vuelto a subir en 10k, pq bajo entonces durante el finde??
+                    03/06: Ha vuelto a subir en 10k, a partir de hoy si solo hace eso no habrá reporte diario
+                    05/06: Hoy ronda los -3,800M peró era de esperar por el aumento de 10k
+
+                    Trigger gap:    Init gap + 30k
+                    Para obtener Trigger gap si se sigue la lógica de estar en ms
+                */
+
+                if (tr.alertar() && tr.antennaPort()!=4 && timeSinceLastSeen >= 30000) {
+                    tagCache.replace(tr.epc(),new TagRead(
+                            tr.epc(),
+                            tr.tid(),
+                            tr.alias(),
+                            tr.tagModel(),
+                            4,
+                            tr.lastSeen(),
+                            tr.readerHostname(),
+                            true
+                    ));
+                    pendingUpdates.add(tr.epc());
+                }
+            }
+
             // Snapshot atómico: copiamos y vaciamos el set
             List<String> epcsToSend = new ArrayList<>(pendingUpdates);
-            pendingUpdates.removeAll(epcsToSend);
+            epcsToSend.forEach(pendingUpdates::remove);
 
             List<TagRead> snapshot = new ArrayList<>(epcsToSend.size());
             for (String epc : epcsToSend) {
@@ -179,10 +224,6 @@ public class RfidReaderService {
         if (reader.isConnected()) reader.disconnect();
         reading = false;
         log.info("Lectura detenida.");
-    }
-
-    public boolean isReading() {
-        return reading;
     }
 
     public Map<String, TagRead> getCurrentTags() {

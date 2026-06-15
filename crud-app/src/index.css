@@ -366,6 +366,15 @@ tbody td {
     height: 1.5rem;
 }
 
+/* Rfid read */
+.reading-row-in > td {
+    color: green;
+}
+
+.reading-row-out > td {
+    color: red;
+}
+
 /* Toast overrides */
 .Toastify__toast {
     font-family: var(--font) !important;

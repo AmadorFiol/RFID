@@ -37,7 +37,7 @@ export default function useRfidReader() {
                 setConnected(true);
                 wsClient.subscribe('/topic/tags', (msg) => {
                     const res = JSON.parse(msg.body);
-                    console.log("WS Res: ",res)
+                    console.log(`Se han detectado ${res.length} tags`)
                     setTags(res);
                 });
             },

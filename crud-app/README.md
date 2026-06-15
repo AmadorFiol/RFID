@@ -13,7 +13,10 @@ React-Toastify (npm i react-toastify)
 
 ReactJS-Popup (npm i reactjs-popup)
 
+FullCalendar (npm i @fullcalendar/core @fullcalendar/react @fullcalendar/daygrid @fullcalendar/interaction)
+
 --- WebSocket ---
+
 Stomp (npm i @stomp/stompjs)
 
 --- ZPL ---
